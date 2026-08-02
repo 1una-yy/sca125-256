@@ -60,9 +60,9 @@ class DPADoMAttack(BaseAttack):
                 n_1[b, mask1] += 1
 
         for b in range(16):
-            mean_0 = sum_0[b] / (n_0[b][:, None] + 1e-40)
-            mean_1 = sum_1[b] / (n_1[b][:, None] + 1e-40)
-            r[b]   = mean_1 - mean_0
+            valid = (n_0[b] >= 2) & (n_1[b] >= 2)
+            r[b, valid] = (sum_1[b, valid] / n_1[b, valid, None]
+                           - sum_0[b, valid] / n_0[b, valid, None])
             Guess_Key[b] = int(np.argmax(np.max(np.abs(r[b]), axis=1)))
 
         # 畫圖
@@ -70,7 +70,6 @@ class DPADoMAttack(BaseAttack):
         for b in range(16):
             ax = axes[b // 4, b % 4]
             ax.set_title(f"Byte {b}")
-            ax.set_ylim(-0.01, 0.01)
             ax.set_xlabel("Samples")
             ax.set_ylabel("DoM")
             ax.plot(r[b].T, alpha=0.3, linewidth=0.5)

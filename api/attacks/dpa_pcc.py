@@ -66,6 +66,8 @@ class DPAPCCAttack(BaseAttack):
                 r[b]   = (h_t_sum[b] - np.outer(h_sum[b], t_sum) / n) / np.outer(std_h, std_t)
 
         for b in range(16):
+            valid = (h2_sum[b] - h_sum[b] ** 2 / num_traces) > 1e-12
+            r[b, ~valid] = 0.0
             Guess_Key[b] = int(np.argmax(np.max(np.abs(r[b]), axis=1)))
 
         # 畫圖

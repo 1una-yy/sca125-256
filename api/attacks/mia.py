@@ -87,7 +87,7 @@ class MIAAttack(BaseAttack):
             ax.bar(range(256), mi_max_per_key[b], color='lightsteelblue', width=1.0)
             ax.bar(Guess_Key[b], mi_max_per_key[b, Guess_Key[b]], color='crimson', width=2)
             ax.set_title(f"Byte {b}  Guess={Guess_Key[b]:02X}h",
-                         color='green' if True else 'red', fontsize=10)
+                         color='navy', fontsize=10)
             ax.set_xlabel("Key Guess")
             ax.set_ylabel("Max MI")
         plt.tight_layout()
@@ -99,7 +99,7 @@ class MIAAttack(BaseAttack):
             num_traces   = num_traces,
             trace_length = trace_length,
             plot_base64  = self.plot_to_base64(fig),
-            extra        = {"sample_step": self.SAMPLE_STEP},
+            extra        = {"sample_step": self.SAMPLE_STEP, "mode": "downsampled_approximation"},
         )
 
 

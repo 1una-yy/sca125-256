@@ -1,16 +1,34 @@
-# traces 資料（通常很大，不推上去）
+# Power traces and local datasets (usually large or sensitive)
 traces/
+py/
 
-# Python 暫存
+# Python caches and virtual environments
 __pycache__/
-*.pyc
-*.pyo
+*.py[cod]
+.venv/
+venv/
+
+# Secrets and local configuration
 .env
+api.env
 
-# Jupyter checkpoints
+# Generated reports, profiling models, and logs
+output/
+api/templates/*.npz
+*.log
+
+# Presentation/export artifacts
+*.pptx
+
+# Notebook and OS metadata
 .ipynb_checkpoints/
-
-# 系統檔
 .DS_Store
 Thumbs.db
-py/
+
+# Server-side AI datasets and pretrained models
+api/ai_assets/data/
+api/ai_assets/models/
+
+# Local design and playground artifacts
+diagrams.html
+playground.html

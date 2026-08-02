@@ -26,10 +26,11 @@ class AttackInput:
     plaintexts: np.ndarray        # shape: (num_traces, 16), dtype: uint8
     preprocessed_traces: Optional[np.ndarray] = None  # AI 定位後的 traces（可選）
 
-    # Template Attack 專用：訓練用模板資料（隨機金鑰）
+    # 管理者／相容 API 可選：臨時 profiling 資料；一般使用者採伺服器預建模板
     template_traces: Optional[np.ndarray] = None      # shape: (N_template, trace_length)
     template_plaintexts: Optional[np.ndarray] = None  # shape: (N_template, 16)
-    template_keys: Optional[np.ndarray] = None        # shape: (N_template, 16)
+    template_keys: Optional[np.ndarray] = None        # shape: (N_template, 16 or 32)
+    known_key: Optional[np.ndarray] = None            # shape: (16,) or (32,)，供 SNR/結果校準
 
 
 @dataclass
@@ -79,7 +80,12 @@ class BaseAttack(ABC):
             raise ValueError(f"traces 應為 2D array，目前為 {t.ndim}D")
         if p.ndim != 2 or p.shape[1] != 16:
             raise ValueError(f"plaintexts 應為 (N, 16)，目前為 {p.shape}")
-        if t.shape[0] != p.shape[0]:
+        # ChipWhisperer 錄製時首條 trace 偶爾為空，自動去掉
+        if t.shape[0] == p.shape[0] + 1:
+            data.traces = t[1:]
+            if data.preprocessed_traces is not None and data.preprocessed_traces.shape[0] == p.shape[0] + 1:
+                data.preprocessed_traces = data.preprocessed_traces[1:]
+        elif t.shape[0] != p.shape[0]:
             raise ValueError(f"traces ({t.shape[0]}) 與 plaintexts ({p.shape[0]}) 筆數不符")
 
     @staticmethod

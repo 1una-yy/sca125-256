@@ -1,0 +1,4 @@
+# Windows package matching the source AI project and this Python 3.11 environment
+tensorflow-intel>=2.18,<2.19; platform_system == "Windows"
+# Other platforms use the standard TensorFlow package
+tensorflow>=2.18,<2.19; platform_system != "Windows"
