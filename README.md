@@ -24,24 +24,91 @@
 - Chrome、Edge 或其他現代瀏覽器
 - Gemini API key（選填；未設定時仍可使用固定格式報告）
 
-## Windows 快速啟動
+## 新電腦安裝教學（第一次使用請照這裡做）
 
-1. 下載或 clone 專案：
+### 步驟 1：安裝 Python
 
-   ```powershell
-   git clone https://github.com/1una-yy/sca125-256.git
-   cd sca125-256
-   ```
+到 https://www.python.org/downloads/ 下載 Python 3.9 以上（建議 3.11）。安裝時務必勾選 **Add Python to PATH**。
 
-2. 雙擊根目錄的 `start_platform.bat`。
+### 步驟 2：下載專案
 
-3. 啟動腳本會自動安裝 Python 套件、在 port `8000` 啟動 FastAPI，並開啟 `platform.html`。
+```powershell
+git clone https://github.com/1una-yy/sca125-256.git
+cd sca125-256
+```
 
-4. 確認頁面右上角 API 位址為：
+沒有安裝 git 的話，也可以在本頁按 **Code → Download ZIP** 後解壓縮。
+
+### 步驟 3：放入 AI 模型（選用，要用 AI-CNN／AI-MLP 才需要）
+
+模型與 ASCAD／CHES 資料集檔案太大，沒有放在 GitHub，請向專案負責人索取 **`ai_assets.zip`**（約 1.3GB）。
+
+1. 把 `ai_assets.zip` 解壓縮到專案的 `api` 資料夾裡。解完後的結構要像這樣：
 
    ```text
-   http://localhost:8000
+   sca125-256/
+   └── api/
+       └── ai_assets/
+           ├── README.md
+           ├── data/
+           │   ├── ASCAD.h5
+           │   ├── ascad-variable.h5
+           │   └── ches_ctf.h5
+           └── models/
+               ├── fixed_cnn_bo_id_model.h5
+               └── ...（共 10 個模型）
    ```
+
+   請注意不要多包一層，例如 `api/ai_assets/ai_assets/data` 就是錯的。
+
+2. 安裝 TensorFlow 等 AI 套件（只需要裝一次）：
+
+   ```powershell
+   cd api
+   python -m pip install -r requirements-ai.txt
+   ```
+
+放在這個位置就不需要另外設定路徑。
+
+### 步驟 4：設定 Gemini API key（選用，要用 AI 報告與小助手聊天才需要）
+
+1. 到 https://aistudio.google.com/apikey 申請一組免費的 API key。
+2. 把 `api/.env.example` 複製一份，改名為 `api/.env`：
+
+   ```powershell
+   Copy-Item api\.env.example api\.env
+   ```
+
+3. 用記事本打開 `api/.env`，在 `GEMINI_API_KEY=` 後面貼上你的 key。
+
+沒有設定也可以使用平台，只是報告會改成固定格式，小助手只能回答固定問題。
+
+### 步驟 5：啟動平台
+
+雙擊根目錄的 `start_platform.bat`。腳本會自動安裝需要的 Python 套件、在 port `8000` 啟動後端，並開啟瀏覽器進入 http://127.0.0.1:8000/platform 。
+
+使用期間請不要關掉 **`SCA FastAPI Backend`** 黑色視窗，關掉平台就會離線。
+
+### 步驟 6：確認安裝成功
+
+- http://127.0.0.1:8000/health：顯示 `status: ok` 代表後端正常。
+- http://127.0.0.1:8000/ai/status：檢查 AI 模型是否都放對；缺哪個檔案會列在這裡。
+
+### 新電腦上可以用的功能
+
+| 功能 | 需要準備 |
+|---|---|
+| 上傳自己的 Traces／Plaintexts，執行 CPA、DPA-DoM、DPA-PCC、MIA、SNR | 不需要額外準備 |
+| AES-256 Template Attack | 不需要額外準備，模板已內附於 repo |
+| AES-128 AI-CNN／AI-MLP | 需要步驟 3 |
+| AI 安全報告、教學小助手開放式聊天 | 需要步驟 4 |
+| 報告預覽與 PDF 下載 | 不需要額外準備 |
+
+以下功能在新電腦上**無法使用**：
+
+- 「使用現有資料集」的 AES-128／AES-256／ML-KEM-768 固定資料：原始 trace 只存在原作者的電腦上。
+- AES-128 Template Attack：尚未建立 AES-128 模板。
+- CHES 資料集的 CNN-ID、MLP-ID 組合：缺少這兩個模型，CHES 請改選 HW。
 
 常用網址：
 
@@ -145,7 +212,7 @@ Profiling keys 格式：
 - AES-128：`(N, 16)`
 - AES-256：`(N, 32)`
 
-模板必須來自與目標資料相同的晶片、韌體、時脈、trigger、探棒、取樣率與 Trace 長度。產生的 `api/templates/*.npz` 是硬體與量測環境專用檔，因此預設不提交 Git。詳細說明請見 [`api/templates/README.md`](api/templates/README.md)。
+模板必須來自與目標資料相同的晶片、韌體、時脈、trigger、探棒、取樣率與 Trace 長度。產生的 `api/templates/*.npz` 是硬體與量測環境專用檔，因此預設不提交 Git；唯一的例外是 repo 已內附的 `aes256_default.npz`。詳細說明請見 [`api/templates/README.md`](api/templates/README.md)。
 
 ## AES-128 AI-CNN／AI-MLP 攻擊
 
@@ -158,7 +225,7 @@ cd api
 python -m pip install -r requirements-ai.txt
 ```
 
-接著將資料集與模型放到 `api/ai_assets/data`、`api/ai_assets/models`，或在 `api/.env` 指定：
+接著將資料集與模型放到 `api/ai_assets/data`、`api/ai_assets/models`（直接解壓縮 `ai_assets.zip` 即可，見上方步驟 3），或在 `api/.env` 指定：
 
 ```dotenv
 SCA_AI_DATA_PATH=C:/你的資料集資料夾
