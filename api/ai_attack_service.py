@@ -227,14 +227,25 @@ def run_ai_evaluation(model_type: str, leakage_model: str, dataset_type: str) ->
     intermediates = AES_Sbox[plaintext_byte[:, None] ^ guesses[None, :]]
     classes = intermediates if leakage_model == "id" else hw_table[intermediates]
     log_predictions = np.log(np.clip(predictions, 1e-12, 1.0))
+
+    # Average guessing entropy over several shuffled attacks, matching the
+    # AI-assistance project rather than depending on one arbitrary trace order.
+    nb_attacks = 10
+    total_traces = raw.shape[0]
+    all_ranks = np.empty((nb_attacks, total_traces), dtype=np.float64)
+    guess_history = np.empty(total_traces, dtype=np.uint8)
     cumulative = np.zeros(256, dtype=np.float64)
-    ranks = np.empty(raw.shape[0], dtype=np.int32)
-    guess_history = np.empty(raw.shape[0], dtype=np.uint8)
-    for index in range(raw.shape[0]):
-        cumulative += log_predictions[index, classes[index]]
-        order = np.argsort(cumulative)[::-1]
-        ranks[index] = int(np.flatnonzero(order == target_key)[0])
-        guess_history[index] = np.uint8(order[0])
+    rng = np.random.default_rng()
+    for attack_index in range(nb_attacks):
+        permutation = rng.permutation(total_traces)
+        cumulative = np.zeros(256, dtype=np.float64)
+        for index, trace_index in enumerate(permutation):
+            cumulative += log_predictions[trace_index, classes[trace_index]]
+            order = np.argsort(cumulative)[::-1]
+            all_ranks[attack_index, index] = int(np.flatnonzero(order == target_key)[0])
+            if attack_index == nb_attacks - 1:
+                guess_history[index] = np.uint8(order[0])
+    ranks = all_ranks.mean(axis=0)
 
     leakage = hw_table[AES_Sbox[plaintext_byte ^ np.uint8(target_key)]].astype(np.float64)
     centered_leakage = leakage - leakage.mean()
@@ -261,7 +272,7 @@ def run_ai_evaluation(model_type: str, leakage_model: str, dataset_type: str) ->
     fig.tight_layout()
 
     guessed_key = int(np.argmax(cumulative))
-    zero_positions = np.flatnonzero(ranks == 0)
+    zero_positions = np.flatnonzero(ranks < 1.0)
     top_order = np.argsort(cumulative)[::-1][:5]
     return {
         "algorithm": f"ai_{model_type}",
@@ -280,7 +291,8 @@ def run_ai_evaluation(model_type: str, leakage_model: str, dataset_type: str) ->
         "target_byte_index": byte_index,
         "correct_key_byte_hex": f"{target_key:02x}",
         "key_byte_verified": guessed_key == target_key,
-        "final_correct_key_rank": int(ranks[-1]),
+        "guessing_entropy_attacks": nb_attacks,
+        "final_correct_key_rank": round(float(ranks[-1]), 2),
         "rank_zero_at_trace": int(zero_positions[0] + 1) if zero_positions.size else None,
         "top_candidates": [f"{int(value):02x}" for value in top_order],
         "note": f"AI 模型只評估 AES-128 第 {byte_index} 個 key byte，不代表已還原完整 16-byte 金鑰。",

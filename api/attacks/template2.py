@@ -21,7 +21,9 @@ class TemplateAttack(BaseAttack):
 
     def run(self,data:AttackInput)->AttackResult:
         self.validate(data)
-        target_t=(data.preprocessed_traces if data.preprocessed_traces is not None else data.traces).astype(np.float64)
+        # Template scoring only reads POI columns; avoid duplicating the complete
+        # (potentially very large) trace matrix as float64.
+        target_t=np.asarray(data.preprocessed_traces if data.preprocessed_traces is not None else data.traces)
         target_p=data.plaintexts[:,:16].astype(np.uint8)
         if data.template_traces is not None:
             model=build_template_model(256,data.template_traces,data.template_plaintexts,data.template_keys,self.POI_NUM)
@@ -35,9 +37,11 @@ class TemplateAttack(BaseAttack):
         full_key=key1.tolist()+key2.tolist(); snr1=model["phase1_snr"]; snr2=model["phase2_snr"]
         fig,axes=plt.subplots(4,8,figsize=(32,16))
         for b in range(16):
-            axes[b//4,b%4].plot(snr1[b]); axes[b//4,b%4].set_title(f"P1 Byte {b} SNR",fontsize=8)
-            axes[b//4,(b%4)+4].plot(snr2[b]); axes[b//4,(b%4)+4].set_title(f"P2 Byte {b+16} SNR",fontsize=8)
+            sample_axis1,snr_view1=self.plot_sample_view(snr1[b])
+            sample_axis2,snr_view2=self.plot_sample_view(snr2[b])
+            axes[b//4,b%4].plot(sample_axis1,snr_view1); axes[b//4,b%4].set_title(f"P1 Byte {b} SNR",fontsize=8)
+            axes[b//4,(b%4)+4].plot(sample_axis2,snr_view2); axes[b//4,(b%4)+4].set_title(f"P2 Byte {b+16} SNR",fontsize=8)
         plt.suptitle("Template Attack — AES-256 server profiling template",fontsize=14); plt.tight_layout()
-        return AttackResult(algorithm=self.name,key_hex=bytes(full_key).hex(),key_bytes=full_key,num_traces=target_t.shape[0],trace_length=target_t.shape[1],plot_base64=self.plot_to_base64(fig),extra={"template_source":source,"profiling_traces":int(model["profiling_traces"]),"poi_num":int(model["poi_num"]),"phase1_key":bytes(key1).hex(),"phase2_key":bytes(key2).hex(),"phase1_key_scores":scores1.max(axis=1).tolist(),"phase2_key_scores":scores2.max(axis=1).tolist()})
+        return AttackResult(algorithm=self.name,key_hex=bytes(full_key).hex(),key_bytes=full_key,num_traces=target_t.shape[0],trace_length=target_t.shape[1],plot_base64=self.plot_to_base64(fig),extra={"template_source":source,"profiling_traces":int(model["profiling_traces"]),"poi_num":int(model["poi_num"]),"phase1_key":bytes(key1).hex(),"phase2_key":bytes(key2).hex(),"phase1_key_scores":scores1.max(axis=1).tolist(),"phase2_key_scores":scores2.max(axis=1).tolist(),"plots_by_byte":self.generate_template_byte_plots(scores1,snr1,key1,offset=0)+self.generate_template_byte_plots(scores2,snr2,key2,offset=16)})
 
 registry.register(TemplateAttack())

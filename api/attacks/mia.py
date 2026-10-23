@@ -66,7 +66,7 @@ class MIAAttack(BaseAttack):
         sample_points = np.arange(0, trace_length, self.SAMPLE_STEP)
         t_sub = t[:, sample_points]
 
-        mi_max_per_key = np.zeros((16, 256))
+        mi_matrix = np.zeros((16, 256, len(sample_points)))
         Guess_Key = np.zeros(16, dtype=int)
 
         for b in range(16):
@@ -77,15 +77,16 @@ class MIAAttack(BaseAttack):
                     _mi_histogram(hw_pred, t_sub[:, s])
                     for s in range(len(sample_points))
                 ])
-                mi_max_per_key[b, kg] = mi_vals.max()
-            Guess_Key[b] = int(np.argmax(mi_max_per_key[b]))
+                mi_matrix[b, kg] = mi_vals
+            Guess_Key[b] = int(np.argmax(np.max(mi_matrix[b], axis=1)))
 
         # 畫圖：每個 byte 各金鑰的最大 MI 長條圖
         fig, axes = plt.subplots(4, 4, figsize=(24, 20))
         for b in range(16):
             ax = axes[b // 4, b % 4]
-            ax.bar(range(256), mi_max_per_key[b], color='lightsteelblue', width=1.0)
-            ax.bar(Guess_Key[b], mi_max_per_key[b, Guess_Key[b]], color='crimson', width=2)
+            byte_scores = np.max(mi_matrix[b], axis=1)
+            ax.bar(range(256), byte_scores, color='lightsteelblue', width=1.0)
+            ax.bar(Guess_Key[b], byte_scores[Guess_Key[b]], color='crimson', width=2)
             ax.set_title(f"Byte {b}  Guess={Guess_Key[b]:02X}h",
                          color='navy', fontsize=10)
             ax.set_xlabel("Key Guess")
@@ -99,7 +100,11 @@ class MIAAttack(BaseAttack):
             num_traces   = num_traces,
             trace_length = trace_length,
             plot_base64  = self.plot_to_base64(fig),
-            extra        = {"sample_step": self.SAMPLE_STEP, "mode": "downsampled_approximation"},
+            extra        = {
+                "plots_by_byte": self.generate_byte_plots(mi_matrix),
+                "sample_step": self.SAMPLE_STEP,
+                "mode": "downsampled_approximation",
+            },
         )
 
 

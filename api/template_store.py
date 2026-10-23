@@ -22,7 +22,7 @@ def default_template_path(aes_bits: int) -> Path:
     return TEMPLATE_DIR / f"aes{aes_bits}_default.npz"
 
 def _validate_profiling_arrays(aes_bits, traces, plaintexts, keys, poi_num):
-    traces=np.asarray(traces,dtype=np.float64); plaintexts=np.asarray(plaintexts,dtype=np.uint8); keys=np.asarray(keys,dtype=np.uint8)
+    traces=np.asarray(traces,dtype=np.float32); plaintexts=np.asarray(plaintexts,dtype=np.uint8); keys=np.asarray(keys,dtype=np.uint8)
     if traces.ndim!=2 or traces.shape[0]<2: raise ValueError(f"profiling traces 必須是 (N, L) 且 N >= 2，目前為 {traces.shape}")
     if plaintexts.ndim!=2 or plaintexts.shape[1]!=16: raise ValueError(f"profiling plaintexts 必須是 (N, 16)，目前為 {plaintexts.shape}")
     expected=16 if aes_bits==128 else 32

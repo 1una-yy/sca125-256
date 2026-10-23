@@ -20,34 +20,51 @@ hw_vec = np.vectorize(lambda x: bin(x).count('1'))
 K256   = np.arange(256)
 
 
-def _cpa_correlate(intermediates: np.ndarray, traces: np.ndarray) -> np.ndarray:
-    """
-    對 16 個 bytes 分別計算 Pearson 相關係數。
+def _cpa_correlate(source_bytes: np.ndarray, traces: np.ndarray):
+    """Memory-bounded CPA; all samples are scored, only 512 points are retained for plots."""
+    _, trace_length = traces.shape
+    # Four bytes per GEMM gives BLAS a larger, more efficient matrix while
+    # keeping peak temporary memory bounded for the 20k-trace datasets.
+    byte_block_size = 4
+    chunk_size = 768
+    plot_samples = np.linspace(0, trace_length - 1, min(512, trace_length), dtype=np.int64)
+    plot_scores = np.zeros((16, 256, plot_samples.size), dtype=np.float32)
+    peak_scores = np.zeros((16, 256), dtype=np.float32)
 
-    intermediates : (N, 16, 256)  每條 trace × 每個 byte × 256 個 key 猜測的中間值 HW
-    traces        : (N, L)        功耗波形
+    for byte_start in range(0, 16, byte_block_size):
+        byte_stop = min(byte_start + byte_block_size, 16)
+        hypotheses = np.concatenate([
+            hw_table[AES_Sbox[np.bitwise_xor(
+                source_bytes[:, byte_index:byte_index + 1], K256[np.newaxis, :]
+            )]]
+            for byte_index in range(byte_start, byte_stop)
+        ], axis=1).astype(np.float32)
+        hypotheses -= hypotheses.mean(axis=0, keepdims=True, dtype=np.float32)
+        hypothesis_norm = np.sqrt(
+            np.sum(hypotheses * hypotheses, axis=0, dtype=np.float32)
+        )
 
-    回傳 r : (16, 256, L)
-    """
-    N, L = traces.shape
-    t = traces.astype(np.float64)
-    t_sum  = t.sum(axis=0)               # (L,)
-    t2_sum = (t ** 2).sum(axis=0)        # (L,)
+        for start in range(0, trace_length, chunk_size):
+            stop = min(start + chunk_size, trace_length)
+            trace_chunk = np.array(traces[:, start:stop], dtype=np.float32, order="C", copy=True)
+            trace_chunk -= trace_chunk.mean(axis=0, keepdims=True, dtype=np.float32)
+            trace_norm = np.sqrt(np.sum(trace_chunk * trace_chunk, axis=0, dtype=np.float32))
+            numerator = hypotheses.T @ trace_chunk
+            denominator = hypothesis_norm[:, np.newaxis] * trace_norm[np.newaxis, :]
+            scores = np.zeros_like(numerator, dtype=np.float32)
+            np.divide(numerator, denominator, out=scores, where=denominator > 0)
+            block_scores = scores.reshape(byte_stop - byte_start, 256, stop - start)
+            peak_scores[byte_start:byte_stop] = np.maximum(
+                peak_scores[byte_start:byte_stop],
+                np.max(np.abs(block_scores), axis=2),
+            )
+            left = np.searchsorted(plot_samples, start, side="left")
+            right = np.searchsorted(plot_samples, stop, side="left")
+            if right > left:
+                local = plot_samples[left:right] - start
+                plot_scores[byte_start:byte_stop, :, left:right] = block_scores[:, :, local]
 
-    r = np.zeros((16, 256, L))
-    for b in range(16):
-        hw = intermediates[:, b, :].astype(np.float64)  # (N, 256)
-        h_sum  = hw.sum(axis=0)           # (256,)
-        h2_sum = (hw ** 2).sum(axis=0)    # (256,)
-        ht_sum = hw.T @ t                 # (256, L)
-
-        num   = N * ht_sum - np.outer(h_sum, t_sum)
-        dh    = np.sqrt(N * h2_sum - h_sum ** 2)
-        dt    = np.sqrt(N * t2_sum - t_sum ** 2)
-        denom = np.outer(dh, dt)
-        with np.errstate(divide='ignore', invalid='ignore'):
-            r[b] = np.where(denom != 0, num / denom, 0)
-    return r
+    return plot_scores, np.argmax(peak_scores, axis=1).astype(np.uint8), plot_samples
 
 
 class CPAAttack(BaseAttack):
@@ -63,33 +80,18 @@ class CPAAttack(BaseAttack):
         self.validate(data)
 
         traces = (data.preprocessed_traces if data.preprocessed_traces is not None
-                  else data.traces).astype(np.float64)
+                  else data.traces)
         pt = data.plaintexts[:, :16].astype(np.uint8)
         N, L = traces.shape
 
         # ── Phase 1：回復 key[0:15] ──────────────────────────────
         # 中間值 HW：SubBytes(pt[b] XOR key_guess)
-        inter1 = np.zeros((N, 16, 256), dtype=np.uint8)
-        for b in range(16):
-            sbox_out      = AES_Sbox[np.bitwise_xor(pt[:, b:b+1], K256[np.newaxis, :])]
-            inter1[:, b, :] = hw_table[sbox_out]
-
-        r1 = _cpa_correlate(inter1, traces)
-        key1 = np.array([int(np.argmax(np.max(np.abs(r1[b]), axis=1))) for b in range(16)],
-                        dtype=np.uint8)
+        r1, key1, plot_samples1 = _cpa_correlate(pt, traces)
 
         # ── Phase 2：回復 key[16:31] ─────────────────────────────
         # 中間值 HW：SubBytes(state_before_RK1[b] XOR key_guess)
         state = compute_state_before_rk1(pt, key1)   # (N, 16)
-        inter2 = np.zeros((N, 16, 256), dtype=np.uint8)
-        for b in range(16):
-            inter2[:, b, :] = hw_table[AES_Sbox[
-                np.bitwise_xor(state[:, b:b+1], K256[np.newaxis, :])
-            ]]
-
-        r2 = _cpa_correlate(inter2, traces)
-        key2 = np.array([int(np.argmax(np.max(np.abs(r2[b]), axis=1))) for b in range(16)],
-                        dtype=np.uint8)
+        r2, key2, plot_samples2 = _cpa_correlate(state, traces)
 
         full_key = key1.tolist() + key2.tolist()
 
@@ -98,10 +100,10 @@ class CPAAttack(BaseAttack):
         for b in range(16):
             axes[b // 4, b % 4].set_title(f"P1 Byte{b}", fontsize=8)
             axes[b // 4, b % 4].set_ylim(-1, 1)
-            axes[b // 4, b % 4].plot(r1[b].T, alpha=0.2, linewidth=0.4)
+            axes[b // 4, b % 4].plot(plot_samples1, r1[b].T, alpha=0.2, linewidth=0.4)
             axes[b // 4, (b % 4) + 4].set_title(f"P2 Byte{b+16}", fontsize=8)
             axes[b // 4, (b % 4) + 4].set_ylim(-1, 1)
-            axes[b // 4, (b % 4) + 4].plot(r2[b].T, alpha=0.2, linewidth=0.4)
+            axes[b // 4, (b % 4) + 4].plot(plot_samples2, r2[b].T, alpha=0.2, linewidth=0.4)
         plt.suptitle("CPA — AES-256  Left=Phase1(key[0:15])  Right=Phase2(key[16:31])", fontsize=12)
         plt.tight_layout()
 
@@ -115,6 +117,11 @@ class CPAAttack(BaseAttack):
             extra        = {
                 "phase1_key": bytes(key1).hex(),
                 "phase2_key": bytes(key2).hex(),
+                "plots_by_byte": (
+                    self.generate_byte_plots(r1, offset=0, sample_indices=plot_samples1)
+                    + self.generate_byte_plots(r2, offset=16, sample_indices=plot_samples2)
+                ),
+                "plot_sample_indices": plot_samples1.tolist(),
             },
         )
 

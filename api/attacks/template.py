@@ -20,7 +20,9 @@ class TemplateAttack(BaseAttack):
 
     def run(self,data:AttackInput)->AttackResult:
         self.validate(data)
-        target_t=(data.preprocessed_traces if data.preprocessed_traces is not None else data.traces).astype(np.float64)
+        # Template scoring only reads POI columns; avoid duplicating the complete
+        # (potentially very large) trace matrix as float64.
+        target_t=np.asarray(data.preprocessed_traces if data.preprocessed_traces is not None else data.traces)
         target_p=data.plaintexts.astype(np.uint8)
         if data.template_traces is not None:
             model=build_template_model(128,data.template_traces,data.template_plaintexts,data.template_keys,self.POI_NUM)
@@ -32,9 +34,10 @@ class TemplateAttack(BaseAttack):
         snr=model["phase1_snr"]
         fig,axes=plt.subplots(4,4,figsize=(24,16))
         for b in range(16):
-            axes[b//4,b%4].plot(snr[b]); axes[b//4,b%4].set_title(f"Byte {b} SNR")
+            sample_axis,snr_view=self.plot_sample_view(snr[b])
+            axes[b//4,b%4].plot(sample_axis,snr_view); axes[b//4,b%4].set_title(f"Byte {b} SNR")
             axes[b//4,b%4].set_xlabel("Samples"); axes[b//4,b%4].set_ylabel("SNR")
         plt.suptitle("Template Attack — AES-128 server profiling template",fontsize=14); plt.tight_layout()
-        return AttackResult(algorithm=self.name,key_hex=bytes(guess).hex(),key_bytes=guess.tolist(),num_traces=target_t.shape[0],trace_length=target_t.shape[1],plot_base64=self.plot_to_base64(fig),extra={"template_source":source,"profiling_traces":int(model["profiling_traces"]),"poi_num":int(model["poi_num"]),"key_scores":scores.max(axis=1).tolist()})
+        return AttackResult(algorithm=self.name,key_hex=bytes(guess).hex(),key_bytes=guess.tolist(),num_traces=target_t.shape[0],trace_length=target_t.shape[1],plot_base64=self.plot_to_base64(fig),extra={"template_source":source,"profiling_traces":int(model["profiling_traces"]),"poi_num":int(model["poi_num"]),"key_scores":scores.max(axis=1).tolist(),"plots_by_byte":self.generate_template_byte_plots(scores,snr,guess)})
 
 registry.register(TemplateAttack())

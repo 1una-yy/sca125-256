@@ -76,6 +76,12 @@ header{display:flex;align-items:center;justify-content:space-between;margin-bott
 .dataset-card{display:block;padding:12px;border:1.5px solid var(--border2);border-radius:9px;background:var(--surface);cursor:pointer;transition:all .15s}
 .dataset-card strong{display:block;font-size:12px;margin-bottom:3px}.dataset-card span{font-size:10px;color:var(--muted)}
 .dataset-option input:checked + .dataset-card{border-color:var(--ai-accent);background:var(--ai-bg);box-shadow:0 0 0 2px rgba(112,78,190,.09)}
+.dataset-option input:disabled + .dataset-card{cursor:not-allowed;opacity:.58;background:#f3f5f8}
+.dataset-section{margin-top:15px;padding-top:14px;border-top:1px solid var(--border)}
+.dataset-section:first-of-type{margin-top:10px;padding-top:0;border-top:0}
+.dataset-section-title{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;font:600 11px 'IBM Plex Mono',monospace;color:var(--text)}
+.dataset-section-title span{font-size:9px;color:var(--muted);font-weight:500}
+.dataset-grid.fixed-grid{grid-template-columns:repeat(4,1fr)}
 .source-route-note{margin-top:11px;padding:9px 11px;border-radius:8px;background:var(--ai-bg);border:1px solid var(--ai-border);font-size:11px;color:var(--ai-text);line-height:1.6}
 @media(max-width:760px){.source-grid,.dataset-grid{grid-template-columns:1fr}}
 
@@ -109,7 +115,7 @@ header{display:flex;align-items:center;justify-content:space-between;margin-bott
 .aes-select-head{display:flex;align-items:center;gap:8px;margin-bottom:12px}
 .aes-select-title{font-size:13px;font-weight:700}
 .aes-select-required{font-family:'IBM Plex Mono',monospace;font-size:10px;color:#ef4444}
-.aes-version-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.aes-version-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
 .aes-version-option{position:relative}
 .aes-version-option input{position:absolute;opacity:0;pointer-events:none}
 .aes-version-card{display:flex;align-items:center;gap:12px;padding:14px;border:1.5px solid var(--border2);border-radius:10px;background:var(--surface);cursor:pointer;transition:all .16s}
@@ -124,6 +130,11 @@ header{display:flex;align-items:center;justify-content:space-between;margin-bott
 .aes-version-hint{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted);margin-top:9px}
 .aes-method-group{display:none}
 .aes-method-group.active{display:block;animation:si .2s ease}
+.mlkem-pair-field{display:flex;align-items:center;gap:12px;margin-top:14px;font-size:12px;color:var(--muted)}
+.mlkem-pair-field input{width:100px;padding:7px;border:1px solid var(--border2);border-radius:7px;font:14px 'IBM Plex Mono',monospace}
+.mlkem-result-detail{display:none;margin:14px 0;padding:14px;border:1px solid var(--border);border-radius:9px;background:var(--surface2)}
+.mlkem-result-detail.vis{display:block}
+.mlkem-result-detail p{margin:5px 0;font-size:12px;line-height:1.6}
 
 /* File card */
 .file-card{display:none;align-items:center;gap:12px;padding:10px 14px;background:var(--atk-bg);border:1px solid var(--atk-border);border-radius:10px;margin-top:10px}
@@ -251,6 +262,12 @@ header{display:flex;align-items:center;justify-content:space-between;margin-bott
 .tmpl-pick{width:100%;padding:6px 8px;font-size:11px;font-family:'IBM Plex Mono',monospace;background:var(--surface2);border:1px solid var(--border2);border-radius:5px;cursor:pointer;color:var(--text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .tmpl-pick.ok{background:var(--atk-bg);border-color:var(--atk-border);color:var(--atk-text)}
 .tmpl-hint{font-size:10px;color:var(--muted);margin-top:4px;font-family:'IBM Plex Mono',monospace}
+.tmpl-build{margin-top:10px;padding:12px;background:var(--surface);border:1px solid var(--pre-border);border-radius:9px}
+.tmpl-build-head{font-size:11px;font-weight:700;color:var(--pre-text);margin-bottom:4px}
+.tmpl-build-copy{font-size:10px;line-height:1.6;color:var(--muted);margin-bottom:9px}
+.tmpl-build-actions{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.tmpl-build-status{font:10px 'IBM Plex Mono',monospace;color:var(--muted);line-height:1.5;flex:1;min-width:180px}
+.tmpl-build-status.ok{color:#17734a}.tmpl-build-status.err{color:#b42318}
 
 /* AES-128 AI attack configuration */
 .ai-panel{display:none;padding:14px;background:var(--ai-bg);border:1px solid var(--ai-border);border-radius:10px}.ai-panel.vis{display:block;animation:si .2s ease}.ai-title{font:500 10px 'IBM Plex Mono',monospace;letter-spacing:.08em;text-transform:uppercase;color:var(--ai-text);margin-bottom:10px}.ai-config-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px}.ai-field label{display:block;font:500 10px 'IBM Plex Mono',monospace;color:var(--ai-text);margin-bottom:5px}.ai-select{width:100%;padding:8px 9px;border:1px solid var(--ai-border);border-radius:7px;background:#fff;color:var(--text);font:11px 'IBM Plex Mono',monospace}.ai-status-card{display:flex;align-items:flex-start;gap:10px;margin-top:10px;padding:10px 11px;background:#fff;border:1px solid var(--ai-border);border-radius:8px}.ai-status-dot{width:8px;height:8px;border-radius:50%;background:#a7afbf;margin-top:4px;flex:none}.ai-status-dot.ok{background:#16a34a}.ai-status-dot.err{background:#dc2626}.ai-status-copy{font-size:10px;line-height:1.55;color:var(--muted)}.ai-status-copy strong{display:block;color:var(--text);font-size:11px;margin-bottom:2px}.ai-mode-note{margin-top:9px;font-size:10px;line-height:1.6;color:#6f6488}.ai-byte-note{font:500 10px 'IBM Plex Mono',monospace;color:var(--ai-text);margin-top:6px}
@@ -265,6 +282,8 @@ header{display:flex;align-items:center;justify-content:space-between;margin-bott
 /* Key bytes comparison */
 .key-bytes-row{display:flex;flex-wrap:wrap;gap:5px;margin:10px 0 4px}
 .kb{width:34px;height:34px;border-radius:6px;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:500;color:var(--muted);background:var(--surface2);transition:all .3s;position:relative}
+.key-bytes-row.mlkem-pair-values{gap:10px}
+.key-bytes-row.mlkem-pair-values .kb{box-sizing:border-box;width:auto;min-width:116px;padding:0 12px;white-space:nowrap}
 .kb.found{background:var(--atk-bg);border-color:var(--atk-border);color:var(--atk-text)}
 .kb.correct{background:#dcfce7;border-color:#16a34a;color:#14532d}
 .kb.correct::after{content:'✓';position:absolute;top:-6px;right:-4px;font-size:9px;color:#16a34a}
@@ -306,6 +325,14 @@ header{display:flex;align-items:center;justify-content:space-between;margin-bott
 .rsv{font-family:'IBM Plex Mono',monospace;font-size:13px;font-weight:500;color:var(--text)}
 .r-plot{margin-top:14px;border-radius:8px;overflow:hidden;border:1px solid var(--border)}
 .r-plot img{width:100%;display:block}
+.kb.byte-selected{background:#356ae6!important;color:#fff!important;border-color:#356ae6!important;box-shadow:0 0 0 2px rgba(53,106,230,.18)}
+.byte-plot-panel{display:none;margin-top:14px;padding:14px;border:1px solid var(--border);border-radius:8px;background:var(--surface2)}
+.byte-plot-panel.vis{display:block}
+.byte-plot-title{margin-bottom:10px;font:600 12px 'IBM Plex Mono',monospace;color:var(--text)}
+.byte-plot-panel img{display:block;width:100%;border-radius:6px;background:#fff}
+.byte-plot-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(420px,100%),1fr));gap:12px;align-items:start}
+.byte-plot-card{padding:10px;border:1px solid var(--border);border-radius:7px;background:#fff}
+.byte-plot-card-title{margin-bottom:8px;font:600 11px 'IBM Plex Mono',monospace;color:var(--muted)}
 .r-advice{margin-top:14px;padding:12px 14px;background:var(--eval-bg);border:1px solid var(--eval-border);border-radius:8px;font-size:13px;color:var(--eval-text);line-height:1.8}
 
 /* Error */
@@ -319,7 +346,8 @@ header{display:flex;align-items:center;justify-content:space-between;margin-bott
 .api-cfg input:focus{outline:none;border-color:var(--pre-accent)}
 
 /* AI report workbench */
-.report-workbench{margin-top:18px;border:1px solid var(--border);border-radius:14px;background:#fff;overflow:hidden;box-shadow:0 8px 30px rgba(23,35,58,.06)}
+.report-workbench{display:none;margin-top:18px;border:1px solid var(--border);border-radius:14px;background:#fff;overflow:hidden;box-shadow:0 8px 30px rgba(23,35,58,.06)}
+.report-workbench.vis{display:block}
 .report-toolbar{display:flex;align-items:center;gap:12px;padding:14px 16px;background:linear-gradient(135deg,#f7f9fc,#eef4ff);border-bottom:1px solid var(--border)}
 .report-toolbar-main{flex:1}.report-toolbar-title{font-weight:700;font-size:14px;color:var(--text)}
 .report-toolbar-sub{font-size:11px;color:var(--muted);margin-top:3px;line-height:1.45}
@@ -351,6 +379,7 @@ header{display:flex;align-items:center;justify-content:space-between;margin-bott
 .guide-empty{font-size:12px;line-height:1.7;color:var(--muted)}.guide-head{display:flex;align-items:flex-start;gap:10px;justify-content:space-between}.guide-title{font-size:14px;font-weight:750;color:var(--text)}
 .guide-badges{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}.guide-badge{padding:4px 8px;border-radius:999px;background:#fff;border:1px solid #d9e3f2;font:600 10px 'IBM Plex Mono',monospace;color:#53627a}.guide-badge.time{background:#fff4df;border-color:#efd39b;color:#8a5a00}
 .guide-grid{display:grid;grid-template-columns:1.25fr .75fr;gap:12px;margin-top:11px}.guide-item{padding:10px 12px;border-radius:8px;background:rgba(255,255,255,.75);border:1px solid #e5eaf1}.guide-item strong{display:block;margin-bottom:4px;font-size:11px;color:#315fbd}.guide-item p{margin:0;font-size:12px;line-height:1.7;color:#4a5870}.guide-note{margin-top:9px;font-size:10px;line-height:1.6;color:#77839a}
+.guide-add{margin-top:12px;padding:9px 13px;border:0;border-radius:7px;background:var(--pre-accent);color:#fff;font:600 12px 'IBM Plex Mono',monospace;cursor:pointer}
 .wait-card{margin-bottom:14px;padding:15px 16px;border:1px solid #cfdcf0;border-radius:11px;background:linear-gradient(135deg,#f7faff,#fff);box-shadow:0 5px 18px rgba(30,65,125,.06)}.wait-card.done{border-color:#a9dfc4;background:linear-gradient(135deg,#f3fff8,#fff)}.wait-card.error{border-color:#f0b9b5;background:#fff8f7}.wait-card.cancelled{border-color:#edcf91;background:linear-gradient(135deg,#fffaf0,#fff)}
 .wait-top{display:flex;align-items:flex-start;gap:12px}.wait-controls{margin-left:auto;display:flex;align-items:center;gap:10px}.wait-title{font-size:13px;font-weight:750;color:var(--text)}.wait-phase{margin-top:3px;font-size:11px;color:var(--muted);line-height:1.5}.wait-percent{font:700 20px 'IBM Plex Mono',monospace;color:#356ae6}
 .wait-track{height:10px;margin-top:13px;border-radius:999px;background:#e8eef7;overflow:hidden}.wait-fill{position:relative;height:100%;width:0;border-radius:999px;background:linear-gradient(90deg,#356ae6,#6c9cff);transition:width .45s ease}.wait-fill:after{content:'';position:absolute;inset:0;background:linear-gradient(100deg,transparent,rgba(255,255,255,.55),transparent);animation:waitShine 1.5s linear infinite}.wait-card.done .wait-fill{background:linear-gradient(90deg,#16a36a,#51c994)}.wait-card.error .wait-fill{background:#d94b45}.wait-card.cancelled .wait-fill{background:#d99a2b}
@@ -358,6 +387,42 @@ header{display:flex;align-items:center;justify-content:space-between;margin-bott
 .wait-metrics{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-top:11px}.wait-metric{font-size:10px;color:var(--muted)}.wait-metric strong{display:block;margin-top:3px;font:600 12px 'IBM Plex Mono',monospace;color:var(--text)}.wait-note{margin-top:9px;font-size:10px;line-height:1.55;color:#7b879b}
 @keyframes waitShine{from{transform:translateX(-100%)}to{transform:translateX(100%)}}
 @media(max-width:760px){.upload-row{grid-template-columns:1fr}.upload-area{min-height:220px}.guide-grid{grid-template-columns:1fr}.guide-head{display:block}.guide-badges{justify-content:flex-start;margin-top:8px}.wait-metrics{grid-template-columns:1fr}.wait-metric{display:flex;justify-content:space-between}.wait-metric strong{margin:0}}
+@media(max-width:760px){.aes-version-grid{grid-template-columns:1fr}}
+
+/* Beginner-friendly helpers */
+.conn-status{display:flex;align-items:center;gap:7px;font-size:12px;color:var(--text);background:var(--surface);border:1px solid var(--border);padding:5px 11px;border-radius:20px}
+.hdr-settings{position:relative}
+.settings-btn{width:30px;height:30px;border-radius:50%;border:1px solid var(--border);background:var(--surface);color:var(--muted);cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;transition:color .15s,border-color .15s}
+.settings-btn:hover{color:var(--pre-accent);border-color:var(--pre-accent)}
+.settings-pop{display:none;position:absolute;right:0;top:38px;z-index:50;width:300px;padding:12px;background:var(--surface);border:1px solid var(--border);border-radius:10px;box-shadow:0 8px 24px rgba(0,0,0,.08)}
+.settings-pop.vis{display:block;animation:si .15s ease}
+.settings-pop-title{font-size:12px;font-weight:700;margin-bottom:4px}
+.settings-pop-note{font-size:11px;color:var(--muted);line-height:1.6;margin-bottom:8px}
+.settings-pop input{width:100%;font-family:'IBM Plex Mono',monospace;font-size:12px;border:1px solid var(--border2);border-radius:6px;padding:6px 8px;background:var(--surface);color:var(--text)}
+.settings-pop input:focus{outline:none;border-color:var(--pre-accent)}
+.ask-tutor{display:inline-flex;align-items:center;gap:4px;padding:3px 9px;border-radius:999px;border:1px solid var(--ai-border);background:var(--ai-bg);color:var(--ai-text);font:500 11px 'Noto Sans TC',sans-serif;cursor:pointer;vertical-align:middle;white-space:nowrap;letter-spacing:0;text-transform:none;transition:background .15s,color .15s,border-color .15s}
+.ask-tutor:hover{background:var(--ai-accent);border-color:var(--ai-accent);color:#fff}
+.term-note{font-size:11px;color:var(--muted);line-height:1.7;margin-top:6px}
+.next1-hint{margin-top:8px;font-size:12px;text-align:center;color:var(--eval-text)}
+.next1-hint.ok{color:var(--atk-text)}
+.b-add{flex-shrink:0;padding:4px 9px;border-radius:6px;border:1px solid;background:var(--surface);font:600 11px 'Noto Sans TC',sans-serif;cursor:pointer;white-space:nowrap;transition:background .15s,color .15s}
+.b-atk .b-add{color:var(--atk-text);border-color:var(--atk-border)}
+.b-atk .b-add:hover{background:var(--atk-accent);border-color:var(--atk-accent);color:#fff}
+.b-eval .b-add{color:var(--eval-text);border-color:var(--eval-border)}
+.b-eval .b-add:hover{background:var(--eval-accent);border-color:var(--eval-accent);color:#fff}
+.block.b-ai .b-add{color:var(--ai-text);border-color:var(--ai-border)}
+.block.b-ai .b-add:hover{background:var(--ai-accent);border-color:var(--ai-accent);color:#fff}
+.lib-tip{font-size:11px;color:var(--muted);line-height:1.6;margin-bottom:12px}
+.legend-row{display:flex;flex-wrap:wrap;align-items:center;gap:14px;margin:8px 0 2px;font-size:11px;color:var(--muted)}
+.legend-item{display:flex;align-items:center;gap:6px}
+.legend-item .kb{width:26px;height:26px;font-size:10px}
+.howto{margin-top:14px;padding:10px 14px;border:1px solid var(--pre-border);background:var(--pre-bg);border-radius:8px}
+.howto-title{font-size:12px;font-weight:700;color:var(--pre-text);cursor:pointer;list-style-position:inside}
+.howto[open] .howto-title{margin-bottom:6px}
+.howto ul{margin:0;padding-left:18px}
+.howto li{font-size:12px;line-height:1.75;color:var(--text)}
+.howto b{color:var(--pre-text)}
+.guide-note{display:none}
 </style>
 </head>
 
@@ -372,13 +437,23 @@ header{display:flex;align-items:center;justify-content:space-between;margin-bott
       </div>
       <div class="logo-text">
         <strong>SCA Platform</strong>
-        <span>旁通道攻擊分析平台 — AES-128 / AES-256</span>
+        <span>旁通道攻擊分析平台 — AES-128 / AES-256 / ML-KEM-768</span>
       </div>
     </div>
     <div class="hdr-right">
-      <div class="api-dot" id="api-dot"></div>
-      <span class="api-url" id="api-url-label">localhost:8081</span>
-      <div class="hdr-badge" id="api-status-badge">checking…</div>
+      <div class="conn-status" title="平台是否已連上負責計算的分析伺服器">
+        <div class="api-dot" id="api-dot"></div>
+        <span id="api-status-badge">正在連線…</span>
+      </div>
+      <button type="button" class="ask-tutor" onclick="AITutor.askQuick('start')">從哪裡開始？</button>
+      <div class="hdr-settings">
+        <button type="button" class="settings-btn" id="settings-btn" title="連線設定（一般不需要修改）" aria-label="連線設定" onclick="toggleSettings(event)">⚙</button>
+        <div class="settings-pop" id="settings-pop">
+          <div class="settings-pop-title">連線設定</div>
+          <div class="settings-pop-note">一般不需要修改。只有分析伺服器放在別台電腦時，才需要改這個網址。<br>目前連線：<span class="api-url" id="api-url-label">—</span></div>
+          <input type="text" id="api-base" value="http://localhost:8000" oninput="checkApi()" aria-label="分析伺服器網址">
+        </div>
+      </div>
     </div>
   </header>
 
@@ -391,7 +466,7 @@ header{display:flex;align-items:center;justify-content:space-between;margin-bott
     <div class="step-div"></div>
     <div class="step-tab" id="tab-2" onclick="goStep(2)">
       <div class="step-num" id="num-2">2</div>
-      <div class="step-label">組合流程</div>
+      <div class="step-label">選擇分析方法</div>
     </div>
     <div class="step-div"></div>
     <div class="step-tab" id="tab-3" onclick="goStep(3)">
@@ -405,77 +480,99 @@ header{display:flex;align-items:center;justify-content:space-between;margin-bott
     <div class="panel">
       <div class="panel-hd">
         <div class="panel-dot" style="background:var(--pre-accent)"></div>
-        <div class="panel-title">上傳資料檔案</div>
-        <div style="margin-left:auto">
-          <div class="api-cfg">
-            <label>API</label>
-            <input type="text" id="api-base" value="http://localhost:8000" oninput="checkApi()">
-          </div>
-        </div>
+        <div class="panel-title">選擇分析資料來源</div>
       </div>
       <div class="panel-bd">
 
         <div id="source-test"></div>
         <div class="source-intro">
-          <h2>�o���n���R���@�ظ�ơH</h2>
-          <p>����ܸ�ƨӷ��A�U�@�B�u�|��ܯ����ڰ��檺������k�C</p>
+          <h2>這次要分析哪一種資料？</h2>
+          <p>先選擇資料來源，下一步只會顯示能夠實際執行的攻擊方法。</p>
         </div>
         <div class="source-grid">
           <div class="source-option">
             <input type="radio" name="data-source" id="source-upload" value="upload" onchange="setDataSource('upload')">
             <label class="source-card" for="source-upload">
-              <div class="source-icon">��</div>
-              <div class="source-copy"><div class="source-title">�W�Ǧۤv���q�����</div><div class="source-desc">�W�� Trace �P Plaintext�A�ϥ� CPA�BDPA�BMIA�BTemplate �� SNR ���ǲΤ��R�C</div><span class="source-tag">�䴩 AES-128 / AES-256</span></div>
+              <div class="source-icon">↑</div>
+              <div class="source-copy"><div class="source-title">上傳自己的量測資料</div><div class="source-desc">上傳 Trace 與 Plaintext，使用 CPA、DPA、MIA、Template 或 SNR 等傳統分析。</div><span class="source-tag">支援 AES-128 / AES-256</span></div>
               <div class="source-check">?</div>
             </label>
           </div>
           <div class="source-option">
             <input type="radio" name="data-source" id="source-builtin" value="builtin" onchange="setDataSource('builtin')">
             <label class="source-card" for="source-builtin">
-              <div class="source-icon">��</div>
-              <div class="source-copy"><div class="source-title">�ϥΤ��� AI �оǸ�ƶ�</div><div class="source-desc">�����W���ɮסA��ܦ��A���W�� ASCAD��CHES ��ƶ��A�A�ϥιw�V�m CNN �� MLP�C</div><span class="source-tag">�Ȥ䴩 AES-128 ��@ byte</span></div>
+              <div class="source-icon">◆</div>
+              <div class="source-copy"><div class="source-title">使用內建 AI 教學資料集</div><div class="source-desc">不必上傳檔案，選擇伺服器上的 ASCAD／CHES 資料集，再使用預訓練 CNN 或 MLP。</div><span class="source-tag">僅支援 AES-128 單一 byte</span></div>
               <div class="source-check">?</div>
             </label>
           </div>
         </div>
         <div class="source-content" id="builtin-source-content">
           <div class="builtin-dataset-box">
-            <div class="builtin-head">��� AI �оǸ�ƶ�</div>
-            <div class="builtin-note">�U�@�B�|�̳o�̿�ܪ���ƶ��A�u��ܥi�f�t�� AES-128 AI �����C</div>
+            <div class="builtin-head">選擇 AI 教學資料集</div>
+            <div class="builtin-note">下一步會依這裡選擇的資料集，只顯示可搭配的 AES-128 AI 攻擊。</div>
             <div class="dataset-grid">
-              <div class="dataset-option"><input type="radio" name="builtin-dataset" id="dataset-fixed" value="fixed" onchange="setBuiltinDataset('fixed')"><label class="dataset-card" for="dataset-fixed"><strong>ASCAD Fixed</strong><span>�T�w���_��ƶ�</span></label></div>
-              <div class="dataset-option"><input type="radio" name="builtin-dataset" id="dataset-rand" value="rand" onchange="setBuiltinDataset('rand')"><label class="dataset-card" for="dataset-rand"><strong>ASCAD Random</strong><span>�H�����_��ƶ�</span></label></div>
-              <div class="dataset-option"><input type="radio" name="builtin-dataset" id="dataset-ches" value="ches" onchange="setBuiltinDataset('ches')"><label class="dataset-card" for="dataset-ches"><strong>CHES CTF</strong><span>���}�v�ɸ�ƶ�</span></label></div>
+              <div class="dataset-option"><input type="radio" name="builtin-dataset" id="dataset-fixed" value="fixed" onchange="setBuiltinDataset('fixed')"><label class="dataset-card" for="dataset-fixed"><strong>ASCAD Fixed</strong><span>固定金鑰資料集</span></label></div>
+              <div class="dataset-option"><input type="radio" name="builtin-dataset" id="dataset-rand" value="rand" onchange="setBuiltinDataset('rand')"><label class="dataset-card" for="dataset-rand"><strong>ASCAD Random</strong><span>隨機金鑰資料集</span></label></div>
+              <div class="dataset-option"><input type="radio" name="builtin-dataset" id="dataset-ches" value="ches" onchange="setBuiltinDataset('ches')"><label class="dataset-card" for="dataset-ches"><strong>CHES CTF</strong><span>公開競賽資料集</span></label></div>
             </div>
-            <div class="source-route-note">AI �����|����Ū�����A��������ƶ��P�w�V�m�ҫ��A���|���R�A�b�s��������� Trace�C</div>
+            <div class="source-route-note">AI 攻擊會直接讀取伺服器內的資料集與預訓練模型，不會分析你在瀏覽器選取的 Trace。</div>
           </div>
         </div>
         <div class="source-content" id="upload-source-content">
-        <div class="source-intro source2-intro"><h2>&#36889;&#27425;&#35201;&#20998;&#26512;&#21738;&#19968;&#31278;&#36039;&#26009;&#65311;</h2><p>&#20808;&#36984;&#25799;&#36039;&#26009;&#20358;&#28304;&#65292;&#19979;&#19968;&#27493;&#21482;&#26371;&#39023;&#31034;&#33021;&#22816;&#23526;&#38555;&#22519;&#34892;&#30340;&#25915;&#25802;&#26041;&#27861;&#12290;</p></div>
+        <div class="source-intro source2-intro"><h2>第一步：選擇要分析的資料</h2><p>第一次使用？建議選<b>使用現有資料集 → AES-128 → 100 條</b>。</p></div>
         <div class="source-grid source2-grid">
           <div class="source-option"><input type="radio" name="data-source2" id="source2-upload" value="upload" onchange="setDataSource('upload')"><label class="source-card" for="source2-upload"><div class="source-icon">UP</div><div class="source-copy"><div class="source-title">&#19978;&#20659;&#33258;&#24049;&#30340;&#37327;&#28204;&#36039;&#26009;</div><div class="source-desc">&#19978;&#20659; Trace &#33287; Plaintext&#65292;&#20351;&#29992; CPA&#12289;DPA&#12289;MIA&#12289;Template &#25110; SNR &#31561;&#20659;&#32113;&#20998;&#26512;&#12290;</div><span class="source-tag">&#25903;&#25588; AES-128 / AES-256</span></div><div class="source-check">OK</div></label></div>
           <div class="source-option"><input type="radio" name="data-source2" id="source2-builtin" value="builtin" onchange="setDataSource('builtin')"><label class="source-card" for="source2-builtin"><div class="source-icon">AI</div><div class="source-copy"><div class="source-title">&#20351;&#29992;&#20839;&#24314; AI &#25945;&#23416;&#36039;&#26009;&#38598;</div><div class="source-desc">&#19981;&#24517;&#19978;&#20659;&#27284;&#26696;&#65292;&#36984;&#25799;&#20282;&#26381;&#22120;&#19978;&#30340; ASCAD&#65295;CHES &#36039;&#26009;&#38598;&#65292;&#20877;&#20351;&#29992;&#38928;&#35347;&#32244; CNN &#25110; MLP&#12290;</div><span class="source-tag">&#20677;&#25903;&#25588; AES-128 &#21934;&#19968; byte</span></div><div class="source-check">OK</div></label></div>
         </div>
         <div class="source-content" id="builtin-source-content-2"><div class="builtin-dataset-box">
-          <div class="builtin-head">&#36984;&#25799; AI &#25945;&#23416;&#36039;&#26009;&#38598;</div>
-          <div class="builtin-note">&#19979;&#19968;&#27493;&#26371;&#20381;&#36889;&#35041;&#36984;&#25799;&#30340;&#36039;&#26009;&#38598;&#65292;&#21482;&#39023;&#31034;&#21487;&#25645;&#37197;&#30340; AES-128 AI &#25915;&#25802;&#12290;</div>
-          <div class="dataset-grid">
-            <div class="dataset-option"><input type="radio" name="builtin-dataset2" id="dataset2-fixed" value="fixed" onchange="setBuiltinDataset('fixed')"><label class="dataset-card" for="dataset2-fixed"><strong>ASCAD Fixed</strong><span>&#22266;&#23450;&#37329;&#38000;&#36039;&#26009;&#38598;</span></label></div>
-            <div class="dataset-option"><input type="radio" name="builtin-dataset2" id="dataset2-rand" value="rand" onchange="setBuiltinDataset('rand')"><label class="dataset-card" for="dataset2-rand"><strong>ASCAD Random</strong><span>&#38568;&#27231;&#37329;&#38000;&#36039;&#26009;&#38598;</span></label></div>
-            <div class="dataset-option"><input type="radio" name="builtin-dataset2" id="dataset2-ches" value="ches" onchange="setBuiltinDataset('ches')"><label class="dataset-card" for="dataset2-ches"><strong>CHES CTF</strong><span>&#20844;&#38283;&#31478;&#36093;&#36039;&#26009;&#38598;</span></label></div>
+          <div class="builtin-head">選擇伺服器固定資料集</div>
+          <div class="builtin-note">傳統固定資料集直接由後端讀取，不需要把數百 MB 的檔案重新上傳。</div>
+          <div class="dataset-section" data-crypto-family="aes128">
+            <div class="dataset-section-title">AES-128 統計分析用資料</div>
+            <div class="dataset-grid">
+              <div class="dataset-option"><input type="radio" name="fixed-dataset" id="fixed-aes128-100" value="aes128_100" onchange="setTraditionalDataset('aes128_100',100,5000,true)"><label class="dataset-card" for="fixed-aes128-100"><strong>100 條</strong><span>最快・適合新手</span></label></div>
+              <div class="dataset-option"><input type="radio" name="fixed-dataset" id="fixed-aes128-2000" value="aes128_2000" onchange="setTraditionalDataset('aes128_2000',2000,5000,true)"><label class="dataset-card" for="fixed-aes128-2000"><strong>2,000 條</strong><span>較準・較慢</span></label></div>
+            </div>
           </div>
-          <div class="source-route-note">AI &#25915;&#25802;&#26371;&#30452;&#25509;&#35712;&#21462;&#20282;&#26381;&#22120;&#20839;&#30340;&#36039;&#26009;&#38598;&#33287;&#38928;&#35347;&#32244;&#27169;&#22411;&#65292;&#19981;&#26371;&#20998;&#26512;&#20320;&#22312;&#28687;&#35261;&#22120;&#36984;&#21462;&#30340; Trace&#12290;</div>
+          <div class="dataset-section" data-crypto-family="aes256">
+            <div class="dataset-section-title">AES-256 統計分析用資料</div>
+            <div class="dataset-grid fixed-grid">
+              <div class="dataset-option"><input type="radio" name="fixed-dataset" id="fixed-aes256-5000" value="aes256_5000" onchange="setTraditionalDataset('aes256_5000',5000,45000,true)"><label class="dataset-card" for="fixed-aes256-5000"><strong>5,000 條</strong><span>完整波形</span></label></div>
+              <div class="dataset-option"><input type="radio" name="fixed-dataset" id="fixed-aes256-10000" value="aes256_10000" onchange="setTraditionalDataset('aes256_10000',10000,11250,false)"><label class="dataset-card" for="fixed-aes256-10000"><strong>10,000 條</strong><span>精簡波形・較快</span></label></div>
+              <div class="dataset-option"><input type="radio" name="fixed-dataset" id="fixed-aes256-15000" value="aes256_15000" onchange="setTraditionalDataset('aes256_15000',15000,11250,false)"><label class="dataset-card" for="fixed-aes256-15000"><strong>15,000 條</strong><span>精簡波形・較快</span></label></div>
+              <div class="dataset-option"><input type="radio" name="fixed-dataset" id="fixed-aes256-20000" value="aes256_20000" onchange="setTraditionalDataset('aes256_20000',20000,11250,false)"><label class="dataset-card" for="fixed-aes256-20000"><strong>20,000 條</strong><span>精簡波形・較快</span></label></div>
+            </div>
+          </div>
+          <div class="dataset-section" data-crypto-family="aes128">
+            <div class="dataset-section-title">AES-128 AI 模型用資料 <span>AI 模型</span></div>
+            <div class="dataset-grid">
+              <div class="dataset-option"><input type="radio" name="builtin-dataset2" id="dataset2-fixed" value="fixed" onchange="setBuiltinDataset('fixed')"><label class="dataset-card" for="dataset2-fixed"><strong>ASCAD Fixed</strong><span>固定金鑰資料集</span></label></div>
+              <div class="dataset-option"><input type="radio" name="builtin-dataset2" id="dataset2-rand" value="rand" onchange="setBuiltinDataset('rand')"><label class="dataset-card" for="dataset2-rand"><strong>ASCAD Random</strong><span>隨機金鑰資料集</span></label></div>
+              <div class="dataset-option"><input type="radio" name="builtin-dataset2" id="dataset2-ches" value="ches" onchange="setBuiltinDataset('ches')"><label class="dataset-card" for="dataset2-ches"><strong>CHES CTF</strong><span>公開競賽資料集</span></label></div>
+            </div>
+          </div>
+          <div class="dataset-section" data-crypto-family="mlkem">
+            <div class="dataset-section-title">ML-KEM-768 錄製資料 <span><button type="button" class="ask-tutor" onclick="AITutor.askQuick('mlkem')">什麼是 ML-KEM？</button></span></div>
+            <div class="dataset-grid">
+              <div class="dataset-option"><input type="radio" name="fixed-dataset" id="fixed-mlkem-baseline" value="mlkem_baseline" onchange="setMLKEMDataset('baseline')"><label class="dataset-card" for="fixed-mlkem-baseline"><strong>基準金鑰</strong><span>300 條</span></label></div>
+              <div class="dataset-option"><input type="radio" name="fixed-dataset" id="fixed-mlkem-new-key" value="mlkem_new_key" onchange="setMLKEMDataset('new_key')"><label class="dataset-card" for="fixed-mlkem-new-key"><strong>另一把新金鑰</strong><span>300 條</span></label></div>
+            </div>
+            <label class="mlkem-pair-field" for="mlkem-pair">要分析第幾組秘密數字 <input type="number" id="mlkem-pair" min="0" max="245" step="1" value="0" oninput="checkNext1()"><span>（0–245）</span></label>
+            <div class="source-route-note">每次只找出私鑰中的 2 個數字，不代表整把私鑰被破解。</div>
+          </div>
+          <div class="source-route-note">傳統攻擊讀取本機固定 traces／plaintexts；AI 攻擊讀取 ASCAD／CHES 與預訓練模型。</div>
         </div></div>
         <!-- Two upload columns -->
         <div class="upload-row">
           <!-- Traces -->
           <div class="upload-col">
-            <label>Traces 功耗波形 <span style="color:#ef4444">*</span></label>
+            <label>耗電波形檔（Trace）<span style="color:#ef4444">*</span></label>
             <div class="upload-area" id="upload-area-traces">
               <input type="file" id="file-input-traces" accept=".npy,.csv,.h5,.hdf5,.trs" onchange="handleFile('traces',this)">
               <div class="up-icon">↑</div>
               <div class="up-title">拖曳或點擊選取</div>
-              <div class="up-sub">shape (N, trace_length)</div>
+              <div class="up-sub">.npy／.csv／.h5／.trs</div>
               <div class="fmt-chips">
                 <span class="fmt-chip">.npy</span><span class="fmt-chip">.csv</span>
                 <span class="fmt-chip">.h5</span><span class="fmt-chip">.trs</span>
@@ -493,12 +590,12 @@ header{display:flex;align-items:center;justify-content:space-between;margin-bott
 
           <!-- Plaintexts -->
           <div class="upload-col">
-            <label>Plaintexts 明文 <span style="color:#ef4444">*</span></label>
+            <label>明文檔（Plaintext）<span style="color:#ef4444">*</span></label>
             <div class="upload-area" id="upload-area-pt">
               <input type="file" id="file-input-pt" accept=".npy,.csv" onchange="handleFile('pt',this)">
               <div class="up-icon">📄</div>
               <div class="up-title">拖曳或點擊選取</div>
-              <div class="up-sub">shape (N, 16) uint8</div>
+              <div class="up-sub">.npy／.csv</div>
               <div class="fmt-chips">
                 <span class="fmt-chip">.npy</span><span class="fmt-chip">.csv</span>
               </div>
@@ -518,7 +615,7 @@ header{display:flex;align-items:center;justify-content:space-between;margin-bott
         <div class="aes-select-wrap" id="aes-select-wrap">
           <div class="aes-select-head">
             <div class="panel-dot" style="background:var(--pre-accent)"></div>
-            <div class="aes-select-title">選擇 Trace 使用的 AES 版本</div>
+            <div class="aes-select-title">這份資料是哪一種加密方式？</div>
             <div class="aes-select-required">必選</div>
           </div>
           <div class="aes-version-grid">
@@ -526,7 +623,7 @@ header{display:flex;align-items:center;justify-content:space-between;margin-bott
               <input type="radio" name="aes-version" id="aes-version-128" value="128" onchange="setAesVersion(128)">
               <label class="aes-version-card" for="aes-version-128">
                 <div class="aes-version-badge">128</div>
-                <div><div class="aes-version-name">AES-128</div><div class="aes-version-desc">16-byte key・第一輪攻擊</div></div>
+                <div><div class="aes-version-name">AES-128</div><div class="aes-version-desc">最常見・新手推薦</div></div>
                 <div class="aes-version-check">✓</div>
               </label>
             </div>
@@ -534,17 +631,26 @@ header{display:flex;align-items:center;justify-content:space-between;margin-bott
               <input type="radio" name="aes-version" id="aes-version-256" value="256" onchange="setAesVersion(256)">
               <label class="aes-version-card" for="aes-version-256">
                 <div class="aes-version-badge">256</div>
-                <div><div class="aes-version-name">AES-256</div><div class="aes-version-desc">32-byte key・兩階段攻擊</div></div>
+                <div><div class="aes-version-name">AES-256</div><div class="aes-version-desc">金鑰較長</div></div>
+                <div class="aes-version-check">✓</div>
+              </label>
+            </div>
+            <div class="aes-version-option">
+              <input type="radio" name="aes-version" id="aes-version-mlkem" value="mlkem" onchange="setCryptoFamily('mlkem')">
+              <label class="aes-version-card" for="aes-version-mlkem">
+                <div class="aes-version-badge">KEM</div>
+                <div><div class="aes-version-name">ML-KEM-768</div><div class="aes-version-desc">後量子加密</div></div>
                 <div class="aes-version-check">✓</div>
               </label>
             </div>
           </div>
-          <div class="aes-version-hint" id="aes-version-hint">請先選擇版本，下一步只會顯示對應的攻擊方法。</div>
+          <div class="aes-version-hint" id="aes-version-hint">請先選擇加密方式，下一步只會顯示能用的分析方法。</div>
         </div>
+        <div class="source-route-note" id="mlkem-upload-note" style="display:none">ML-KEM-768 目前不支援上傳自己的檔案。請改選上方的「使用現有資料集」，再選一組錄製資料。</div>
         <!-- Pre-processing -->
         <div id="pre-sec">
           <div style="margin:16px 0 10px;display:flex;align-items:center;gap:8px">
-            <div style="font-size:11px;font-family:'IBM Plex Mono',monospace;letter-spacing:.07em;text-transform:uppercase;color:var(--muted)">前處理（本地預覽）</div>
+            <div style="font-size:11px;font-family:'IBM Plex Mono',monospace;letter-spacing:.07em;text-transform:uppercase;color:var(--muted)">檔案檢查</div>
             <div style="flex:1;height:1px;background:var(--border)"></div>
             <div style="font-size:11px;font-family:'IBM Plex Mono',monospace;color:var(--muted)" id="pre-pct">0%</div>
           </div>
@@ -557,22 +663,22 @@ header{display:flex;align-items:center;justify-content:space-between;margin-bott
             </div>
             <div class="ps" id="ps-parse">
               <div class="pi" id="pi-parse">◉</div>
-              <div class="pb"><div class="pn">解析格式 / 維度</div><div class="pd" id="pd-parse">等待中⋯</div></div>
+              <div class="pb"><div class="pn">讀取資料大小</div><div class="pd" id="pd-parse">等待中⋯</div></div>
               <div class="pbadge" id="pbg-parse">完成</div>
             </div>
             <div class="ps" id="ps-snr">
               <div class="pi" id="pi-snr">↗</div>
-              <div class="pb"><div class="pn">SNR 初估</div><div class="pd" id="pd-snr">等待中⋯</div></div>
+              <div class="pb"><div class="pn">準備分析</div><div class="pd" id="pd-snr">等待中⋯</div></div>
               <div class="pbadge" id="pbg-snr">完成</div>
             </div>
           </div>
           <div class="pre-sum" id="pre-sum">
-            <div class="sum-title">Trace 摘要</div>
+            <div class="sum-title">檔案摘要</div>
             <div class="sum-grid">
-              <div class="sum-stat"><div class="ss-lbl">Trace 數量</div><div class="ss-val" id="sN">—</div></div>
-              <div class="sum-stat"><div class="ss-lbl">採樣點 / 條</div><div class="ss-val" id="sL">—</div></div>
+              <div class="sum-stat"><div class="ss-lbl">波形條數</div><div class="ss-val" id="sN">—</div></div>
+              <div class="sum-stat"><div class="ss-lbl">每條量測點數</div><div class="ss-val" id="sL">—</div></div>
               <div class="sum-stat"><div class="ss-lbl">檔案格式</div><div class="ss-val" id="sFmt">—</div></div>
-              <div class="sum-stat"><div class="ss-lbl">SNR 估計</div><div class="ss-val" id="sSnr">—</div></div>
+              <div class="sum-stat"><div class="ss-lbl">洩漏程度（SNR）</div><div class="ss-val" id="sSnr">—</div></div>
             </div>
           </div>
         </div>
@@ -580,19 +686,20 @@ header{display:flex;align-items:center;justify-content:space-between;margin-bott
         <!-- Known key (optional) -->
         <div class="key-input-wrap">
           <div class="key-input-label">
-            已知金鑰（供比對；SNR 必填）<span class="opt">其他攻擊選填</span>
+            正確金鑰（選填）<span class="opt">填了才能對答案</span>
           </div>
           <input type="text" id="known-key-input" class="key-hex-inp" maxlength="64"
-            placeholder="AES-128: 32 hex；AES-256: 64 hex"
+            placeholder="例如 AES-128：2B7E151628AED2A6ABF7158809CF4F3C"
             oninput="validateKeyInput(this)">
-          <div class="key-inp-hint" id="key-inp-hint">AES-128 輸入 32 hex；AES-256 輸入 64 hex；SNR 必填</div>
+          <div class="key-inp-hint" id="key-inp-hint"></div>
         </div>
 
         </div>
         <div style="margin-top:14px">
           <button class="btn btn-primary" id="next1-btn" disabled onclick="goStep(2)" style="width:100%;padding:12px">
-            下一步：組合攻擊流程
+            下一步：選擇分析方法 →
           </button>
+          <div class="next1-hint" id="next1-hint">請先選擇資料來源</div>
         </div>
       </div>
     </div>
@@ -606,62 +713,68 @@ header{display:flex;align-items:center;justify-content:space-between;margin-bott
       <div class="panel">
         <div class="panel-hd">
           <div class="panel-dot" style="background:var(--pre-accent)"></div>
-          <div class="panel-title">模組庫　拖曳至右方</div>
+          <div class="panel-title">可用的分析方法</div>
         </div>
         <div class="panel-bd">
-          <div class="cat-group aes-method-group" id="aes-group-128">
-            <div class="cat-lbl" style="color:var(--atk-accent)">── AES-128 攻擊與分析</div>
-            <div class="block b-atk" draggable="true" data-id="cpa" data-name="CPA — AES-128" data-desc="HW + Pearson 相關電力分析" data-cat="atk" data-icon="⊗">
-              <div class="bi">⊗</div><div class="binfo"><div class="bname">CPA — AES-128</div><div class="bdesc">相關電力分析</div></div><div class="drag-h">⠿</div>
+                    <div class="cat-group aes-method-group" id="aes-group-128">
+            <div class="cat-lbl" style="color:var(--atk-accent)">── 用統計方法推出金鑰</div>
+            <div class="block b-atk" draggable="true" data-id="cpa" data-name="CPA 相關性分析 — AES-128" data-desc="比對耗電與猜測值的相關程度" data-cat="atk" data-icon="⊗">
+              <div class="bi">⊗</div><div class="binfo"><div class="bname">CPA 相關性分析 — AES-128</div><div class="bdesc">新手首選</div></div><button type="button" class="b-add" title="加入右邊的分析流程">＋ 加入</button><div class="drag-h">⠿</div>
             </div>
-            <div class="block b-atk" draggable="true" data-id="dpa_dom" data-name="DPA-DoM — AES-128" data-desc="SBox LSB 差值均值分析" data-cat="atk" data-icon="⊕">
-              <div class="bi">⊕</div><div class="binfo"><div class="bname">DPA-DoM — AES-128</div><div class="bdesc">Difference of Means</div></div><div class="drag-h">⠿</div>
+            <div class="block b-atk" draggable="true" data-id="dpa_dom" data-name="DPA 平均差分析 — AES-128" data-desc="分兩組比較平均耗電差異" data-cat="atk" data-icon="⊕">
+              <div class="bi">⊕</div><div class="binfo"><div class="bname">DPA 平均差分析 — AES-128</div><div class="bdesc">分組比平均</div></div><button type="button" class="b-add" title="加入右邊的分析流程">＋ 加入</button><div class="drag-h">⠿</div>
             </div>
-            <div class="block b-atk" draggable="true" data-id="dpa_pcc" data-name="DPA-PCC — AES-128" data-desc="SBox LSB Pearson 分析" data-cat="atk" data-icon="⊘">
-              <div class="bi">⊘</div><div class="binfo"><div class="bname">DPA-PCC — AES-128</div><div class="bdesc">Pearson LSB 模型</div></div><div class="drag-h">⠿</div>
+            <div class="block b-atk" draggable="true" data-id="dpa_pcc" data-name="DPA 二元相關分析 — AES-128" data-desc="用 0／1 分組計算相關程度" data-cat="atk" data-icon="⊘">
+              <div class="bi">⊘</div><div class="binfo"><div class="bname">DPA 二元相關分析 — AES-128</div><div class="bdesc">分組算相關</div></div><button type="button" class="b-add" title="加入右邊的分析流程">＋ 加入</button><div class="drag-h">⠿</div>
             </div>
-            <div class="block b-atk" draggable="true" data-id="mia" data-name="MIA — AES-128" data-desc="互資訊捕捉非線性洩漏" data-cat="atk" data-icon="⊛">
-              <div class="bi">⊛</div><div class="binfo"><div class="bname">MIA — AES-128</div><div class="bdesc">互資訊分析</div></div><div class="drag-h">⠿</div>
+            <div class="block b-atk" draggable="true" data-id="mia" data-name="MIA 資訊量分析 — AES-128" data-desc="計算耗電中含有多少金鑰資訊" data-cat="atk" data-icon="⊛">
+              <div class="bi">⊛</div><div class="binfo"><div class="bname">MIA 資訊量分析 — AES-128</div><div class="bdesc">較進階・較慢</div></div><button type="button" class="b-add" title="加入右邊的分析流程">＋ 加入</button><div class="drag-h">⠿</div>
             </div>
-            <div class="block b-atk" draggable="true" data-id="template" data-name="Template — AES-128" data-desc="SNR→POI→高斯模板" data-cat="atk" data-icon="◧">
-              <div class="bi">◧</div><div class="binfo"><div class="bname">Template — AES-128</div><div class="bdesc">16-byte 模板攻擊</div></div><div class="drag-h">⠿</div>
+            <div class="block b-atk" draggable="true" data-id="template" data-name="Template 樣板比對 — AES-128" data-desc="用事先建立的耗電樣板比對" data-cat="atk" data-icon="◧">
+              <div class="bi">◧</div><div class="binfo"><div class="bname">Template 樣板比對 — AES-128</div><div class="bdesc">需先建立樣板</div></div><button type="button" class="b-add" title="加入右邊的分析流程">＋ 加入</button><div class="drag-h">⠿</div>
             </div>
-            <div class="block b-atk" draggable="true" data-id="snr" data-name="SNR — AES-128" data-desc="16 bytes 洩漏點與 POI 分析" data-cat="atk" data-icon="↗">
-              <div class="bi">↗</div><div class="binfo"><div class="bname">SNR — AES-128</div><div class="bdesc">洩漏診斷（不回復金鑰）</div></div><div class="drag-h">⠿</div>
+            <div class="block b-atk" draggable="true" data-id="snr" data-name="SNR 洩漏檢查 — AES-128" data-desc="找出洩漏最明顯的時間點" data-cat="atk" data-icon="↗">
+              <div class="bi">↗</div><div class="binfo"><div class="bname">SNR 洩漏檢查 — AES-128</div><div class="bdesc">只檢查，不推金鑰</div></div><button type="button" class="b-add" title="加入右邊的分析流程">＋ 加入</button><div class="drag-h">⠿</div>
             </div>
-            <div class="cat-lbl" style="color:var(--ai-accent);margin-top:16px">── AES-128 AI 攻擊（伺服器模型）</div>
-            <div class="block b-atk b-ai" draggable="true" data-id="ai_cnn" data-name="AI-CNN — AES-128" data-desc="卷積神經網路 · 單一目標 byte" data-cat="ai" data-icon="◆">
-              <div class="bi">◆</div><div class="binfo"><div class="bname">AI-CNN — AES-128</div><div class="bdesc">ASCAD / CHES 模型評估</div></div><div class="drag-h">⠿</div>
+            <div class="cat-lbl" style="color:var(--ai-accent);margin-top:16px">── 用 AI 模型推出金鑰</div>
+            <div class="block b-atk b-ai" draggable="true" data-id="ai_cnn" data-name="AI 卷積神經網路（CNN）" data-desc="AI 模型猜 1 個金鑰位元組" data-cat="ai" data-icon="◆">
+              <div class="bi">◆</div><div class="binfo"><div class="bname">AI 卷積神經網路（CNN）</div><div class="bdesc">猜 1 個位元組</div></div><button type="button" class="b-add" title="加入右邊的分析流程">＋ 加入</button><div class="drag-h">⠿</div>
             </div>
-            <div class="block b-atk b-ai" draggable="true" data-id="ai_mlp" data-name="AI-MLP — AES-128" data-desc="多層感知器 · 單一目標 byte" data-cat="ai" data-icon="◇">
-              <div class="bi">◇</div><div class="binfo"><div class="bname">AI-MLP — AES-128</div><div class="bdesc">ASCAD / CHES 模型評估</div></div><div class="drag-h">⠿</div>
+            <div class="block b-atk b-ai" draggable="true" data-id="ai_mlp" data-name="AI 多層感知器（MLP）" data-desc="AI 模型猜 1 個金鑰位元組" data-cat="ai" data-icon="◇">
+              <div class="bi">◇</div><div class="binfo"><div class="bname">AI 多層感知器（MLP）</div><div class="bdesc">猜 1 個位元組</div></div><button type="button" class="b-add" title="加入右邊的分析流程">＋ 加入</button><div class="drag-h">⠿</div>
             </div>
           </div>
           <div class="cat-group aes-method-group" id="aes-group-256">
-            <div class="cat-lbl" style="color:var(--pre-accent)">── AES-256 攻擊與分析</div>
-            <div class="block b-atk" draggable="true" data-id="cpa256" data-name="CPA — AES-256" data-desc="兩階段恢復 32-byte key" data-cat="atk" data-icon="⊗">
-              <div class="bi">⊗</div><div class="binfo"><div class="bname">CPA — AES-256</div><div class="bdesc">兩階段相關電力分析</div></div><div class="drag-h">⠿</div>
+            <div class="cat-lbl" style="color:var(--pre-accent)">── AES-256 分析方法</div>
+            <div class="block b-atk" draggable="true" data-id="cpa256" data-name="CPA 相關性分析 — AES-256" data-desc="分兩階段推出 32 個位元組的金鑰" data-cat="atk" data-icon="⊗">
+              <div class="bi">⊗</div><div class="binfo"><div class="bname">CPA 相關性分析 — AES-256</div><div class="bdesc">新手首選</div></div><button type="button" class="b-add" title="加入右邊的分析流程">＋ 加入</button><div class="drag-h">⠿</div>
             </div>
-            <div class="block b-atk" draggable="true" data-id="dpa_dom256" data-name="DPA-DoM — AES-256" data-desc="兩階段 SBox LSB 均值差" data-cat="atk" data-icon="⊕">
-              <div class="bi">⊕</div><div class="binfo"><div class="bname">DPA-DoM — AES-256</div><div class="bdesc">32-byte 實驗版</div></div><div class="drag-h">⠿</div>
+            <div class="block b-atk" draggable="true" data-id="dpa_dom256" data-name="DPA 平均差分析 — AES-256" data-desc="分兩階段比較平均耗電差異" data-cat="atk" data-icon="⊕">
+              <div class="bi">⊕</div><div class="binfo"><div class="bname">DPA 平均差分析 — AES-256</div><div class="bdesc">實驗功能</div></div><button type="button" class="b-add" title="加入右邊的分析流程">＋ 加入</button><div class="drag-h">⠿</div>
             </div>
-            <div class="block b-atk" draggable="true" data-id="dpa_pcc256" data-name="DPA-PCC — AES-256" data-desc="兩階段 SBox LSB Pearson" data-cat="atk" data-icon="⊘">
-              <div class="bi">⊘</div><div class="binfo"><div class="bname">DPA-PCC — AES-256</div><div class="bdesc">32-byte 實驗版</div></div><div class="drag-h">⠿</div>
+            <div class="block b-atk" draggable="true" data-id="dpa_pcc256" data-name="DPA 二元相關分析 — AES-256" data-desc="分兩階段以 0／1 分組計算相關" data-cat="atk" data-icon="⊘">
+              <div class="bi">⊘</div><div class="binfo"><div class="bname">DPA 二元相關分析 — AES-256</div><div class="bdesc">實驗功能</div></div><button type="button" class="b-add" title="加入右邊的分析流程">＋ 加入</button><div class="drag-h">⠿</div>
             </div>
-            <div class="block b-atk" draggable="true" data-id="mia256" data-name="MIA — AES-256" data-desc="兩階段互資訊分析" data-cat="atk" data-icon="⊛">
-              <div class="bi">⊛</div><div class="binfo"><div class="bname">MIA — AES-256</div><div class="bdesc">32-byte 實驗版</div></div><div class="drag-h">⠿</div>
+            <div class="block b-atk" draggable="true" data-id="mia256" data-name="MIA 資訊量分析 — AES-256" data-desc="分兩階段計算耗電中的金鑰資訊" data-cat="atk" data-icon="⊛">
+              <div class="bi">⊛</div><div class="binfo"><div class="bname">MIA 資訊量分析 — AES-256</div><div class="bdesc">實驗功能</div></div><button type="button" class="b-add" title="加入右邊的分析流程">＋ 加入</button><div class="drag-h">⠿</div>
             </div>
-            <div class="block b-atk" draggable="true" data-id="template256" data-name="Template — AES-256" data-desc="兩階段 32-byte 高斯模板" data-cat="atk" data-icon="◧">
-              <div class="bi">◧</div><div class="binfo"><div class="bname">Template — AES-256</div><div class="bdesc">需 32-byte 模板金鑰</div></div><div class="drag-h">⠿</div>
+            <div class="block b-atk" draggable="true" data-id="template256" data-name="Template 樣板比對 — AES-256" data-desc="用事先建立的耗電樣板比對" data-cat="atk" data-icon="◧">
+              <div class="bi">◧</div><div class="binfo"><div class="bname">Template 樣板比對 — AES-256</div><div class="bdesc">需先建立樣板</div></div><button type="button" class="b-add" title="加入右邊的分析流程">＋ 加入</button><div class="drag-h">⠿</div>
             </div>
-            <div class="block b-atk" draggable="true" data-id="snr256" data-name="SNR — AES-256" data-desc="32 bytes 洩漏點與 POI 分析" data-cat="atk" data-icon="↗">
-              <div class="bi">↗</div><div class="binfo"><div class="bname">SNR — AES-256</div><div class="bdesc">需 64 hex 已知金鑰</div></div><div class="drag-h">⠿</div>
+            <div class="block b-atk" draggable="true" data-id="snr256" data-name="SNR 洩漏檢查 — AES-256" data-desc="找出洩漏最明顯的時間點" data-cat="atk" data-icon="↗">
+              <div class="bi">↗</div><div class="binfo"><div class="bname">SNR 洩漏檢查 — AES-256</div><div class="bdesc">需填正確金鑰</div></div><button type="button" class="b-add" title="加入右邊的分析流程">＋ 加入</button><div class="drag-h">⠿</div>
             </div>
           </div>
-          <div class="cat-group">
-            <div class="cat-lbl" style="color:var(--eval-accent)">── 評估輸出</div>
-            <div class="block b-eval" draggable="true" data-id="_report" data-name="安全建議報告"  data-desc="Masking/Hiding 加固建議"  data-cat="eval" data-icon="≡">
-              <div class="bi">≡</div><div class="binfo"><div class="bname">安全建議報告</div><div class="bdesc">加固建議輸出</div></div><div class="drag-h">⠿</div>
+          <div class="cat-group aes-method-group" id="aes-group-mlkem">
+            <div class="cat-lbl" style="color:var(--atk-accent)">── ML-KEM-768 分析方法</div>
+            <div class="block b-atk" draggable="true" data-id="mlkem_cpa" data-name="CPA 相關性分析 — ML-KEM-768" data-desc="找出私鑰中的 2 個數字" data-cat="atk" data-icon="⊗">
+              <div class="bi">⊗</div><div class="binfo"><div class="bname">CPA 相關性分析 — ML-KEM-768</div><div class="bdesc">找出 2 個私鑰數字</div></div><button type="button" class="b-add" title="加入右邊的分析流程">＋ 加入</button><div class="drag-h">⠿</div>
+            </div>
+          </div>
+          <div class="cat-group" id="evaluation-group">
+            <div class="cat-lbl" style="color:var(--eval-accent)">── 附加檢查與報告</div>
+            <div class="block b-eval" draggable="true" data-id="_report" data-name="安全建議報告"  data-desc="產生防護建議"  data-cat="eval" data-icon="≡">
+              <div class="bi">≡</div><div class="binfo"><div class="bname">安全建議報告</div><div class="bdesc">產生防護建議</div></div><button type="button" class="b-add" title="加入右邊的分析流程">＋ 加入</button><div class="drag-h">⠿</div>
             </div>
           </div>
         </div>
@@ -671,7 +784,7 @@ header{display:flex;align-items:center;justify-content:space-between;margin-bott
       <div class="right-pane">
         <div style="padding:10px 14px;background:var(--pre-bg);border:1px solid var(--pre-border);border-radius:8px;display:flex;align-items:center;gap:10px">
           <div style="width:8px;height:8px;border-radius:50%;background:var(--pre-accent);flex-shrink:0"></div>
-          <span style="font-size:12px;font-family:'IBM Plex Mono',monospace;color:var(--pre-text);flex:1">Trace 已載入・<strong id="selected-aes-label">尚未選擇 AES 版本</strong></span>
+          <span style="font-size:12px;font-family:'IBM Plex Mono',monospace;color:var(--pre-text);flex:1">資料已選好・<strong id="selected-aes-label">尚未選擇 AES 版本</strong></span>
           <span style="font-size:11px;font-family:'IBM Plex Mono',monospace;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:200px" id="mini-name"></span>
           <button style="background:none;border:none;cursor:pointer;font-size:12px;color:var(--muted);font-family:'IBM Plex Mono',monospace;flex-shrink:0" onclick="goStep(1)">← 更換</button>
         </div>
@@ -679,22 +792,22 @@ header{display:flex;align-items:center;justify-content:space-between;margin-bott
         <div class="panel">
           <div class="panel-hd">
             <div class="panel-dot" style="background:var(--atk-accent)"></div>
-            <div class="panel-title">分析流程</div>
+            <div class="panel-title">你的分析流程</div>
           </div>
           <div style="padding:14px">
             <div class="drop-zone" id="drop-zone">
               <div class="drop-empty" id="drop-empty">
                 <div class="de-icon">＋</div>
-                <div class="de-txt">將攻擊方法拖曳至此</div>
+                <div class="de-txt">從左邊按「＋ 加入」</div>
               </div>
               <div class="pipeline" id="pipeline"></div>
             </div>
             <div id="sum-row" style="display:none;margin-top:10px">
               <div class="sum-chips" id="sum-chips"></div>
             </div>
-            <div class="hint" style="margin-top:10px" id="hint-txt">至少加入一個攻擊方法才能執行</div>
+            <div class="hint" style="margin-top:10px" id="hint-txt">請先加入一個分析方法</div>
             <div class="attack-guide" id="attack-guide" style="display:none">
-              <div class="guide-empty">點擊攻擊方法卡片，即可查看原理、用途與依目前資料量估算的等待時間。</div>
+              <div class="guide-empty">點左邊卡片可看說明。</div>
             </div>
           </div>
         </div>
@@ -706,6 +819,14 @@ header{display:flex;align-items:center;justify-content:space-between;margin-bott
             <div class="tmpl-server-icon">◫</div>
             <div class="tmpl-server-info"><div class="tmpl-server-name" id="tmpl-server-name">正在讀取模板狀態…</div><div class="tmpl-server-detail" id="tmpl-server-detail">一般使用者只需上傳目標 Traces 與 Plaintexts；profiling 資料由管理者預先建立。</div></div>
             <span class="tmpl-server-badge" id="tmpl-server-badge">檢查中</span>
+          </div>
+          <div class="tmpl-build">
+            <div class="tmpl-build-head">快速教學模式</div>
+            <div class="tmpl-build-copy">使用第一頁已上傳的Trace、Plaintext與已知固定金鑰，一鍵建立目前AES版本的profiling template。正式評估應改用獨立profiling資料，避免與攻擊資料重複。</div>
+            <div class="tmpl-build-actions">
+              <button class="btn btn-primary" type="button" id="tmpl-build-btn" onclick="buildTemplateFromCurrentData()">使用目前資料一鍵建立</button>
+              <span class="tmpl-build-status" id="tmpl-build-status">需先填入完整已知金鑰</span>
+            </div>
           </div>
         </div>
         <div class="ai-panel" id="ai-panel">
@@ -722,7 +843,7 @@ header{display:flex;align-items:center;justify-content:space-between;margin-bott
         <div class="btn-row">
           <button class="btn btn-primary" id="run-btn" disabled onclick="runPipeline()">
             <div class="spinner"></div>
-            <span id="run-txt">▶ 送出至 FastAPI</span>
+            <span id="run-txt">▶ 開始分析</span>
           </button>
           <button class="btn btn-ghost" id="clr-btn" disabled onclick="clearAll()">清除</button>
         </div>
@@ -741,16 +862,44 @@ header{display:flex;align-items:center;justify-content:space-between;margin-bott
       </div>
       <div class="panel-bd">
         <div class="wait-card" id="wait-card" style="display:none">
-          <div class="wait-top"><div><div class="wait-title">攻擊分析進行中</div><div class="wait-phase" id="wait-phase">準備傳送資料至 FastAPI…</div></div><div class="wait-controls"><button class="cancel-attack-btn" id="cancel-attack-btn" type="button" onclick="cancelAnalysis()">■ 取消分析</button><div class="wait-percent" id="wait-percent">0%</div></div></div>
+          <div class="wait-top"><div><div class="wait-title" id="wait-title">正在分析，請稍候</div><div class="wait-phase" id="wait-phase">準備開始分析…</div></div><div class="wait-controls"><button class="cancel-attack-btn" id="cancel-attack-btn" type="button" onclick="cancelAnalysis()">■ 取消分析</button><div class="wait-percent" id="wait-percent">0%</div></div></div>
           <div class="wait-track"><div class="wait-fill" id="wait-fill"></div></div>
           <div class="wait-metrics"><div class="wait-metric">已等待<strong id="wait-elapsed">0 秒</strong></div><div class="wait-metric">預估總時間<strong id="wait-total">計算中</strong></div></div>
           <div class="wait-note" id="wait-note">這是依演算法、Trace 數量、採樣點及此瀏覽器歷史紀錄推算的時間，不是後端的實際完成百分比。</div>
         </div>
         <div class="r-steps" id="r-steps"></div>
         <div id="r-out" style="display:none;border-top:1px solid var(--border);padding-top:16px">
-          <div class="r-lbl">金鑰恢復結果／分析狀態</div>
+            <div class="r-lbl" id="recovery-label">推出的金鑰（每一格是一個位元組）</div>
+          <div class="legend-row" id="result-legend">
+            <span class="legend-item"><span class="kb correct">2B</span>猜對</span>
+            <span class="legend-item"><span class="kb wrong">7E</span>猜錯</span>
+            <span class="legend-item"><span class="kb found">15</span>未對答案</span>
+            <button type="button" class="ask-tutor" onclick="AITutor.askQuick('result')">怎麼看結果？</button>
+          </div>
           <div class="key-bytes-row" id="r-key-bytes"></div>
+<div class="byte-plot-panel" id="byte-plot-panel">
+  <div class="byte-plot-title" id="byte-plot-title"></div>
+  <div class="byte-plot-grid">
+    <div class="byte-plot-card" id="byte-attack-plot-wrap">
+      <div class="byte-plot-card-title" id="byte-attack-plot-title">攻擊分析圖</div>
+      <img id="byte-plot-img" src="" alt="selected key byte analysis plot">
+    </div>
+    <div class="byte-plot-card" id="byte-snr-plot-wrap">
+      <div class="byte-plot-card-title">這個位元組的洩漏位置圖（SNR）</div>
+      <img id="byte-snr-plot-img" src="" alt="selected key byte SNR plot">
+    </div>
+  </div>
+</div>
+          <details class="howto" id="result-howto">
+            <summary class="howto-title">怎麼看這些圖？</summary>
+            <ul>
+              <li><b>每一格</b>是金鑰的一小段（位元組），點一下看它的圖。</li>
+              <li><b>攻擊分析圖</b>：找最高的尖峰，那就是答案。</li>
+              <li><b>排名（rank）</b>：正確答案排第 1 名＝猜中。</li>
+            </ul>
+          </details>
           <div class="score-bar" id="r-score-bar"></div>
+          <div class="mlkem-result-detail" id="mlkem-result-detail"></div>
           <!-- keep r-key hidden for copy convenience -->
           <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--muted);margin-top:6px;letter-spacing:.06em" id="r-key"></div>
           <div class="res-grid">
@@ -760,7 +909,7 @@ header{display:flex;align-items:center;justify-content:space-between;margin-bott
             <div class="res-stat"><div class="rsl">耗時</div><div class="rsv" id="rTime">—</div></div>
           </div>
           <div style="margin-top:14px">
-            <div class="r-lbl">已知金鑰比對／分析狀態</div>
+            <div class="r-lbl" id="verification-label">和正確金鑰比對的結果</div>
             <div class="conf-bg"><div class="conf-fg" id="conf-fg"></div></div>
             <div style="margin-top:4px;font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--atk-text)" id="conf-lbl"></div>
           </div>
@@ -776,7 +925,7 @@ header{display:flex;align-items:center;justify-content:space-between;margin-bott
 
 
 
-                    <section class="report-workbench" aria-labelledby="report-heading">
+                    <section class="report-workbench" id="report-workbench" aria-labelledby="report-heading">
             <div class="report-toolbar">
               <div class="report-toolbar-main">
                 <div class="report-toolbar-title" id="report-heading">AI 晶片旁通道安全分析報告</div>
@@ -820,11 +969,38 @@ const pipeItems = [];
 let traceN = 0, traceL = 0, traceFmt = '';
 let apiAlgos = [];
 let templateServerStatus = {128: null, 256: null};
+let templateBuildBusy = false;
 let aiServiceStatus = null;
 let selectedAesBits = 0;
+let selectedCryptoFamily = '';
+let selectedMLKEMDataset = '';
+let mlkemDatasetReady = {baseline:false,new_key:false};
 let currentReportPayload = null;
 let currentSecurityReport = null;
 let currentReportPlot = '';
+let currentAITutorContext = null;
+
+window.getAITutorAnalysisContext = function(){
+  if(!currentAITutorContext)return null;
+  return {
+    image_base64:currentAITutorContext.image_base64||null,
+    image_mime_type:currentAITutorContext.image_mime_type||'image/png',
+    image_label:currentAITutorContext.image_label||null,
+    report_context:{...(currentAITutorContext.report_context||{})}
+  };
+};
+
+function setAITutorVisual(imageBase64,imageLabel,contextUpdates={}){
+  if(!currentAITutorContext)currentAITutorContext={report_context:{}};
+  currentAITutorContext.image_base64=imageBase64||'';
+  currentAITutorContext.image_mime_type='image/png';
+  currentAITutorContext.image_label=imageLabel||'攻擊分析結果圖';
+  currentAITutorContext.report_context={
+    ...(currentAITutorContext.report_context||{}),
+    ...contextUpdates,
+    image_label:currentAITutorContext.image_label
+  };
+}
 
 function isTemplateId(id){ return id === 'template' || id === 'template256'; }
 function isAiAttackId(id){ return id === 'ai_cnn' || id === 'ai_mlp'; }
@@ -837,6 +1013,7 @@ const ATTACK_GUIDES = {
   template:{title:'Template Attack（模板攻擊）',load:'運算量：很高',base:220,principle:'管理者先用已知金鑰的 profiling traces 找 POI，建立各個漢明重量類別的高斯統計模型；使用者上傳目標 Trace 與 Plaintext 後，再以最大 log-likelihood 推測金鑰。',use:'適合少量目標 Trace 的進階攻擊。伺服器模板必須來自相同晶片、韌體與量測設定；一般使用者不需上傳 profiling keys。'},
   snr:{title:'SNR（訊號雜訊比分析）',load:'運算量：較低',base:75,principle:'利用已知金鑰把 Trace 依中間值漢明重量分組，比較組間差異與組內雜訊，找出最可能洩漏資訊的採樣點。',use:'用來定位洩漏點與 POI、評估量測品質；它是診斷分析，不會自行還原未知金鑰。'},
   ai_cnn:{title:'AI-CNN（卷積神經網路）',load:'運算量：很高',base:300,principle:'預訓練 CNN 從功耗 Trace 自動學習局部洩漏特徵，再把每條 Trace 對 AES S-Box 中間值類別的機率累積成 key guessing entropy。',use:'用於比較深度學習與傳統統計攻擊。此模組沿用伺服器 ASCAD／CHES benchmark，只評估 AES-128 的單一目標 key byte。'},
+  mlkem_cpa:{title:'ML-KEM-768 傳統 CPA',load:'運算量：中',base:5,principle:'用公開 NTT 輸入對秘密係數 0–3328 建立 PQClean fqmul 的 HW16 模型，再和已錄製功耗 Trace 計算 Pearson 相關。',use:'每次恢復一對秘密 NTT 係數，先選最高相關候選，再用實驗保存的真值驗證；目前支援全域 pair 0–245。'},
   ai_mlp:{title:'AI-MLP（多層感知器）',load:'運算量：很高',base:260,principle:'預訓練 MLP 將完整 Trace 映射為 ID 或 Hamming Weight 類別機率，再累積各金鑰猜測的 log-likelihood。',use:'適合教學比較全連接網路與 CNN 的差異。此模組只支援 AES-128 單一目標 byte，需伺服器資料集與模型權重。'}
 };
 let waitTimer=null, waitStartedAt=0, waitEstimatedSeconds=0;
@@ -845,16 +1022,28 @@ function attackBaseId(id){return String(id||'').replace(/256$/,'');}
 function attackGuide(id){return ATTACK_GUIDES[attackBaseId(id)]||ATTACK_GUIDES.cpa;}
 function runtimeScale(n=traceN||100,l=traceL||5000){const nf=Math.pow(Math.max(1,n)/100,.85),lf=Math.pow(Math.max(1,l)/5000,.9);return Math.min(30,Math.max(.15,nf*lf));}
 function learnedRuntimeBase(id){try{const d=JSON.parse(localStorage.getItem('scaRuntimeHistoryV1')||'{}'),a=d[id];return Array.isArray(a)&&a.length?a.reduce((s,v)=>s+Number(v),0)/a.length:null;}catch{return null;}}
-function recordAttackRuntime(id,seconds){if(!Number.isFinite(seconds)||seconds<=0)return;try{const key='scaRuntimeHistoryV1',d=JSON.parse(localStorage.getItem(key)||'{}'),a=Array.isArray(d[id])?d[id]:[];a.push(isAiAttackId(id)?seconds:seconds/runtimeScale());d[id]=a.slice(-5);localStorage.setItem(key,JSON.stringify(d));}catch{}}
-function estimateAttackSeconds(id){const g=attackGuide(id),learned=learnedRuntimeBase(id),defaultBase=g.base*(isAes256Id(id)?2.05:1);return Math.max(5,isAiAttackId(id)?(learned||defaultBase):(learned||defaultBase)*runtimeScale());}
+function recordAttackRuntime(id,seconds){if(!Number.isFinite(seconds)||seconds<=0)return;try{const key='scaRuntimeHistoryV1',d=JSON.parse(localStorage.getItem(key)||'{}'),a=Array.isArray(d[id])?d[id]:[];a.push((isAiAttackId(id)||id==='mlkem_cpa')?seconds:seconds/runtimeScale());d[id]=a.slice(-5);localStorage.setItem(key,JSON.stringify(d));}catch{}}
+function estimateAttackSeconds(id){const g=attackGuide(id),learned=learnedRuntimeBase(id),defaultBase=g.base*(isAes256Id(id)?2.05:1);return Math.max(5,(isAiAttackId(id)||id==='mlkem_cpa')?(learned||defaultBase):(learned||defaultBase)*runtimeScale());}
 function estimateRange(id){const s=estimateAttackSeconds(id);return[Math.max(3,s*.75),s*1.45];}
 function formatDuration(seconds){seconds=Math.max(0,Math.round(Number(seconds)||0));if(seconds<60)return seconds+' 秒';const m=Math.floor(seconds/60),s=seconds%60;if(m<60)return m+' 分'+(s?' '+s+' 秒':'');const h=Math.floor(m/60),rm=m%60;return h+' 小時'+(rm?' '+rm+' 分':'');}
 function formatEstimateRange(id){const [lo,hi]=estimateRange(id);return formatDuration(lo)+'～'+formatDuration(hi);}
 function showAttackGuide(id){
   const box=document.getElementById('attack-guide');if(!box)return;
-  box.style.display='block';const g=attackGuide(id),isAI=isAiAttackId(id),aes=isAes256Id(id)?'AES-256（32 bytes，通常約兩倍工作量）':(isAI?'AES-128（AI 單一目標 byte）':'AES-128（16 bytes）');
-  const note=isAI?'估時依伺服器資料集大小、模型與 CPU／GPU 推算；AI 使用伺服器 benchmark 資料，不使用第一頁上傳的 Trace。完成後會用本機實測時間校準。':`估時依目前 ${Number(traceN||100).toLocaleString()} 條 Trace × ${Number(traceL||5000).toLocaleString()} 個採樣點計算；CPU、同時執行的程式與資料內容都會影響實際時間。完成後會用本機實測結果自動校準下一次估算。`;
-  box.innerHTML=`<div class="guide-head"><div class="guide-title">${g.title}</div><div class="guide-badges"><span class="guide-badge">${aes}</span><span class="guide-badge">${g.load}</span><span class="guide-badge time">預估 ${formatEstimateRange(id)}</span></div></div><div class="guide-grid"><div class="guide-item"><strong>攻擊原理</strong><p>${g.principle}</p></div><div class="guide-item"><strong>適合用來做什麼？</strong><p>${g.use}</p></div></div><div class="guide-note">${note}</div>`;
+  selectedAttackGuideId=id;
+  box.style.display='block';const g=attackGuide(id),isAI=isAiAttackId(id),aes=id==='mlkem_cpa'?'ML-KEM-768（每次 2 個 NTT 係數）':isAes256Id(id)?'AES-256（32 bytes，通常約兩倍工作量）':(isAI?'AES-128（AI 單一目標 byte）':'AES-128（16 bytes）');
+  const note=id==='mlkem_cpa'?'固定錄製由伺服器讀取。每次分析一個 pair，不會上傳 AES 檔案；結果只代表該 pair，不代表完整私鑰。':isAI?'估時依伺服器資料集大小、模型與 CPU／GPU 推算；AI 使用伺服器 benchmark 資料，不使用第一頁上傳的 Trace。完成後會用本機實測時間校準。':`估時依目前 ${Number(traceN||100).toLocaleString()} 條 Trace × ${Number(traceL||5000).toLocaleString()} 個採樣點計算；CPU、同時執行的程式與資料內容都會影響實際時間。完成後會用本機實測結果自動校準下一次估算。`;
+  box.innerHTML=`<div class="guide-head"><div class="guide-title">${g.title}</div><div class="guide-badges"><span class="guide-badge">${aes}</span><span class="guide-badge">${g.load}</span><span class="guide-badge time">預估 ${formatEstimateRange(id)}</span></div></div><div class="guide-grid"><div class="guide-item"><strong>它怎麼做到的？</strong><p>${g.principle}</p></div><div class="guide-item"><strong>適合用來做什麼？</strong><p>${g.use}</p></div></div><div class="guide-note">${note}</div><button type="button" class="guide-add" onclick="addSelectedAttack()">＋ 加入分析流程</button> <button type="button" class="ask-tutor" style="margin-left:6px" onclick="AITutor.askQuick('${guideFaqId(id)}')">問小助手</button>`;
+}
+let selectedAttackGuideId='';
+function guideFaqId(id){
+  const base=attackBaseId(id);
+  return {dpa_dom:'dpa',dpa_pcc:'dpa',ai_cnn:'cnn',ai_mlp:'mlp',mlkem_cpa:'mlkem'}[base]||base;
+}
+function addSelectedAttack(){
+  const block=document.querySelector(`.aes-method-group.active .block[data-id="${selectedAttackGuideId}"]`);
+  if(!block||block.classList.contains('used'))return;
+  addPipe(block.dataset.id,block.dataset.name,block.dataset.desc,block.dataset.cat,block.dataset.icon);
+  block.classList.add('used');
 }
 function refreshAttackCards(){
   document.querySelectorAll('.block.b-atk').forEach(b=>{
@@ -866,8 +1055,11 @@ function startWaitProgress(items){
   const card=document.getElementById('wait-card');if(!card)return;
   clearInterval(waitTimer);waitStartedAt=Date.now();waitEstimatedSeconds=estimatePipelineSeconds(items);
   card.style.display='block';card.className='wait-card';
+  document.getElementById('wait-title').textContent='正在分析，請稍候';
   document.getElementById('wait-total').textContent=formatDuration(waitEstimatedSeconds);
-  document.getElementById('wait-note').textContent='這是估計進度，不是後端回報的實際百分比；若想停止，可按「取消分析」終止後端運算。';
+  document.getElementById('wait-note').textContent=selectedCryptoFamily==='mlkem'
+    ?'這是估計進度，不是後端回報的實際百分比；取消只會讓瀏覽器停止等待，後端計算可能仍會完成。'
+    :'這是估計進度，不是後端回報的實際百分比；若想停止，可按「取消分析」終止後端運算。';
   const cancelBtn=document.getElementById('cancel-attack-btn');cancelBtn.style.display='inline-flex';cancelBtn.disabled=false;cancelBtn.textContent='■ 取消分析';
   updateWaitProgress();waitTimer=setInterval(updateWaitProgress,500);
 }
@@ -881,6 +1073,7 @@ function updateWaitProgress(){
 function finishWaitProgress(ok,message,state=''){
   clearInterval(waitTimer);waitTimer=null;const card=document.getElementById('wait-card');if(!card)return;
   card.className='wait-card '+(ok?'done':state==='cancelled'?'cancelled':'error');
+  document.getElementById('wait-title').textContent=ok?'分析完成':state==='cancelled'?'已停止等待':'分析未完成';
   if(ok){document.getElementById('wait-fill').style.width='100%';document.getElementById('wait-percent').textContent='100%';}
   const cancelBtn=document.getElementById('cancel-attack-btn');if(cancelBtn)cancelBtn.style.display='none';
   setWaitPhase(message||(ok?'分析完成，正在整理結果…':'分析未完成'));
@@ -888,7 +1081,7 @@ function finishWaitProgress(ok,message,state=''){
 function createAttackJobId(){return globalThis.crypto?.randomUUID?.()||('sca-'+Date.now()+'-'+Math.random().toString(16).slice(2));}
 function resetRunButton(){
   const btn=document.getElementById('run-btn');btn.classList.remove('loading');btn.disabled=false;
-  document.getElementById('run-txt').textContent='送出至 FastAPI';
+  document.getElementById('run-txt').textContent='▶ 開始分析';
 }
 function renderCancelledState(){
   finishWaitProgress(false,'已取消分析，後端運算已停止。','cancelled');
@@ -904,6 +1097,15 @@ async function cancelAnalysis(){
   const cancelBtn=document.getElementById('cancel-attack-btn');cancelBtn.disabled=true;cancelBtn.textContent='正在取消…';
   setWaitPhase('正在通知後端停止所有攻擊運算…');
   const jobId=activeAttackJobId,controller=activeAttackController;
+  if(selectedCryptoFamily==='mlkem'){
+    controller?.abort();
+    finishWaitProgress(false,'已停止等待 ML-KEM 結果。','cancelled');
+    document.getElementById('wait-note').textContent='瀏覽器已停止等待；目前 ML-KEM 後端計算可能仍會完成，不會更動原始 Trace。';
+    document.getElementById('r-status').textContent='已停止等待';
+    document.getElementById('r-dot').style.display='none';document.getElementById('r-dot-static').style.display='block';
+    document.getElementById('r-out').style.display='none';resetRunButton();
+    return;
+  }
   if(!jobId){controller?.abort();renderCancelledState();return;}
   try{
     const response=await fetch(getApi()+'/attack/cancel/'+encodeURIComponent(jobId),{method:'POST'});
@@ -918,18 +1120,47 @@ async function cancelAnalysis(){
 }
 let dataSourceMode = '';
 let selectedBuiltinDataset = '';
+let builtinDatasetKind = '';
+let selectedFixedDataset = '';
+let selectedFixedDatasetHasKnownKey = false;
+function filterDatasetSections(){
+  document.querySelectorAll('#builtin-source-content-2 .dataset-section[data-crypto-family]').forEach(section=>{
+    section.style.display=section.dataset.cryptoFamily===selectedCryptoFamily?'block':'none';
+  });
+}
+async function loadMLKEMStatus(base){
+  try{
+    const response=await fetch(base+'/mlkem/datasets');
+    if(!response.ok)throw new Error('ML-KEM 固定資料狀態讀取失敗');
+    const payload=await response.json();
+    for(const item of payload.datasets||[]){
+      if(!(item.id in mlkemDatasetReady))continue;
+      mlkemDatasetReady[item.id]=Boolean(item.ready);
+    }
+  }catch{mlkemDatasetReady={baseline:false,new_key:false};}
+  for(const id of ['baseline','new_key']){
+    const input=document.getElementById(id==='baseline'?'fixed-mlkem-baseline':'fixed-mlkem-new-key');
+    if(input){input.disabled=!mlkemDatasetReady[id];input.closest('.dataset-option').title=mlkemDatasetReady[id]?'':'錄製檔或公開 NTT 快取尚未就緒';}
+  }
+  if(selectedMLKEMDataset&&!mlkemDatasetReady[selectedMLKEMDataset]){
+    selectedMLKEMDataset='';preDone=false;checkNext1();
+  }
+}
 function datasetDisplayName(value){
   return {fixed:'ASCAD Fixed',rand:'ASCAD Random',ches:'CHES CTF'}[value]||'Select a dataset';
 }
 function updateAttackLibraryForSource(){
-  const builtin=dataSourceMode==='builtin';
-  document.querySelectorAll('#aes-group-128 .block.b-atk:not(.b-ai)').forEach(el=>el.style.display=builtin?'none':'');
-  document.querySelectorAll('#aes-group-128 .block.b-ai').forEach(el=>el.style.display=builtin?'':'none');
+  const builtinAI=dataSourceMode==='builtin'&&builtinDatasetKind==='ai';
+  const builtinTraditional=dataSourceMode==='builtin'&&builtinDatasetKind==='traditional';
+  document.querySelectorAll('#aes-group-128 .block.b-atk:not(.b-ai)').forEach(el=>el.style.display=builtinAI?'none':'');
+  document.querySelectorAll('#aes-group-128 .block.b-ai').forEach(el=>el.style.display=builtinAI?'':'none');
   const labels=document.querySelectorAll('#aes-group-128 .cat-lbl');
-  if(labels[0])labels[0].style.display=builtin?'none':'';
-  if(labels[1])labels[1].style.display=builtin?'':'none';
-  document.getElementById('aes-group-256').classList.toggle('active',!builtin&&selectedAesBits===256);
+  if(labels[0])labels[0].style.display=builtinAI?'none':'';
+  if(labels[1])labels[1].style.display=builtinAI?'':'none';
+  document.getElementById('aes-group-256').classList.toggle('active',(dataSourceMode==='upload'||builtinTraditional)&&selectedAesBits===256);
   document.getElementById('aes-group-128').classList.toggle('active',selectedAesBits===128);
+  document.getElementById('aes-group-mlkem').classList.toggle('active',dataSourceMode==='builtin'&&selectedCryptoFamily==='mlkem');
+  document.getElementById('evaluation-group').style.display=selectedCryptoFamily==='mlkem'?'none':'';
 }
 function setDataSource(mode){
   if(mode!=='upload'&&mode!=='builtin')return;
@@ -937,52 +1168,107 @@ function setDataSource(mode){
   document.getElementById('upload-source-content').classList.toggle('vis',mode==='upload');
   document.getElementById('builtin-source-content-2').classList.toggle('vis',mode==='builtin');
   const status=document.getElementById('selected-aes-label').parentElement;
-  status.childNodes[0].nodeValue=mode==='builtin'?'\u5167\u5efa AI \u8cc7\u6599\u96c6\u30fb':'\u81ea\u884c\u4e0a\u50b3\u8cc7\u6599\u30fb';
+  status.childNodes[0].nodeValue=mode==='builtin'?'現有資料集・':'自己上傳的資料・';
   if(mode==='builtin'){
-    uploadedFiles.traces=new File([], 'builtin-ai-dataset.h5');
-    uploadedFiles.pt=new File([], 'builtin-plaintexts.npy');
-    preDone=true;selectedAesBits=128;
-    document.getElementById('aes-version-128').checked=true;
+    builtinDatasetKind='';selectedBuiltinDataset='';selectedFixedDataset='';selectedFixedDatasetHasKnownKey=false;
+    uploadedFiles={traces:null,pt:null};preDone=false;selectedAesBits=0;selectedCryptoFamily='';selectedMLKEMDataset='';traceN=0;traceL=0;traceFmt='';
+    document.querySelectorAll('input[name="builtin-dataset2"],input[name="fixed-dataset"]').forEach(el=>el.checked=false);
+    document.getElementById('aes-version-128').checked=false;
     document.getElementById('aes-version-256').checked=false;
-    document.getElementById('selected-aes-label').textContent='AES-128\u30fbAI \u55ae\u4e00\u76ee\u6a19 byte';
-    document.getElementById('mini-name').textContent=datasetDisplayName(selectedBuiltinDataset);
+    document.getElementById('aes-version-mlkem').checked=false;
+    document.getElementById('selected-aes-label').textContent='請選擇下方資料集';
+    document.getElementById('mini-name').textContent='';
   }else{
-    uploadedFiles={traces:null,pt:null};preDone=false;selectedAesBits=0;
+    builtinDatasetKind='';selectedFixedDataset='';selectedFixedDatasetHasKnownKey=false;
+    uploadedFiles={traces:null,pt:null};preDone=false;selectedAesBits=0;selectedCryptoFamily='';selectedMLKEMDataset='';
     ['traces','pt'].forEach(key=>{document.getElementById('fc-'+key).classList.remove('vis');document.getElementById('file-input-'+key).value='';});
     document.getElementById('pre-sec').style.display='none';
     document.getElementById('aes-version-128').checked=false;
     document.getElementById('aes-version-256').checked=false;
-    document.getElementById('selected-aes-label').textContent='\u5c1a\u672a\u9078\u64c7 AES \u7248\u672c';
+    document.getElementById('aes-version-mlkem').checked=false;
+    document.getElementById('selected-aes-label').textContent='尚未選擇加密方式';
     document.getElementById('mini-name').textContent='';
   }
-  updateAttackLibraryForSource();checkNext1();
+  filterDatasetSections();updateAttackLibraryForSource();checkNext1();
 }
 function setBuiltinDataset(value){
   if(!['fixed','rand','ches'].includes(value))return;
-  selectedBuiltinDataset=value;
+  clearAll();
+  builtinDatasetKind='ai';selectedBuiltinDataset=value;selectedFixedDataset='';selectedFixedDatasetHasKnownKey=false;
+  document.querySelectorAll('input[name="fixed-dataset"]').forEach(el=>el.checked=false);
+  uploadedFiles.traces=new File([], 'builtin-ai-dataset.h5');uploadedFiles.pt=new File([], 'builtin-plaintexts.npy');
+  preDone=true;selectedAesBits=128;selectedCryptoFamily='aes128';selectedMLKEMDataset='';traceN=0;traceL=0;traceFmt='HDF5';
+  document.getElementById('aes-version-128').checked=true;document.getElementById('aes-version-256').checked=false;document.getElementById('aes-version-mlkem').checked=false;
   const select=document.getElementById('ai-dataset-select');select.value=value;select.disabled=true;
   document.getElementById('mini-name').textContent=datasetDisplayName(value);
-  renderAIStatus();updatePipeUI();checkNext1();
+  document.getElementById('selected-aes-label').textContent='AES-128・AI 模型（只猜 1 個位元組）';
+  applySourceFieldVisibility('builtin');filterDatasetSections();updateAttackLibraryForSource();renderAIStatus();updatePipeUI();checkNext1();
+}
+function setTraditionalDataset(value,count,length,hasKnownKey){
+  if(!/^(aes128_(100|2000)|aes256_(5000|10000|15000|20000))$/.test(value))return;
+  clearAll();
+  builtinDatasetKind='traditional';selectedFixedDataset=value;selectedFixedDatasetHasKnownKey=Boolean(hasKnownKey);selectedBuiltinDataset='';
+  document.querySelectorAll('input[name="builtin-dataset2"]').forEach(el=>el.checked=false);
+  uploadedFiles.traces=new File([],value+'-server.npy');uploadedFiles.pt=new File([],value+'-plaintexts.npy');
+  preDone=true;selectedAesBits=value.startsWith('aes128_')?128:256;selectedCryptoFamily='aes'+selectedAesBits;selectedMLKEMDataset='';traceN=Number(count);traceL=Number(length);traceFmt='NPY・伺服器固定資料';
+  document.getElementById('aes-version-128').checked=selectedAesBits===128;document.getElementById('aes-version-256').checked=selectedAesBits===256;document.getElementById('aes-version-mlkem').checked=false;
+  document.getElementById('mini-name').textContent='AES-'+selectedAesBits+' 固定資料・'+Number(count).toLocaleString()+' 條';
+  document.getElementById('selected-aes-label').textContent='AES-'+selectedAesBits+'・'+Number(count).toLocaleString()+' 條波形';
+  applySourceFieldVisibility('builtin');filterDatasetSections();updateAttackLibraryForSource();syncEvaluationSNR();updatePipeUI();checkNext1();
+}
+
+function setMLKEMDataset(id){
+  if(dataSourceMode!=='builtin'||selectedCryptoFamily!=='mlkem'||!mlkemDatasetReady[id])return;
+  clearAll();
+  selectedMLKEMDataset=id;selectedFixedDataset='';selectedBuiltinDataset='';builtinDatasetKind='traditional';selectedFixedDatasetHasKnownKey=false;
+  document.querySelectorAll('input[name="builtin-dataset2"]').forEach(el=>el.checked=false);
+  uploadedFiles.traces=new File([],`mlkem-${id}-server.cwp`);uploadedFiles.pt=new File([],`mlkem-${id}-public-ntt.npy`);
+  preDone=true;selectedAesBits=0;traceN=300;traceL=24400;traceFmt='CWP・伺服器固定資料';
+  document.getElementById('aes-version-mlkem').checked=true;
+  document.getElementById('mini-name').textContent=id==='baseline'?'ML-KEM 基準金鑰・300 條':'ML-KEM 另一把新金鑰・300 條';
+  document.getElementById('selected-aes-label').textContent='ML-KEM-768・第 '+document.getElementById('mlkem-pair').value+' 組';
+  applySourceFieldVisibility('builtin');filterDatasetSections();updateAttackLibraryForSource();updatePipeUI();checkNext1();
+}
+
+function setCryptoFamily(family){
+  if(family!=='mlkem')return;
+  clearAll();selectedCryptoFamily='mlkem';selectedAesBits=0;selectedMLKEMDataset='';
+  selectedFixedDataset='';selectedBuiltinDataset='';builtinDatasetKind='';selectedFixedDatasetHasKnownKey=false;
+  preDone=false;traceN=0;traceL=0;
+  document.querySelectorAll('input[name="fixed-dataset"],input[name="builtin-dataset2"]').forEach(el=>el.checked=false);
+  document.getElementById('aes-version-128').checked=false;document.getElementById('aes-version-256').checked=false;
+  document.getElementById('aes-version-mlkem').checked=true;
+  document.getElementById('aes-version-hint').textContent=dataSourceMode==='builtin'?'已選擇 ML-KEM-768；請在下方選一組錄製資料，並填要分析第幾組。':'ML-KEM 目前不支援上傳，請改選「使用現有資料集」。';
+  document.getElementById('selected-aes-label').textContent='ML-KEM-768・請選錄製資料';
+  applySourceFieldVisibility(dataSourceMode);filterDatasetSections();updateAttackLibraryForSource();checkNext1();
 }
 
 function setAesVersion(bits){
   bits=Number(bits);
   if(bits!==128&&bits!==256) return;
+  selectedCryptoFamily='aes'+bits;selectedMLKEMDataset='';
+  if(dataSourceMode==='builtin'){
+    selectedFixedDataset='';selectedBuiltinDataset='';builtinDatasetKind='';selectedFixedDatasetHasKnownKey=false;
+    uploadedFiles={traces:null,pt:null};preDone=false;
+    document.querySelectorAll('input[name="fixed-dataset"],input[name="builtin-dataset2"]').forEach(el=>el.checked=false);
+  }
   selectedAesBits=bits;
   clearAll();
+  document.getElementById('aes-version-mlkem').checked=false;
 
   document.getElementById('aes-group-128').classList.toggle('active',bits===128);
   document.getElementById('aes-group-256').classList.toggle('active',bits===256);
   document.getElementById('aes-version-hint').textContent=
-    '已選擇 AES-'+bits+'；下一步只顯示這個版本的攻擊方法。';
-  document.getElementById('selected-aes-label').textContent='AES-'+bits+'・準備送出至 FastAPI';
+    '已選擇 AES-'+bits+(dataSourceMode==='builtin'?'；請在下方選一個資料集。':'；下一步只會顯示能用的分析方法。');
+  document.getElementById('selected-aes-label').textContent='AES-'+bits;
+  applySourceFieldVisibility(dataSourceMode);filterDatasetSections();updateAttackLibraryForSource();
 
   const keyInput=document.getElementById('known-key-input');
   const expected=bits===256?64:32;
   keyInput.maxLength=expected;
   keyInput.placeholder=bits===256
-    ? 'AES-256：輸入 64 個 hex 字元（32 bytes）'
-    : 'AES-128：輸入 32 個 hex 字元（16 bytes）';
+    ? 'AES-256：輸入 64 個字元（0–9、A–F）'
+    : 'AES-128：輸入 32 個字元（0–9、A–F）';
   const current=keyInput.value.replace(/\s/g,'');
   if(current&&current.length!==expected) keyInput.value='';
   renderTemplateServerStatus();
@@ -1001,10 +1287,18 @@ async function checkApi() {
   document.getElementById('api-url-label').textContent = base.replace(/https?:\/\//,'');
   try {
     const r = await fetch(base+'/health', {signal: AbortSignal.timeout(2500)});
-    if (r.ok) { dot.className='api-dot ok'; badge.textContent='API 連線中'; loadAlgos(base); loadTemplateStatus(base); loadAIStatus(base); }
+    if (r.ok) { dot.className='api-dot ok'; badge.textContent='已連線，可以開始使用'; loadAlgos(base); loadTemplateStatus(base); loadAIStatus(base); loadMLKEMStatus(base); }
     else throw new Error();
-  } catch { dot.className='api-dot err'; badge.textContent='API 離線'; }
+  } catch { dot.className='api-dot err'; badge.textContent='連不上分析伺服器，請確認後端已啟動'; }
 }
+function toggleSettings(e){
+  e?.stopPropagation();
+  document.getElementById('settings-pop').classList.toggle('vis');
+}
+document.addEventListener('click',e=>{
+  const pop=document.getElementById('settings-pop');
+  if(pop&&pop.classList.contains('vis')&&!e.target.closest('.hdr-settings'))pop.classList.remove('vis');
+});
 
 async function loadAlgos(base) {
   try { const r=await fetch(base+'/algorithms'); const d=await r.json(); apiAlgos=d.algorithms||[]; } catch {}
@@ -1021,10 +1315,45 @@ async function loadTemplateStatus(base) {
 function renderTemplateServerStatus(){
   const status=templateServerStatus[selectedAesBits],badge=document.getElementById('tmpl-server-badge');if(!badge)return;
   const name=document.getElementById('tmpl-server-name'),detail=document.getElementById('tmpl-server-detail');
-  if(!selectedAesBits||!status){badge.className='tmpl-server-badge';badge.textContent='檢查中';name.textContent='正在讀取模板狀態…';return;}
+  const buildBtn=document.getElementById('tmpl-build-btn'),buildStatus=document.getElementById('tmpl-build-status');
+  if(!selectedAesBits||!status){badge.className='tmpl-server-badge';badge.textContent='檢查中';name.textContent='正在讀取模板狀態…';if(buildBtn)buildBtn.disabled=true;return;}
   name.textContent='AES-'+selectedAesBits+' 伺服器 profiling template';
   if(status.ready){badge.className='tmpl-server-badge ok';badge.textContent='已就緒';detail.textContent=`由 ${Number(status.profiling_traces).toLocaleString()} 條 profiling traces 建立 · ${status.poi_num} POI · trace length ${Number(status.trace_length).toLocaleString()}`;}
-  else{badge.className='tmpl-server-badge err';badge.textContent='尚未建立';detail.textContent='管理者需先執行 build_template.py 建立與此量測設定相符的模板。';}
+  else{badge.className='tmpl-server-badge err';badge.textContent='尚未建立';detail.textContent='可使用下方快速教學模式，直接由目前資料建立模板。';}
+  if(buildBtn){
+    const keyReady=getKnownKeyHex().length===(selectedAesBits===256?64:32);
+    const filesReady=Boolean(uploadedFiles.traces&&uploadedFiles.pt);
+    buildBtn.disabled=templateBuildBusy||!keyReady||!filesReady;
+    buildBtn.textContent=templateBuildBusy?'正在建立…':(status.ready?'重新建立模板':'使用目前資料一鍵建立');
+    if(!templateBuildBusy&&buildStatus){
+      buildStatus.className='tmpl-build-status';
+      buildStatus.textContent=!filesReady?'缺少Trace或Plaintext':(!keyReady?'需先填入完整已知金鑰':(status.ready?'模板已可使用；需要時可重新建立':'資料已齊全，可以開始建立'));
+    }
+  }
+}
+async function buildTemplateFromCurrentData(){
+  const statusEl=document.getElementById('tmpl-build-status');
+  if(templateBuildBusy||!selectedAesBits||!uploadedFiles.traces||!uploadedFiles.pt)return;
+  const knownKeyHex=getKnownKeyHex(),required=selectedAesBits===256?64:32;
+  if(knownKeyHex.length!==required){statusEl.className='tmpl-build-status err';statusEl.textContent='請先填入完整AES-'+selectedAesBits+'已知金鑰';return;}
+  templateBuildBusy=true;renderTemplateServerStatus();
+  statusEl.className='tmpl-build-status';statusEl.textContent='正在上傳profiling資料並建立統計模板，請勿關閉頁面…';
+  const form=new FormData();
+  form.append('traces_file',uploadedFiles.traces,uploadedFiles.traces.name);
+  form.append('plaintexts_file',uploadedFiles.pt,uploadedFiles.pt.name);
+  form.append('known_key_hex',knownKeyHex);
+  form.append('poi_num','10');
+  try{
+    const response=await fetch(getApi()+'/template/build-fixed/'+selectedAesBits,{method:'POST',body:form});
+    const payload=await response.json();
+    if(!response.ok)throw new Error(Array.isArray(payload.detail)?payload.detail.map(x=>x.msg||JSON.stringify(x)).join('；'):(payload.detail||response.statusText));
+    templateServerStatus[selectedAesBits]=payload.template;
+    statusEl.className='tmpl-build-status ok';statusEl.textContent='✓ AES-'+selectedAesBits+'模板建立完成，可以執行Template Attack';
+  }catch(error){
+    statusEl.className='tmpl-build-status err';statusEl.textContent='⚠ 建立失敗：'+error.message;
+  }finally{
+    templateBuildBusy=false;renderTemplateServerStatus();updatePipeUI();
+  }
 }
 async function loadAIStatus(base){
   try{const r=await fetch(base+'/ai/status');if(!r.ok)throw new Error();aiServiceStatus=await r.json();}
@@ -1048,7 +1377,7 @@ function renderAIStatus(){
 function updateAIConfig(){renderAIStatus();updatePipeUI();}
 // ── Step nav ──────────────────────────────────────────────────────────────────
 function goStep(n) {
-  if (n===2 && (!preDone || !selectedAesBits)) return;
+  if (n===2 && (!preDone || (!selectedAesBits && selectedCryptoFamily!=='mlkem') || (selectedCryptoFamily==='mlkem'&&!selectedMLKEMDataset))) return;
   if (n===3) return;
   ['sec-1','sec-2','sec-3'].forEach((id,i)=>{ document.getElementById(id).style.display=(i+1===n)?'block':'none'; });
   [1,2,3].forEach(i=>{
@@ -1097,6 +1426,7 @@ function removeFile(key) {
     document.getElementById('pre-sec').style.display='none';
     document.getElementById('next1-btn').disabled=true;
   }
+  checkNext1();
 }
 
 // ── NPY shape ─────────────────────────────────────────────────────────────────
@@ -1118,11 +1448,12 @@ function startPre(f) {
   const ext=f.name.split('.').pop().toUpperCase(); traceFmt=ext;
   const rdr=new FileReader();
   rdr.onload=e=>{
-    let N=Math.floor(Math.random()*3000+500), L=Math.floor(Math.random()*3000+2000);
+    // 只有 NPY 能在瀏覽器直接讀出大小；其他格式交給伺服器分析時讀取，不顯示猜測的數字。
+    let N=0, L=0;
     if(ext==='NPY'){const sh=readNpyShape(e.target.result);if(sh&&sh.length>=2){N=sh[0];L=sh[1];}}
     traceN=N; traceL=L; runPreAnim(N,L,ext);
   };
-  rdr.onerror=()=>runPreAnim(traceN||500,traceL||2000,ext);
+  rdr.onerror=()=>{traceN=0;traceL=0;runPreAnim(0,0,ext);};
   rdr.readAsArrayBuffer(f.slice(0,512));
 }
 
@@ -1130,19 +1461,20 @@ function runPreAnim(N,L,fmt) {
   // 真正的 SNR 由下一步的 snr / snr256 API 模組計算。
   setTimeout(()=>{setPs('read','run','讀取中⋯');setBar(15);},200);
   setTimeout(()=>{setPs('read','done',`${(uploadedFiles.traces.size/1024).toFixed(1)} KB`);setBar(33);},1000);
-  setTimeout(()=>{setPs('parse','run','解析維度⋯');setBar(45);},1300);
+  setTimeout(()=>{setPs('parse','run','讀取資料大小⋯');setBar(45);},1300);
   setTimeout(()=>{
-    setPs('parse','done',`${N.toLocaleString()} × ${L.toLocaleString()} pts (${fmt})`);
+    const known=N>0&&L>0;
+    setPs('parse','done',known?`${N.toLocaleString()} 條 × 每條 ${L.toLocaleString()} 個點（${fmt}）`:`${fmt} 檔：條數與點數會在分析時由伺服器讀取`);
     setBar(66);
-    document.getElementById('sN').textContent=N.toLocaleString();
-    document.getElementById('sL').textContent=L.toLocaleString();
+    document.getElementById('sN').textContent=known?N.toLocaleString():'分析時確認';
+    document.getElementById('sL').textContent=known?L.toLocaleString():'分析時確認';
     document.getElementById('sFmt').textContent=fmt;
   },2100);
-  setTimeout(()=>{setPs('snr','run','準備 SNR 分析⋯');setBar(80);},2400);
+  setTimeout(()=>{setPs('snr','run','準備中⋯');setBar(80);},2400);
   setTimeout(()=>{
-    setPs('snr','done','可於下一步執行 SNR-128 / SNR-256');
+    setPs('snr','done','檔案沒問題，可以進入下一步');
     setBar(100);
-    document.getElementById('sSnr').textContent='需執行分析';
+    document.getElementById('sSnr').textContent='下一步可選「SNR 洩漏檢查」';
     document.getElementById('pre-sum').classList.add('vis');
     preDone=true;
     checkNext1();
@@ -1160,7 +1492,17 @@ document.querySelectorAll('.block').forEach(b=>{
       if(e.key==='Enter'||e.key===' '){e.preventDefault();showAttackGuide(b.dataset.id);}
     });
   }
-});const dz=document.getElementById('drop-zone');
+});
+function addBlockToPipe(blk){
+  if(!blk||blk.classList.contains('used'))return;
+  addPipe(blk.dataset.id,blk.dataset.name,blk.dataset.desc,blk.dataset.cat,blk.dataset.icon);
+  blk.classList.add('used');
+}
+document.querySelectorAll('.block .b-add').forEach(btn=>{
+  btn.addEventListener('click',e=>{e.stopPropagation();addBlockToPipe(btn.closest('.block'));});
+  btn.addEventListener('keydown',e=>e.stopPropagation());
+});
+const dz=document.getElementById('drop-zone');
 dz.addEventListener('dragover',e=>{e.preventDefault();dz.classList.add('over');});
 dz.addEventListener('dragleave',e=>{if(!dz.contains(e.relatedTarget))dz.classList.remove('over');});
 dz.addEventListener('drop',e=>{
@@ -1190,6 +1532,9 @@ function removePipe(i){
 function clearAll(){
   pipeItems.forEach(it=>document.querySelector(`.block[data-id="${it.id}"]`)?.classList.remove('used'));
   pipeItems.length=0;
+  selectedAttackGuideId='';
+  const guide=document.getElementById('attack-guide');
+  if(guide)guide.style.display='none';
   renderPipe(); updatePipeUI();
 }
 
@@ -1199,7 +1544,7 @@ function renderPipe(){
   pl.innerHTML='';
   document.getElementById('drop-empty').style.display=pipeItems.length?'none':'flex';
   pipeItems.forEach((it,i)=>{
-    if(i>0){const c=document.createElement('div');c.className='pcon';c.innerHTML='<div class="pcon-line"></div><span class="pcon-lbl" style="margin-left:6px">step '+(i+1)+'</span>';pl.appendChild(c);}
+    if(i>0){const c=document.createElement('div');c.className='pcon';c.innerHTML='<div class="pcon-line"></div><span class="pcon-lbl" style="margin-left:6px">第 '+(i+1)+' 步</span>';pl.appendChild(c);}
     const row=document.createElement('div');
     row.className=`pipe-item b-${it.cat}`;
     row.innerHTML=`<span class="p-step">${i+1}</span><div class="p-icon">${it.icon}</div><div class="p-info"><div class="p-name">${it.name}</div><div class="p-desc">${it.desc} · 預估 ${formatEstimateRange(it.id)}</div></div><button class="p-rm" onclick="removePipe(${i})">✕</button>`;
@@ -1209,6 +1554,7 @@ function renderPipe(){
 
 function updatePipeUI(){
   const attacks=pipeItems.filter(p=>p.cat==='atk'||p.cat==='ai'),hasAtk=attacks.length>0;
+  if(!pipeItems.some(p=>p.id==='_report'))document.getElementById('report-workbench')?.classList.remove('vis');
   const hasTemplate=attacks.some(p=>isTemplateId(p.id));
   const hasAI=attacks.some(p=>isAiAttackId(p.id));
   const tmplStatus=templateServerStatus[selectedAesBits];
@@ -1218,56 +1564,70 @@ function updatePipeUI(){
   const hasSnr128=attacks.some(p=>p.id==='snr'),hasSnr256=attacks.some(p=>p.id==='snr256');
   const requiredKeyLength=hasSnr256?64:32;
   const snrReady=!(hasSnr128||hasSnr256)||getKnownKeyHex().length===requiredKeyLength;
-  document.getElementById('run-btn').disabled=!hasAtk||!tmplReady||!snrReady||!aiReady;
+  document.getElementById('run-btn').disabled=!hasAtk||!tmplReady||!snrReady||!aiReady||(selectedCryptoFamily==='mlkem'&&!selectedMLKEMDataset);
   document.getElementById('clr-btn').disabled=pipeItems.length===0;
   const tp=document.getElementById('tmpl-panel');tp.classList.toggle('vis',hasTemplate);renderTemplateServerStatus();
   const aip=document.getElementById('ai-panel');aip.classList.toggle('vis',hasAI);renderAIStatus();
   const sr=document.getElementById('sum-row');
   if(pipeItems.length){
     sr.style.display='block';document.getElementById('sum-chips').innerHTML=pipeItems.map(p=>`<span class="sum-chip b-${p.cat}">${p.name}</span>`).join('');
-    let hint=hasAtk?'▶ 可以送出至 FastAPI；本次攻擊預估約 '+formatDuration(estimatePipelineSeconds(attacks)):'至少加入一個攻擊方法才能執行';
-    if(hasAtk&&hasTemplate&&!tmplReady)hint=tmplStatus?'⚠ 伺服器尚未建立 AES-'+selectedAesBits+' profiling template':'◌ 正在讀取伺服器模板狀態…';
-    else if(hasAI&&!aiReady)hint=selectedAesBits!==128?'⚠ AI-CNN／AI-MLP 目前只支援 AES-128':'⚠ '+(aiCombo?'AI 缺少：'+(aiCombo.missing||[]).join('、'):'正在讀取 AI 模型狀態…');
-    else if(hasAtk&&!snrReady)hint='⚠ SNR AES-'+selectedAesBits+' 需要 '+requiredKeyLength+' 個 hex 字元的已知金鑰';
+    let hint=hasAtk?'預估約 '+formatDuration(estimatePipelineSeconds(attacks)):'請先加入一個分析方法';
+    if(hasAtk&&hasTemplate&&!tmplReady)hint=tmplStatus?'⚠ 樣板比對需要先建立 AES-'+selectedAesBits+' 耗電樣板（見下方）':'◌ 正在確認耗電樣板狀態…';
+    else if(hasAI&&!aiReady)hint=selectedAesBits!==128?'⚠ AI 模型目前只支援 AES-128':'⚠ '+(aiCombo?'AI 模型缺少檔案：'+(aiCombo.missing||[]).join('、'):'正在確認 AI 模型狀態…');
+    else if(hasAtk&&!snrReady)hint='⚠ SNR 洩漏檢查需要在第一步填入正確金鑰（'+requiredKeyLength+' 個字元）';
     document.getElementById('hint-txt').textContent=hint;
-  }else{sr.style.display='none';document.getElementById('hint-txt').textContent='至少加入一個攻擊方法才能執行';}
+  }else{sr.style.display='none';document.getElementById('hint-txt').textContent='請先加入一個分析方法';}
   refreshAttackCards();
 }
 
 // ── Run ───────────────────────────────────────────────────────────────────────
 async function runPipeline() {
   const atkItems=pipeItems.filter(p=>p.cat==='atk'||p.cat==='ai');
-  if(!atkItems.length||!uploadedFiles.traces||!selectedAesBits)return;
+  if(!atkItems.length||!uploadedFiles.traces||(!selectedAesBits&&selectedCryptoFamily!=='mlkem')||(selectedCryptoFamily==='mlkem'&&!selectedMLKEMDataset))return;
 
+  currentAITutorContext=null;
   attackCancelRequested=false;activeAttackJobId=null;activeAttackController=new AbortController();
   const btn=document.getElementById('run-btn');btn.classList.add('loading');btn.disabled=true;
-  document.getElementById('run-txt').textContent='攻擊執行中…';document.getElementById('api-err').classList.remove('vis');
+  document.getElementById('run-txt').textContent='分析中…';document.getElementById('api-err').classList.remove('vis');
 
   ['sec-1','sec-2','sec-3'].forEach((id,i)=>document.getElementById(id).style.display=i===2?'block':'none');
   [1,2,3].forEach(i=>{document.getElementById('tab-'+i).className='step-tab'+(i===3?' active':' done');document.getElementById('num-'+i).textContent=i<3?'✓':3;});
 
   const evalItems=pipeItems.filter(p=>p.cat==='eval');
   const hasAI=atkItems.some(a=>isAiAttackId(a.id));
-  const allSteps=[{label:hasAI?'讀入伺服器 AI 資料集與模型':'讀入 Trace 檔案',cat:'done'},...atkItems.map(a=>({label:a.name+' — '+a.desc,cat:'wait'})),...evalItems.map(e=>({label:e.name,cat:'wait'}))];
+  const allSteps=[{label:selectedCryptoFamily==='mlkem'?'讀入已錄製 ML-KEM Trace 與公開 NTT 輸入':hasAI?'讀取伺服器上的 AI 資料與模型':'讀取耗電波形資料',cat:'done'},...atkItems.map(a=>({label:a.name+' — '+a.desc,cat:'wait'})),...evalItems.map(e=>({label:e.name,cat:'wait'}))];
   const rsDiv=document.getElementById('r-steps');
   rsDiv.innerHTML=allSteps.map((s,i)=>`<div class="r-step" id="rs-${i}"><div class="rck ${s.cat}" id="rc-${i}">${s.cat==='done'?'✓':i}</div><span>${s.label}</span></div>`).join('');
   document.getElementById('r-dot').style.display='block';document.getElementById('r-dot-static').style.display='none';
-  document.getElementById('r-status').textContent='FastAPI 分析中…';document.getElementById('r-out').style.display='none';startWaitProgress(atkItems);
+  document.getElementById('r-status').textContent='分析中…';document.getElementById('r-out').style.display='none';startWaitProgress(atkItems);
 
-  const t0=Date.now();let lastResult=null;
+  const t0=Date.now(),attackResults=[];
   for(let ai=0;ai<atkItems.length;ai++){
     const attack=atkItems[ai],stepIdx=ai+1,attackStarted=Date.now();
-    activeAttackJobId=createAttackJobId();
+    activeAttackJobId=attack.id==='mlkem_cpa'?null:createAttackJobId();
     document.getElementById('rc-'+stepIdx)?.setAttribute('class','rck act');
-    setWaitPhase(`正在執行 ${attack.name}（第 ${ai+1}／${atkItems.length} 個攻擊）`);
+    setWaitPhase(`正在執行 ${attack.name}（第 ${ai+1}／${atkItems.length} 項）`);
 
     try{
       let r;
-      if(isAiAttackId(attack.id)){
+      if(attack.id==='mlkem_cpa'){
+        const pair=Number(document.getElementById('mlkem-pair').value);
+        if(!Number.isInteger(pair)||pair<0||pair>245)throw new Error('ML-KEM pair 必須在 0–245 之間');
+        r=await fetch(getApi()+'/mlkem/cpa',{
+          method:'POST',headers:{'Content-Type':'application/json'},signal:activeAttackController.signal,
+          body:JSON.stringify({dataset_id:selectedMLKEMDataset,pair_index:pair})
+        });
+      }else if(isAiAttackId(attack.id)){
         const cfg=getAIConfig();
         r=await fetch(getApi()+'/ai/evaluate',{
           method:'POST',headers:{'Content-Type':'application/json'},signal:activeAttackController.signal,
           body:JSON.stringify({model_type:attack.id==='ai_cnn'?'cnn':'mlp',leakage_model:cfg.leakage_model,dataset_type:cfg.dataset_type,job_id:activeAttackJobId})
+        });
+      }else if(dataSourceMode==='builtin'&&builtinDatasetKind==='traditional'&&selectedFixedDataset){
+        const fd=new FormData();fd.append('job_id',activeAttackJobId);
+        const knownKeyHex=getKnownKeyHex();if(knownKeyHex)fd.append('known_key_hex',knownKeyHex);
+        r=await fetch(getApi()+'/attack/'+attack.id+'/fixed-dataset/'+encodeURIComponent(selectedFixedDataset),{
+          method:'POST',body:fd,signal:activeAttackController.signal
         });
       }else{
         const fd=new FormData();fd.append('job_id',activeAttackJobId);
@@ -1279,7 +1639,8 @@ async function runPipeline() {
       const data=await r.json();
       if(attackCancelRequested)throw new DOMException('使用者取消分析','AbortError');
       if(!r.ok){const detail=Array.isArray(data.detail)?data.detail.map(x=>x.msg||JSON.stringify(x)).join('；'):data.detail;throw new Error(detail||r.statusText);}
-      lastResult=data;recordAttackRuntime(attack.id,(Date.now()-attackStarted)/1000);
+      attackResults.push({id:attack.id,name:attack.name,data});
+      recordAttackRuntime(attack.id,(Date.now()-attackStarted)/1000);
       document.getElementById('rc-'+stepIdx)?.setAttribute('class','rck done');
       const el=document.getElementById('rs-'+stepIdx);if(el){const c=el.querySelector('.rck');if(c)c.textContent='✓';}
       refreshAttackCards();activeAttackJobId=null;
@@ -1288,7 +1649,7 @@ async function runPipeline() {
       if(wasCancelled){renderCancelledState();return;}
       finishWaitProgress(false,'分析失敗：'+err.message);
       document.getElementById('r-dot').style.display='none';document.getElementById('r-dot-static').style.display='block';document.getElementById('r-status').textContent='執行失敗';
-      goStep(2);document.getElementById('api-err').textContent='⚠ API 錯誤：'+err.message;document.getElementById('api-err').classList.add('vis');resetRunButton();return;
+      goStep(2);document.getElementById('api-err').textContent='⚠ 分析沒有完成：'+err.message;document.getElementById('api-err').classList.add('vis');resetRunButton();return;
     }
   }
 
@@ -1301,11 +1662,26 @@ async function runPipeline() {
   }
 
   const elapsed=((Date.now()-t0)/1000).toFixed(2);finishWaitProgress(true,'分析完成，以下顯示攻擊結果。');
-  showResult(lastResult,atkItems,elapsed);resetRunButton();
+  showResult(attackResults,atkItems,elapsed);resetRunButton();
 }
 
 // ── Show result ───────────────────────────────────────────────────────────────
-function showResult(data, atkItems, elapsed) {
+function showResult(results, atkItems, elapsed) {
+  const mlkemEntry=Array.isArray(results)?results.find(entry=>entry.id==='mlkem_cpa'):null;
+  if(mlkemEntry){showMLKEMResult(mlkemEntry.data,elapsed);return;}
+  document.getElementById('mlkem-result-detail').classList.remove('vis');
+  document.getElementById('result-howto').style.display='';
+  document.getElementById('recovery-label').textContent='推出的金鑰（每一格是一個位元組）';
+  document.getElementById('verification-label').textContent='和正確金鑰比對的結果';
+  const resultEntries=Array.isArray(results)?results:[{id:results?.algorithm||'',data:results}];
+  const primaryEntry=
+    resultEntries.find(entry=>entry.data?.ai_attack===true||String(entry.data?.key_hex||'').length>0)||
+    resultEntries.find(entry=>attackBaseId(entry.id)!=='snr')||
+    resultEntries[0];
+  const snrEntry=resultEntries.find(entry=>attackBaseId(entry.id)==='snr')||null;
+  const data=primaryEntry?.data||{};
+  const snrData=snrEntry?.data||null;
+  const primaryIsSnr=attackBaseId(primaryEntry?.id)==='snr';
   document.getElementById('r-dot').style.display='none';
   document.getElementById('r-dot-static').style.display='block';
   document.getElementById('r-status').textContent='分析完成';
@@ -1323,19 +1699,88 @@ function showResult(data, atkItems, elapsed) {
   const isKeyResult=isAI||byteArr.length===16||byteArr.length===32;
   const aesBits=selectedAesBits||(atkItems.some(a=>isAes256Id(a.id))?256:128);
   const aesLabel='AES-'+aesBits;
+  currentAITutorContext={
+    image_base64:'',
+    image_mime_type:'image/png',
+    image_label:'',
+    report_context:{
+      attack_type:atkItems.map(a=>a.id.toUpperCase()).join(' + '),
+      dataset:data.dataset_type||selectedFixedDataset||(dataSourceMode==='upload'?'使用者上傳資料':'內建資料'),
+      aes_version:aesLabel,
+      key_recovered:keyHex||null,
+      num_traces:Number(data.num_traces||traceN||0),
+      trace_length:Number(data.trace_length||traceL||0),
+      elapsed_seconds:Number(elapsed||0),
+      final_correct_key_rank:data.final_correct_key_rank??null,
+      note:data.note||null
+    }
+  };
 
   document.getElementById('r-key').textContent=isAI
-    ? `AES-128 Byte ${aiByteIndex} 猜測：${keyHex||'—'}；資料集正確值：${backendAIKey===null?'未提供':data.correct_key_byte_hex.toUpperCase()}；最終 rank：${data.final_correct_key_rank??'—'}`
+    ? `AES-128 第 ${aiByteIndex} 個位元組 猜測值：${keyHex||'—'}；正確答案：${backendAIKey===null?'未提供':data.correct_key_byte_hex.toUpperCase()}；正確答案平均排名 ${data.final_correct_key_rank??'—'}（0 代表排第一）`
     : (keyHex||(data.note||'此分析不回復金鑰'));
 
-  const kbRow=document.getElementById('r-key-bytes');kbRow.innerHTML='';
-  byteArr.forEach((hex,i)=>{
-    const d=document.createElement('div');d.className='kb';d.textContent=hex;
+  // Per-byte plots are available for traditional attacks. Support both API shapes.
+  const plotsByByte=!isAI&&!primaryIsSnr?(data.plots_by_byte||data.extra?.plots_by_byte||[]):[];
+  const snrPlotsByByte=snrData?(snrData.plots_by_byte||snrData.extra?.plots_by_byte||[]):[];
+  const bytePlotPanel=document.getElementById('byte-plot-panel');
+  const bytePlotTitle=document.getElementById('byte-plot-title');
+  const bytePlotImg=document.getElementById('byte-plot-img');
+  const byteAttackPlotWrap=document.getElementById('byte-attack-plot-wrap');
+  const byteAttackPlotTitle=document.getElementById('byte-attack-plot-title');
+  const byteSnrPlotWrap=document.getElementById('byte-snr-plot-wrap');
+  const byteSnrPlotImg=document.getElementById('byte-snr-plot-img');
+  bytePlotPanel.classList.remove('vis');
+  bytePlotImg.removeAttribute('src');
+  byteSnrPlotImg.removeAttribute('src');
+  byteAttackPlotWrap.style.display='none';
+  byteSnrPlotWrap.style.display='none';
+
+  const kbRow=document.getElementById('r-key-bytes');kbRow.classList.remove('mlkem-pair-values');kbRow.innerHTML='';
+  const displayBytes=byteArr.length
+    ? byteArr.map((hex,i)=>({index:i,label:hex,keyGuess:hex}))
+    : snrPlotsByByte.map(item=>({index:Number(item.byte_index),label:'B'+String(item.byte_index).padStart(2,'0'),keyGuess:null}));
+  displayBytes.forEach(({index:i,label,keyGuess})=>{
+    const hex=keyGuess;
+    const d=document.createElement('div');d.className='kb';d.textContent=label;
     if(comparable){const expected=isAI?expectedAIByte:knownKey[i];d.classList.add(parseInt(hex,16)===expected?'correct':'wrong');}
     else d.classList.add('found');
     if(isAI)d.title=`AES-128 Byte ${aiByteIndex}`;
+    const plotData=plotsByByte.find(item=>Number(item.byte_index)===i);
+    const snrPlotData=snrPlotsByByte.find(item=>Number(item.byte_index)===i);
+    if(plotData?.plot_base64||snrPlotData?.plot_base64){
+      d.style.cursor='pointer';d.dataset.bytePlot='true';d.title=`第 ${i} 個位元組，點一下看分析圖`;
+      d.addEventListener('click',()=>{
+        kbRow.querySelectorAll('.kb').forEach(item=>item.classList.remove('byte-selected'));
+        d.classList.add('byte-selected');
+        bytePlotTitle.textContent=hex?`第 ${i} 個位元組（Byte ${i}）— 猜測值 ${hex}`:`第 ${i} 個位元組（Byte ${i}）— 洩漏位置分析`;
+        if(plotData?.plot_base64){
+          bytePlotImg.src='data:image/png;base64,'+plotData.plot_base64;
+          byteAttackPlotTitle.textContent=`${String(primaryEntry?.id||data.algorithm||'Attack').toUpperCase()} 攻擊分析圖`;
+          byteAttackPlotWrap.style.display='block';
+        }else{
+          bytePlotImg.removeAttribute('src');
+          byteAttackPlotWrap.style.display='none';
+        }
+        if(snrPlotData?.plot_base64){
+          byteSnrPlotImg.src='data:image/png;base64,'+snrPlotData.plot_base64;
+          byteSnrPlotWrap.style.display='block';
+        }else{
+          byteSnrPlotImg.removeAttribute('src');
+          byteSnrPlotWrap.style.display='none';
+        }
+        bytePlotPanel.classList.add('vis');
+        const aiPlot=plotData?.plot_base64||snrPlotData?.plot_base64;
+        setAITutorVisual(
+          aiPlot,
+          `${atkItems.map(a=>a.id.toUpperCase()).join(' + ')} ${aesLabel} Byte ${i} 分析圖`,
+          {selected_byte:i,key_guess:hex||null,snr:snrPlotData?.max_snr??null}
+        );
+      });
+    }
     kbRow.appendChild(d);
   });
+  if(plotsByByte.length||snrPlotsByByte.length)kbRow.querySelector('.kb[data-byte-plot]')?.click();
 
   const scoreBar=document.getElementById('r-score-bar');
   if(comparable){
@@ -1346,11 +1791,11 @@ function showResult(data, atkItems, elapsed) {
         ? `✓ AI 猜中 AES-128 第 <strong>${aiByteIndex}</strong> 個 key byte；正確金鑰最終排名 <strong>${data.final_correct_key_rank}</strong>`
         : `AI 未猜中 AES-128 Byte ${aiByteIndex}；正確值最終排名 <strong>${data.final_correct_key_rank}</strong>`;
     }else if(correct===comparisonTotal){
-      scoreBar.className='score-bar vis perfect';scoreBar.innerHTML='🎉 完美攻擊！猜中全部 <strong>'+correct+'/'+comparisonTotal+'</strong> 個 byte';
+      scoreBar.className='score-bar vis perfect';scoreBar.innerHTML='🎉 全部猜中！<strong>'+correct+'/'+comparisonTotal+'</strong> 個位元組都和正確金鑰相同';
     }else if(correct>=Math.ceil(comparisonTotal/2)){
-      scoreBar.className='score-bar vis partial';scoreBar.innerHTML='猜中 <strong>'+correct+'/'+comparisonTotal+'</strong> 個 byte　— 失誤 '+(comparisonTotal-correct)+' 個';
+      scoreBar.className='score-bar vis partial';scoreBar.innerHTML='猜中 <strong>'+correct+'/'+comparisonTotal+'</strong> 個位元組　— 猜錯 '+(comparisonTotal-correct)+' 個';
     }else{
-      scoreBar.className='score-bar vis zero';scoreBar.innerHTML='猜中 <strong>'+correct+'/'+comparisonTotal+'</strong> 個 byte　— 建議增加 trace 數量或換演算法';
+      scoreBar.className='score-bar vis zero';scoreBar.innerHTML='猜中 <strong>'+correct+'/'+comparisonTotal+'</strong> 個位元組　— 建議選條數更多的資料，或換一種分析方法';
     }
   }else scoreBar.className='score-bar';
 
@@ -1363,10 +1808,16 @@ function showResult(data, atkItems, elapsed) {
   document.getElementById('conf-fg').style.width=(accuracy===null?0:accuracy)+'%';
   document.getElementById('conf-lbl').textContent=isAI
     ? `AI 僅驗證 AES-128 Byte ${aiByteIndex}：${accuracy===null?'無正確值可比對':accuracy+'%'}`
-    : (accuracy!==null?'已知金鑰比對準確率：'+accuracy+'%':(isKeyResult?'未提供相同長度的已知金鑰，無法計算準確率':'SNR 洩漏點分析完成'));
+    : (accuracy!==null?'猜對比例：'+accuracy+'%':(isKeyResult?'未填正確金鑰，無法對答案':'洩漏檢查完成'));
 
   const plot=document.getElementById('r-plot');
-  if(data.plot_base64){document.getElementById('r-img').src='data:image/png;base64,'+data.plot_base64;plot.style.display='block';}
+  if(data.plot_base64&&(isAI||(!plotsByByte.length&&!snrPlotsByByte.length))){
+    document.getElementById('r-img').src='data:image/png;base64,'+data.plot_base64;plot.style.display='block';
+    setAITutorVisual(
+      data.plot_base64,
+      `${atkItems.map(a=>a.id.toUpperCase()).join(' + ')} ${aesLabel} 攻擊分析結果圖`
+    );
+  }
   else plot.style.display='none';
 
   const hasTemplate=atkItems.some(a=>isTemplateId(a.id));
@@ -1383,26 +1834,76 @@ function showResult(data, atkItems, elapsed) {
   const restoreStatus=isAI
     ? `只評估 AES-128 Byte ${aiByteIndex}：${verified?'猜測正確':'猜測未命中'}；不代表完整 16-byte 金鑰已還原`
     : (isKeyResult?(comparable?(verified?'成功':'部分／失敗'):'已產生猜測，未提供正確長度金鑰驗證'):'不適用（SNR 不回復金鑰）');
-  currentReportPayload={
-    product_name:document.getElementById('report-product-name')?.value.trim()||'',
-    target_name:document.getElementById('report-target-name')?.value.trim()||'',
-    test_organization:document.getElementById('report-org-name')?.value.trim()||'',
-    aes_version:aesLabel,
-    attack_methods:atkItems.map(a=>a.id.toUpperCase()),
-    num_traces:Number(data.num_traces||traceN||0),
-    trace_length:Number(data.trace_length||traceL||0),
-    elapsed_seconds:Number(elapsed||0),
-    key_hex:keyHex||null,
-    key_restore_status:restoreStatus,
-    key_verified:verified,
-    known_key_correct_bytes:comparable?correct:null,
-    known_key_total_bytes:comparable?comparisonTotal:null,
-    risk_level:risk
-  };
-  currentReportPlot=data.plot_base64||'';currentSecurityReport=null;
-  const reportEl=document.getElementById('security-report');if(reportEl)reportEl.innerHTML='<div class="report-empty">正在建立符合標準條文映射的報告…</div>';
-  document.getElementById('report-generate-btn').disabled=false;document.getElementById('report-download-btn').disabled=true;
-  document.getElementById('r-out').style.display='block';generateAiReport();
+  const wantsReport=pipeItems.some(p=>p.id==='_report');
+  const reportWorkbench=document.getElementById('report-workbench');
+  reportWorkbench?.classList.toggle('vis',wantsReport);
+  if(wantsReport){
+    currentReportPayload={
+      product_name:document.getElementById('report-product-name')?.value.trim()||'',
+      target_name:document.getElementById('report-target-name')?.value.trim()||'',
+      test_organization:document.getElementById('report-org-name')?.value.trim()||'',
+      aes_version:aesLabel,
+      attack_methods:atkItems.map(a=>a.id.toUpperCase()),
+      num_traces:Number(data.num_traces||traceN||0),
+      trace_length:Number(data.trace_length||traceL||0),
+      elapsed_seconds:Number(elapsed||0),
+      key_hex:keyHex||null,
+      key_restore_status:restoreStatus,
+      key_verified:verified,
+      known_key_correct_bytes:comparable?correct:null,
+      known_key_total_bytes:comparable?comparisonTotal:null,
+      risk_level:risk
+    };
+    currentReportPlot=data.plot_base64||'';currentSecurityReport=null;
+    const reportEl=document.getElementById('security-report');if(reportEl)reportEl.innerHTML='<div class="report-empty">正在建立符合標準條文映射的報告…</div>';
+    document.getElementById('report-generate-btn').disabled=false;document.getElementById('report-download-btn').disabled=true;
+    generateAiReport();
+  }else{
+    currentReportPayload=null;currentSecurityReport=null;currentReportPlot='';
+  }
+  document.getElementById('r-out').style.display='block';
+}
+
+function showMLKEMResult(data,elapsed){
+  document.getElementById('r-dot').style.display='none';
+  document.getElementById('r-dot-static').style.display='block';
+  document.getElementById('r-status').textContent='ML-KEM-768 CPA 分析完成';
+  document.getElementById('recovery-label').textContent='推出的私鑰數字（專業上稱為 NTT 係數）';
+  document.getElementById('result-howto').style.display='none';
+  document.getElementById('byte-plot-panel').classList.remove('vis');
+  document.getElementById('r-advice').style.display='none';
+  document.getElementById('report-workbench').classList.remove('vis');
+  currentReportPayload=null;currentSecurityReport=null;currentReportPlot='';
+  const rows=Array.isArray(data.rows)?data.rows:[];
+  const count=rows.filter(row=>row.verified===true).length;
+  const keyRow=document.getElementById('r-key-bytes');keyRow.classList.add('mlkem-pair-values');keyRow.replaceChildren();
+  const detail=document.getElementById('mlkem-result-detail');detail.replaceChildren();detail.classList.add('vis');
+  for(const row of rows){
+    const key=document.createElement('div');key.className='kb '+(row.verified?'correct':'wrong');
+    key.textContent=`a[${row.global_coefficient}]=${row.guess_mod_q}`;
+    key.title=`真值 ${row.truth_mod_q}，排名 ${row.truth_rank}`;keyRow.appendChild(key);
+    const info=document.createElement('p');
+    info.textContent=`a[${row.global_coefficient}]：CPA ${row.guess_mod_q}；實驗真值 ${row.truth_mod_q}；真值排名 ${row.truth_rank}；最大 |r| ${Number(row.correlation).toFixed(4)}；Trigger 後 sample ${row.peak_sample}；${row.model}`;
+    detail.appendChild(info);
+  }
+  const scope=document.createElement('p');scope.textContent=data.scope_note||'這只是部分秘密 NTT 係數的驗證，不代表完整私鑰恢復。';detail.appendChild(scope);
+  const score=document.getElementById('r-score-bar');score.className='score-bar vis '+(count===2?'perfect':'partial');
+  score.textContent=`pair ${data.pair_index}：${count}/2 個係數通過實驗真值驗證。`;
+  document.getElementById('r-key').textContent=`${data.dataset_label}・pair ${data.pair_index}・ADC_OFFSET ${data.adc_offset}`;
+  document.getElementById('rN').textContent=Number(data.trace_count||300).toLocaleString();
+  document.getElementById('rL').textContent=Number(data.samples_per_trace||24400).toLocaleString();
+  document.getElementById('rAlgo').textContent='ML-KEM-768 CPA';
+  document.getElementById('rTime').textContent=elapsed+'s';
+  document.getElementById('conf-fg').style.width=(count/2*100)+'%';
+  document.getElementById('verification-label').textContent='秘密 NTT 係數真值驗證';
+  document.getElementById('conf-lbl').textContent=`此 pair 的真值驗證：${count}/2；目前已驗證範圍為 492/768 個秘密 NTT 係數。`;
+  const plot=document.getElementById('r-plot');plot.style.display=data.plot_base64?'block':'none';
+  if(data.plot_base64)document.getElementById('r-img').src='data:image/png;base64,'+data.plot_base64;
+  currentAITutorContext={report_context:{attack_type:'ML-KEM-768 CPA',dataset:data.dataset_label,
+    algorithm:'ML-KEM-768',pair_index:data.pair_index,verified_coefficients:count,
+    num_traces:data.trace_count,trace_length:data.samples_per_trace,note:data.scope_note}};
+  if(data.plot_base64)setAITutorVisual(data.plot_base64,`ML-KEM-768 pair ${data.pair_index} CPA 相關圖`);
+  document.getElementById('r-out').style.display='block';
 }
 
 // ── AI security report ───────────────────────────────────────────────────────
@@ -1512,7 +2013,39 @@ async function downloadReportPdf(){
 }
 // ── Next button validation (both files required) ──────────────────────────────
 function checkNext1(){
-  document.getElementById('next1-btn').disabled = !(preDone && uploadedFiles.pt && selectedAesBits);
+  const pair=Number(document.getElementById('mlkem-pair').value);
+  const mlkemReady=selectedCryptoFamily==='mlkem'&&dataSourceMode==='builtin'&&selectedMLKEMDataset&&mlkemDatasetReady[selectedMLKEMDataset]&&Number.isInteger(pair)&&pair>=0&&pair<=245;
+  document.getElementById('next1-btn').disabled = !(mlkemReady||(preDone&&uploadedFiles.pt&&selectedAesBits));
+  if(mlkemReady)document.getElementById('selected-aes-label').textContent=`ML-KEM-768・第 ${pair} 組`;
+  updateNext1Hint();
+}
+function next1MissingReason(){
+  const pair=Number(document.getElementById('mlkem-pair').value);
+  if(!dataSourceMode)return '請先選擇資料來源';
+  if(dataSourceMode==='builtin'){
+    if(!selectedCryptoFamily)return '請選擇加密方式';
+    if(selectedCryptoFamily==='mlkem'){
+      if(!selectedMLKEMDataset)return '請選擇一組錄製資料';
+      if(!mlkemDatasetReady[selectedMLKEMDataset])return '這組 ML-KEM 資料目前無法使用，請換另一組';
+      if(!Number.isInteger(pair)||pair<0||pair>245)return '「要分析第幾組」請填 0 到 245 之間的整數';
+      return '';
+    }
+    if(!preDone)return '請選擇一個資料集';
+    return '';
+  }
+  if(selectedCryptoFamily==='mlkem')return 'ML-KEM 不支援上傳檔案，請改選「使用現有資料集」';
+  if(!selectedAesBits)return '請選擇加密方式';
+  if(!uploadedFiles.traces)return '請上傳波形檔（Trace）';
+  if(!uploadedFiles.pt)return '請上傳明文檔（Plaintext）';
+  if(!preDone)return '正在檢查檔案，請稍候…';
+  return '';
+}
+function updateNext1Hint(){
+  const el=document.getElementById('next1-hint');if(!el)return;
+  const reason=next1MissingReason();
+  const ready=!reason&&!document.getElementById('next1-btn').disabled;
+  el.className='next1-hint'+(ready?' ok':'');
+  el.textContent=ready?'✓ 可以進入下一步':(reason||'請完成上方的選擇');
 }
 
 // ── Known key helpers ─────────────────────────────────────────────────────────
@@ -1530,26 +2063,26 @@ function validateKeyInput(inp) {
   if(!hint) return;
   if(!selectedAesBits){
     inp.style.borderColor='';
-    hint.textContent='請先在上方選擇 AES-128 或 AES-256';
+    hint.textContent='';
     hint.style.color='';
   }else{
     const expected=selectedAesBits===256?64:32;
     const byteCount=selectedAesBits===256?32:16;
     if(val.length===0){
       inp.style.borderColor='';
-      hint.textContent='AES-'+selectedAesBits+' 需要 '+expected+' hex；僅 SNR-256 必填，其餘為選填比對';
+      hint.textContent='';
       hint.style.color='';
     }else if(!/^[0-9a-fA-F]+$/.test(val)){
       inp.style.borderColor='#ef4444';
-      hint.textContent='⚠ 只能輸入 0-9、a-f';
+      hint.textContent='⚠ 只能輸入數字 0–9 與英文字母 A–F';
       hint.style.color='#ef4444';
     }else if(val.length!==expected){
       inp.style.borderColor='#e08010';
-      hint.textContent='目前 '+val.length+'/'+expected+' 個字元';
+      hint.textContent='目前輸入 '+val.length+' 個字元，需要 '+expected+' 個';
       hint.style.color='var(--eval-accent)';
     }else{
       inp.style.borderColor='#16a34a';
-      hint.textContent='✓ AES-'+selectedAesBits+'（'+byteCount+' bytes）格式正確';
+      hint.textContent='✓ 格式正確（AES-'+selectedAesBits+'，共 '+byteCount+' 個位元組）';
       hint.style.color='#16a34a';
     }
   }
@@ -1568,39 +2101,45 @@ if(window.location.protocol==='http:'||window.location.protocol==='https:'){
 }
 function applySourceFieldVisibility(mode){
   const upload=mode==='upload';
+  const fixedTraditional=mode==='builtin'&&builtinDatasetKind==='traditional';
   const row=document.querySelector('#upload-source-content > .upload-row');
   const key=document.querySelector('#upload-source-content > .key-input-wrap');
-  if(row)row.style.display=upload?'grid':'none';
-  if(key)key.style.display=upload?'block':'none';
-  document.getElementById('aes-select-wrap').style.display=upload?'block':'none';
+  if(row)row.style.display=upload&&selectedCryptoFamily!=='mlkem'?'grid':'none';
+  if(key)key.style.display=selectedCryptoFamily==='mlkem'?'none':(upload||fixedTraditional)?'block':'none';
+  document.getElementById('aes-select-wrap').style.display=mode==='upload'||mode==='builtin'?'block':'none';
+  document.getElementById('mlkem-upload-note').style.display=upload&&selectedCryptoFamily==='mlkem'?'block':'none';
   if(!upload)document.getElementById('pre-sec').style.display='none';
-  if(mode==='builtin'&&!selectedBuiltinDataset)document.getElementById('next1-btn').disabled=true;
+  if(mode==='builtin'&&!selectedBuiltinDataset&&!selectedFixedDataset&&!selectedMLKEMDataset)document.getElementById('next1-btn').disabled=true;
+  if(typeof updateNext1Hint==='function')updateNext1Hint();
 }
+document.getElementById('upload-source-content').insertBefore(
+  document.getElementById('aes-select-wrap'),document.getElementById('builtin-source-content-2'));
 document.getElementById('source2-upload').addEventListener('change',()=>applySourceFieldVisibility('upload'));
 document.getElementById('source2-builtin').addEventListener('change',()=>applySourceFieldVisibility('builtin'));
 applySourceFieldVisibility('');
-document.querySelector('#tab-1 .step-label').textContent='\u9078\u64c7\u8cc7\u6599';
-document.querySelector('#sec-1 .panel-title').textContent='\u9078\u64c7\u5206\u6790\u8cc7\u6599\u4f86\u6e90';
+filterDatasetSections();
+document.querySelector('#tab-1 .step-label').textContent='選擇資料';
+document.querySelector('#sec-1 .panel-title').textContent='選擇分析資料來源';
 document.getElementById('ai-dataset-select').disabled=true;
 updateAttackLibraryForSource();
 var uploadSourceCard=document.querySelector('label[for="source2-upload"]');
 var builtinSourceCard=document.querySelector('label[for="source2-builtin"]');
-uploadSourceCard.querySelector('.source-title').textContent='\u81ea\u884c\u4e0a\u50b3\u8cc7\u6599\u96c6';
-uploadSourceCard.querySelector('.source-desc').textContent='\u4e0a\u50b3 Trace \u8207 Plaintext\uff0c\u5e73\u53f0\u6703\u986f\u793a\u53ef\u642d\u914d\u7684\u5206\u6790\u65b9\u6cd5\u3002';
-builtinSourceCard.querySelector('.source-title').textContent='\u4f7f\u7528\u73fe\u6709\u8cc7\u6599\u96c6';
-builtinSourceCard.querySelector('.source-desc').textContent='\u4e0d\u5fc5\u4e0a\u50b3\u6a94\u6848\uff0c\u76f4\u63a5\u9078\u64c7\u4f3a\u670d\u5668\u5df2\u6e96\u5099\u7684 ASCAD \u6216 CHES \u6559\u5b78\u8cc7\u6599\u96c6\u3002';
+uploadSourceCard.querySelector('.source-title').textContent='上傳自己的資料';
+uploadSourceCard.querySelector('.source-desc').textContent='上傳自己錄的波形與明文檔。';
+builtinSourceCard.querySelector('.source-title').textContent='使用現有資料集（新手推薦）';
+builtinSourceCard.querySelector('.source-desc').textContent='不用準備檔案，直接開始。';
 builtinSourceCard.querySelector('.source-icon').textContent='DB';
-builtinSourceCard.querySelector('.source-tag').textContent='AES-128 \u73fe\u6709\u8cc7\u6599';
-document.querySelector('#builtin-source-content-2 .builtin-head').textContent='\u9078\u64c7\u73fe\u6709\u8cc7\u6599\u96c6';
-document.querySelector('#builtin-source-content-2 .builtin-note').textContent='\u4e0b\u4e00\u6b65\u6703\u4f9d\u9019\u88e1\u9078\u64c7\u7684\u8cc7\u6599\u96c6\uff0c\u53ea\u986f\u793a\u76ee\u524d\u53ef\u57f7\u884c\u7684\u5206\u6790\u65b9\u6cd5\u3002';
-document.querySelector('#builtin-source-content-2 .source-route-note').textContent='\u5206\u6790\u6703\u76f4\u63a5\u8b80\u53d6\u4f3a\u670d\u5668\u5167\u7684\u73fe\u6709\u8cc7\u6599\u96c6\uff0c\u4e0d\u6703\u4f7f\u7528\u700f\u89bd\u5668\u4e2d\u7684\u4e0a\u50b3\u6a94\u6848\u3002';
+builtinSourceCard.querySelector('.source-tag').textContent='支援 AES-128 / AES-256 / ML-KEM-768';
+document.querySelector('#builtin-source-content-2 .builtin-head').textContent='選擇一個資料集';
+document.querySelector('#builtin-source-content-2 .builtin-note').textContent='條數越多越容易推出金鑰，但也越慢。';
+document.querySelector('#builtin-source-content-2 .builtin-dataset-box > .source-route-note').style.display='none';
 document.getElementById('source2-upload').addEventListener('change',()=>{
-  document.getElementById('selected-aes-label').parentElement.childNodes[0].nodeValue='\u81ea\u884c\u4e0a\u50b3\u8cc7\u6599\u96c6\u30fb';
+  document.getElementById('selected-aes-label').parentElement.childNodes[0].nodeValue='自己上傳的資料・';
 });
 document.getElementById('source2-builtin').addEventListener('change',()=>{
   var statusLabel=document.getElementById('selected-aes-label');
-  statusLabel.parentElement.childNodes[0].nodeValue='\u73fe\u6709\u8cc7\u6599\u96c6\u30fb';
-  statusLabel.textContent='AES-128\u30fb\u4f3a\u670d\u5668\u8cc7\u6599';
+  statusLabel.parentElement.childNodes[0].nodeValue='現有資料集・';
+  statusLabel.textContent='請選擇下方資料集';
 });
 var reportBlock=document.querySelector('.block[data-id="_report"]');
 var evaluationGroup=reportBlock.closest('.cat-group');
@@ -1609,14 +2148,15 @@ var snr256Block=document.querySelector('.block[data-id="snr256"]');
 evaluationGroup.insertBefore(snr128Block,reportBlock);
 evaluationGroup.insertBefore(snr256Block,reportBlock);
 function syncEvaluationSNR(){
-  var upload=dataSourceMode==='upload';
-  snr128Block.style.display=upload&&selectedAesBits===128?'':'none';
-  snr256Block.style.display=upload&&selectedAesBits===256?'':'none';
+  var traditional=dataSourceMode==='upload'||(dataSourceMode==='builtin'&&builtinDatasetKind==='traditional');
+  snr128Block.style.display=traditional&&selectedAesBits===128?'':'none';
+  snr256Block.style.display=traditional&&selectedAesBits===256?'':'none';
 }
 document.getElementById('source2-upload').addEventListener('change',syncEvaluationSNR);
 document.getElementById('source2-builtin').addEventListener('change',syncEvaluationSNR);
 document.getElementById('aes-version-128').addEventListener('change',syncEvaluationSNR);
 document.getElementById('aes-version-256').addEventListener('change',syncEvaluationSNR);
+document.getElementById('aes-version-mlkem').addEventListener('change',syncEvaluationSNR);
 syncEvaluationSNR();
 snr128Block.classList.add('b-eval');
 snr256Block.classList.add('b-eval');
@@ -1642,13 +2182,13 @@ updatePipeUI=function(){
   var snrOutputs=pipeItems.filter(p=>p.cat==='eval'&&(p.id==='snr'||p.id==='snr256'));
   if(!snrOutputs.length)return;
   var required=snrOutputs.some(p=>p.id==='snr256')?64:32;
-  var ready=getKnownKeyHex().length===required;
+  var ready=getKnownKeyHex().length===required||selectedFixedDatasetHasKnownKey;
   if(!ready){
     document.getElementById('run-btn').disabled=true;
-    document.getElementById('hint-txt').textContent='\u26a0 SNR AES-'+selectedAesBits+' \u9700\u8981 '+required+' \u500b hex \u5b57\u5143\u7684\u5df2\u77e5\u91d1\u9470';
+    document.getElementById('hint-txt').textContent='⚠ SNR 洩漏檢查需要在第一步填入正確金鑰（'+required+' 個字元）';
   }else{
     var primary=pipeItems.filter(p=>p.cat==='atk'||p.cat==='ai');
-    document.getElementById('hint-txt').textContent='\u25b6 \u53ef\u4ee5\u9001\u51fa\u81f3 FastAPI\uff1b\u5c07\u57f7\u884c 1 \u500b\u4e3b\u8981\u5206\u6790\u8207 '+snrOutputs.length+' \u500b\u8a55\u4f30\u8f38\u51fa';
+    document.getElementById('hint-txt').textContent=primary.length?'可以開始分析':'請再加入一個主要分析方法（例如 CPA）；SNR 洩漏檢查是附加項目';
   }
 };
 var coreRunPipeline=runPipeline;
@@ -1667,8 +2207,19 @@ runPipeline=async function(){
   }
 };
 refreshAttackCards();
+updateNext1Hint();
 checkApi();
 setInterval(checkApi, 8081);
+</script>
+<script src="/static/ai-tutor.js?v=20261015ux3"></script>
+<script>
+AITutor.init({
+  apiEndpoint:'/api/ai/chat',
+  platformName:'旁通道攻擊分析平臺',
+  language:'zh-TW',
+  draggable:true,
+  autoOpen:false
+});
 </script>
 </body>
 </html>

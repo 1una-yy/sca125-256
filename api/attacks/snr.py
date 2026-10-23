@@ -136,6 +136,7 @@ class SNRAnalysis(BaseAttack):
             extra = {
                 "leak_points": leak_points,
                 "max_snr": max_snr,
+                "plots_by_byte": self.generate_snr_byte_plots(snr, leak_points),
                 "used_known_key": used_known_key,
                 "note": "SNR 為洩漏點定位工具，非金鑰恢復攻擊，不回傳金鑰猜測。",
             },

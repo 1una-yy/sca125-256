@@ -32,3 +32,14 @@ api/ai_assets/models/
 # Local design and playground artifacts
 diagrams.html
 playground.html
+
+# Keep the prebuilt AES-256 template so Template Attack works after clone
+!api/templates/aes256_default.npz
+
+# Local backups, build scratch and reports (not needed to run the platform)
+*.bak
+_backup_before_ux/
+.codex-finalizer/
+.codex-ppt-build/
+reports/
+~$*

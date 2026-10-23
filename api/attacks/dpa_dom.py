@@ -82,6 +82,7 @@ class DPADoMAttack(BaseAttack):
             num_traces   = num_traces,
             trace_length = trace_length,
             plot_base64  = self.plot_to_base64(fig),
+            extra        = {"plots_by_byte": self.generate_byte_plots(r)},
         )
 
 

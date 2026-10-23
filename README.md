@@ -1,6 +1,6 @@
 # AES-128 / AES-256 Side-Channel Attack Platform
 
-以 FastAPI 與單頁網頁建置的晶片旁通道攻擊教學平台。支援 AES-128／AES-256 分析、攻擊進度與取消、AI 安全報告預覽，以及 PDF 下載。
+以 FastAPI 與網頁建置的晶片旁通道攻擊教學平台。支援 AES-128／AES-256 分析、ML-KEM-768 固定錄製資料的傳統 CPA、攻擊進度與取消、AI 安全報告預覽，以及 PDF 下載。
 
 ## 主要功能
 
@@ -46,6 +46,7 @@
 常用網址：
 
 - 操作頁面：http://localhost:8000/platform
+- ML-KEM-768 CPA：在同一個操作頁面選擇「ML-KEM-768」
 - API 健康狀態：http://localhost:8000/health
 - API 文件：http://localhost:8000/docs
 - 演算法清單：http://localhost:8000/algorithms
@@ -68,7 +69,7 @@ http://localhost:8000/platform
 
 也可以直接開啟根目錄的 `platform.html`；此時 FastAPI 後端仍必須保持執行。
 
-## 設定 Gemini AI 報告
+## 設定 Gemini AI 報告與教學小助手
 
 1. 複製範例設定：
 
@@ -85,9 +86,25 @@ http://localhost:8000/platform
 
 3. 重新啟動 FastAPI。
 
-請勿把 `api/.env`、`api.env` 或真實 API key 提交至 Git。系統未設定 Gemini key 時，仍會產生固定格式的安全報告；量測事實、風險狀態與標準條文映射不會交由 AI 任意修改。
+請勿把 `api/.env`、`api.env` 或真實 API key 提交至 Git。同一組設定同時供 AI 安全報告與頁面右下角的 AI 小助手使用；未設定 Gemini key 時，小助手會顯示設定提示，安全報告仍會產生固定格式的內容。量測事實、風險狀態與標準條文映射不會交由 AI 任意修改。
 
 ## 使用資料格式
+
+### 伺服器固定資料集
+
+第一步選擇「使用現有資料集」後，可分析 AES-128 固定金鑰資料（100 或 2,000 traces），以及 AES-256 固定資料（5,000、10,000、15,000 或 20,000 traces）。資料由後端以 memory-map 直接讀取，不會經由瀏覽器重新上傳。
+
+AES-128 預設讀取 `C:/Users/User/SCA/SCA Trace&Code/traces`。若搬移資料，可用環境變數 `SCA_AES128_TRACE_ROOT` 指定新的 Trace 根目錄。原始 `.npy` 比明文多一條未配對的最後 Trace；後端只在這兩筆白名單資料中裁掉最後一條，並從固定的 `keylist.npy` 讀取實驗驗證金鑰，不修改原始資料。
+
+預設資料根目錄已指向本機 Riscure AES-256 資料。若日後搬移資料，可在 `api/.env` 設定 `SCA_TRADITIONAL_DATA_ROOT` 覆寫根目錄。10,000／15,000／20,000 使用全時域降採樣 4 倍版本；5,000 使用完整 45,000 samples 版本。
+
+### ML-KEM-768 傳統 CPA
+
+開啟 `http://localhost:8000/platform`，選「使用現有資料集」→「ML-KEM-768」→「基準金鑰」或「獨立新金鑰」及全域 pair 0–245；下一步把 ML-KEM CPA 加入分析流程。每次分析一對相鄰的秘密 NTT 係數，結果會顯示猜測值、相關峰值、絕對取樣位置及保存真值的最終核對。已驗證範圍是 492/768 個秘密 NTT 係數，**不代表完整 ML-KEM 私鑰恢復**。目前 ML-KEM 只支援這兩組固定錄製，不接受 AES 格式的自行上傳檔案。
+
+後端直接讀取原本的分段 `.cwp`/`.npz` 與 Trace `.npy`；`api/mlkem_data` 僅保存兩把金鑰各自從密文重建的**公開** NTT 輸入。若資料搬移或快取需要重建，設定 `SCA_MLKEM_TRACE_ROOT`、`SCA_MLKEM_NOTEBOOK_DIR` 後執行 `python api/prepare_mlkem_data.py`。這個一次性腳本沿用錄製專案的 PQClean 主機驗證程式，並核對板子保存的第 0 對公開係數。
+
+AI 小助理的主程式採用使用者提供的 `ai-tutor.js`；ML-KEM 頁額外提供兩個固定常見問題。未設定 Gemini key 時，固定問題仍可使用，開放式聊天需要 API key。
 
 使用者執行一般攻擊時，上傳：
 

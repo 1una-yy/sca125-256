@@ -97,6 +97,115 @@ class BaseAttack(ABC):
         buf.seek(0)
         return base64.b64encode(buf.read()).decode("utf-8")
 
+    @staticmethod
+    def plot_sample_view(values: np.ndarray, max_points: int = 3000):
+        """Return an evenly decimated view for plotting without changing analysis data."""
+        values = np.asarray(values)
+        sample_count = values.shape[-1]
+        step = max(1, int(np.ceil(sample_count / max_points)))
+        return np.arange(0, sample_count, step), values[..., ::step]
+
+    def generate_byte_plots(
+        self,
+        correlations: np.ndarray,
+        byte_count: int = 16,
+        offset: int = 0,
+        sample_indices: np.ndarray | None = None,
+    ) -> list[dict]:
+        """Generate one base64 plot for each attacked key byte."""
+        plots = []
+        for byte_index in range(byte_count):
+            fig, ax = plt.subplots(figsize=(10, 4))
+            ax.set_title(f"Byte {byte_index + offset}")
+            ax.set_xlabel("Samples")
+            ax.set_ylabel("Score")
+            sample_axis, plot_values = self.plot_sample_view(correlations[byte_index])
+            if sample_indices is not None:
+                source_axis = np.asarray(sample_indices)
+                step = max(1, int(np.ceil(source_axis.size / plot_values.shape[-1])))
+                sample_axis = source_axis[::step][:plot_values.shape[-1]]
+            ax.plot(sample_axis, plot_values.T, alpha=0.3, linewidth=0.5)
+            ax.grid(True, alpha=0.3)
+            plots.append({
+                "byte_index": byte_index + offset,
+                "plot_base64": self.plot_to_base64(fig),
+            })
+        return plots
+
+    def generate_snr_byte_plots(
+        self,
+        snr: np.ndarray,
+        leak_points,
+        offset: int = 0,
+    ) -> list[dict]:
+        """Generate one SNR/POI plot for each key byte."""
+        plots = []
+        snr = np.asarray(snr)
+        for local_index in range(snr.shape[0]):
+            byte_index = local_index + offset
+            point = int(leak_points[local_index])
+            sample_axis, snr_view = self.plot_sample_view(snr[local_index])
+            fig, ax = plt.subplots(figsize=(10, 4))
+            ax.plot(sample_axis, snr_view, color="#7c3aed", linewidth=0.9)
+            ax.scatter(
+                [point],
+                [float(snr[local_index, point])],
+                color="#dc2626",
+                s=24,
+                zorder=3,
+                label=f"POI {point}",
+            )
+            phase = "P1" if byte_index < 16 else "P2"
+            ax.set_title(f"{phase} Byte {byte_index} — SNR / POI {point}")
+            ax.set_xlabel("Samples")
+            ax.set_ylabel("SNR")
+            ax.grid(True, alpha=0.25)
+            ax.legend(loc="upper right")
+            fig.tight_layout()
+            plots.append({
+                "byte_index": byte_index,
+                "poi": point,
+                "max_snr": float(snr[local_index, point]),
+                "plot_base64": self.plot_to_base64(fig),
+            })
+        return plots
+
+    def generate_template_byte_plots(
+        self,
+        scores: np.ndarray,
+        snr: np.ndarray,
+        guesses,
+        offset: int = 0,
+    ) -> list[dict]:
+        """Generate an individual Template Attack result image for each byte."""
+        plots = []
+        for local_index, guessed_key in enumerate(guesses):
+            byte_index = local_index + offset
+            byte_scores = np.asarray(scores[local_index], dtype=np.float64)
+            fig, (score_ax, snr_ax) = plt.subplots(2, 1, figsize=(10, 7))
+
+            score_ax.plot(np.arange(byte_scores.size), byte_scores, color="#356ae6", linewidth=1)
+            score_ax.axvline(int(guessed_key), color="#dc2626", linestyle="--", linewidth=1.4)
+            score_ax.scatter([int(guessed_key)], [byte_scores[int(guessed_key)]], color="#dc2626", zorder=3)
+            score_ax.set_title(f"Byte {byte_index} — key likelihood (guess 0x{int(guessed_key):02X})")
+            score_ax.set_xlabel("Key guess (0–255)")
+            score_ax.set_ylabel("Log-likelihood score")
+            score_ax.grid(True, alpha=0.25)
+
+            sample_axis, snr_view = self.plot_sample_view(snr[local_index])
+            snr_ax.plot(sample_axis, snr_view, color="#7c3aed", linewidth=1)
+            snr_ax.set_title(f"Byte {byte_index} — profiling SNR")
+            snr_ax.set_xlabel("Sample")
+            snr_ax.set_ylabel("SNR")
+            snr_ax.grid(True, alpha=0.25)
+
+            fig.tight_layout()
+            plots.append({
+                "byte_index": byte_index,
+                "plot_base64": self.plot_to_base64(fig),
+            })
+        return plots
+
 
 # ─────────────────────────────────────────────
 # 演算法登錄機制（Registry）
