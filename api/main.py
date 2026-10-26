@@ -849,14 +849,29 @@ def _call_tutor_gemini(request: ChatRequest) -> str:
         headers={"Content-Type": "application/json; charset=utf-8"},
         method="POST",
     )
-    try:
-        with urllib.request.urlopen(http_request, timeout=30) as response:
-            payload = json.loads(response.read().decode("utf-8"))
-    except urllib.error.HTTPError as exc:
-        detail = exc.read().decode("utf-8", errors="replace")
-        raise RuntimeError(f"Gemini API 回應 {exc.code}: {detail[:500]}") from exc
-    except urllib.error.URLError as exc:
-        raise RuntimeError(f"無法連線 Gemini API：{exc.reason}") from exc
+    # Gemini 預覽版模型偶爾回 429/5xx 或逾時，屬暫時性錯誤，稍等後自動重試。
+    attempts = 3
+    for attempt in range(1, attempts + 1):
+        try:
+            with urllib.request.urlopen(http_request, timeout=60) as response:
+                payload = json.loads(response.read().decode("utf-8"))
+            break
+        except urllib.error.HTTPError as exc:
+            detail = exc.read().decode("utf-8", errors="replace")
+            if exc.code in (429, 500, 502, 503, 504) and attempt < attempts:
+                time.sleep(2 * attempt)
+                continue
+            if exc.code in (429, 503):
+                raise RuntimeError(
+                    f"Gemini 伺服器暫時忙碌（{exc.code}），已重試 {attempts} 次仍失敗，請稍候 1 分鐘再問一次"
+                ) from exc
+            raise RuntimeError(f"Gemini API 回應 {exc.code}: {detail[:500]}") from exc
+        except (urllib.error.URLError, TimeoutError) as exc:
+            if attempt < attempts:
+                time.sleep(2 * attempt)
+                continue
+            reason = getattr(exc, "reason", exc)
+            raise RuntimeError(f"無法連線 Gemini API（已重試 {attempts} 次）：{reason}") from exc
 
     try:
         parts = payload["candidates"][0]["content"]["parts"]

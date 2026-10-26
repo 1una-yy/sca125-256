@@ -989,7 +989,12 @@
         });
 
         if (!response.ok) {
-          throw new Error(`API 錯誤: ${response.statusText}`);
+          // 後端會在 detail 說明真正原因（例如 Gemini 忙碌、未設定 API key）
+          let detail = '';
+          try { detail = (await response.json()).detail || ''; } catch (_) {}
+          // 失敗的提問不留在對話紀錄，避免下次重送時出現重複的 user 訊息
+          this.conversationHistory.pop();
+          throw new Error(detail || `API 錯誤: ${response.status} ${response.statusText}`);
         }
 
         const data = await response.json();
