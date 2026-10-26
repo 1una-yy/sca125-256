@@ -515,6 +515,7 @@ header{display:flex;align-items:center;justify-content:space-between;margin-bott
               <div class="dataset-option"><input type="radio" name="builtin-dataset" id="dataset-fixed" value="fixed" onchange="setBuiltinDataset('fixed')"><label class="dataset-card" for="dataset-fixed"><strong>ASCAD Fixed</strong><span>固定金鑰資料集</span></label></div>
               <div class="dataset-option"><input type="radio" name="builtin-dataset" id="dataset-rand" value="rand" onchange="setBuiltinDataset('rand')"><label class="dataset-card" for="dataset-rand"><strong>ASCAD Random</strong><span>隨機金鑰資料集</span></label></div>
               <div class="dataset-option"><input type="radio" name="builtin-dataset" id="dataset-ches" value="ches" onchange="setBuiltinDataset('ches')"><label class="dataset-card" for="dataset-ches"><strong>CHES CTF</strong><span>公開競賽資料集</span></label></div>
+              <div class="dataset-option"><input type="radio" name="builtin-dataset" id="dataset-dpav4" value="dpav4" onchange="setBuiltinDataset('dpav4')"><label class="dataset-card" for="dataset-dpav4"><strong>DPAv4 RSM</strong><span>固定結果・Byte 0</span></label></div>
             </div>
             <div class="source-route-note">AI 攻擊會直接讀取伺服器內的資料集與預訓練模型，不會分析你在瀏覽器選取的 Trace。</div>
           </div>
@@ -550,7 +551,9 @@ header{display:flex;align-items:center;justify-content:space-between;margin-bott
               <div class="dataset-option"><input type="radio" name="builtin-dataset2" id="dataset2-fixed" value="fixed" onchange="setBuiltinDataset('fixed')"><label class="dataset-card" for="dataset2-fixed"><strong>ASCAD Fixed</strong><span>固定金鑰資料集</span></label></div>
               <div class="dataset-option"><input type="radio" name="builtin-dataset2" id="dataset2-rand" value="rand" onchange="setBuiltinDataset('rand')"><label class="dataset-card" for="dataset2-rand"><strong>ASCAD Random</strong><span>隨機金鑰資料集</span></label></div>
               <div class="dataset-option"><input type="radio" name="builtin-dataset2" id="dataset2-ches" value="ches" onchange="setBuiltinDataset('ches')"><label class="dataset-card" for="dataset2-ches"><strong>CHES CTF</strong><span>公開競賽資料集</span></label></div>
+              <div class="dataset-option"><input type="radio" name="builtin-dataset2" id="dataset2-dpav4" value="dpav4" onchange="setBuiltinDataset('dpav4')"><label class="dataset-card" for="dataset2-dpav4"><strong>DPAv4 RSM</strong><span>固定結果・Byte 0</span></label></div>
             </div>
+            <div class="source-route-note">DPAv4 顯示訓練時已算好的 AI 攻擊結果（GE 與 Pearson 圖），不會重新執行模型。</div>
           </div>
           <div class="dataset-section" data-crypto-family="mlkem">
             <div class="dataset-section-title">ML-KEM-768 錄製資料 <span><button type="button" class="ask-tutor" onclick="AITutor.askQuick('mlkem')">什麼是 ML-KEM？</button></span></div>
@@ -560,6 +563,13 @@ header{display:flex;align-items:center;justify-content:space-between;margin-bott
             </div>
             <label class="mlkem-pair-field" for="mlkem-pair">要分析第幾組秘密數字 <input type="number" id="mlkem-pair" min="0" max="245" step="1" value="0" oninput="checkNext1()"><span>（0–245）</span></label>
             <div class="source-route-note">每次只找出私鑰中的 2 個數字，不代表整把私鑰被破解。</div>
+          </div>
+          <div class="dataset-section" data-crypto-family="mlkem">
+            <div class="dataset-section-title">ML-KEM AI 模型固定結果 <span>AI 模型</span></div>
+            <div class="dataset-grid">
+              <div class="dataset-option"><input type="radio" name="builtin-dataset2" id="dataset2-mlkem" value="mlkem" onchange="setBuiltinDataset('mlkem')"><label class="dataset-card" for="dataset2-mlkem"><strong>ML-KEM 訊息 Byte 0</strong><span>CNN／MLP 固定結果</span></label></div>
+            </div>
+            <div class="source-route-note">顯示訓練時已算好的明文（message）byte 排名與 Pearson 圖，不會重新執行模型；不是破解私鑰。</div>
           </div>
           <div class="source-route-note">傳統攻擊讀取本機固定 traces／plaintexts；AI 攻擊讀取 ASCAD／CHES 與預訓練模型。</div>
         </div></div>
@@ -832,11 +842,11 @@ header{display:flex;align-items:center;justify-content:space-between;margin-bott
         <div class="ai-panel" id="ai-panel">
           <div class="ai-title">◆ AES-128 AI 攻擊設定</div>
           <div class="ai-config-grid">
-            <div class="ai-field"><label for="ai-dataset-select">預訓練資料集</label><select id="ai-dataset-select" class="ai-select" onchange="updateAIConfig()"><option value="fixed">ASCAD Fixed</option><option value="rand">ASCAD Random</option><option value="ches">CHES CTF</option></select></div>
+            <div class="ai-field"><label for="ai-dataset-select">預訓練資料集</label><select id="ai-dataset-select" class="ai-select" onchange="updateAIConfig()"><option value="fixed">ASCAD Fixed</option><option value="rand">ASCAD Random</option><option value="ches">CHES CTF</option><option value="dpav4">DPAv4 RSM（固定結果）</option><option value="mlkem">ML-KEM（固定結果）</option></select></div>
             <div class="ai-field"><label for="ai-leakage-select">洩漏模型</label><select id="ai-leakage-select" class="ai-select" onchange="updateAIConfig()"><option value="id">ID（256 classes）</option><option value="hw">HW（9 classes）</option></select></div>
           </div>
           <div class="ai-status-card"><span class="ai-status-dot" id="ai-status-dot"></span><div class="ai-status-copy"><strong id="ai-status-title">正在讀取 AI 服務狀態…</strong><span id="ai-status-detail">檢查 TensorFlow、資料集與模型權重。</span></div></div>
-          <div class="ai-mode-note">沿用來源專案的伺服器 benchmark 模式：AI 使用伺服器上的 ASCAD／CHES attack set 與預訓練模型，不使用第一頁上傳的 Trace。結果只評估 AES-128 的單一目標 key byte，不代表完整 16-byte 金鑰已還原。</div>
+          <div class="ai-mode-note" id="ai-mode-note">沿用來源專案的伺服器 benchmark 模式：AI 使用伺服器上的 ASCAD／CHES attack set 與預訓練模型，不使用第一頁上傳的 Trace。結果只評估 AES-128 的單一目標 key byte，不代表完整 16-byte 金鑰已還原。</div>
         </div>
         <div class="err-box" id="api-err"></div>
 
@@ -916,6 +926,7 @@ header{display:flex;align-items:center;justify-content:space-between;margin-bott
           <div class="r-plot" id="r-plot" style="display:none">
             <img id="r-img" src="" alt="attack correlation plot">
           </div>
+          <div id="r-extra-plots"></div>
           <div class="r-advice" id="r-advice" style="display:none">
             <div style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--eval-accent);margin-bottom:6px">安全建議</div>
             <div id="r-advice-txt"></div>
@@ -1004,6 +1015,8 @@ function setAITutorVisual(imageBase64,imageLabel,contextUpdates={}){
 
 function isTemplateId(id){ return id === 'template' || id === 'template256'; }
 function isAiAttackId(id){ return id === 'ai_cnn' || id === 'ai_mlp'; }
+// DPAv4 / ML-KEM 只顯示訓練時已算好的結果，不重新執行模型。
+const AI_FIXED_RESULT_DATASETS=['dpav4','mlkem'];
 function isAes256Id(id){ return typeof id === 'string' && id.endsWith('256'); }
 const ATTACK_GUIDES = {
   cpa:{title:'CPA（相關功耗分析）',load:'運算量：中高',base:137,principle:'針對每個金鑰猜測，先預測 S-Box 中間值的漢明重量，再與每個功耗採樣點計算 Pearson 相關係數。相關峰值最高的猜測，通常最可能是正確的 key byte。',use:'最適合入門理解「資料相依功耗洩漏」，可嘗試還原金鑰；Trace 越多，通常越容易看出穩定峰值。'},
@@ -1125,7 +1138,8 @@ let selectedFixedDataset = '';
 let selectedFixedDatasetHasKnownKey = false;
 function filterDatasetSections(){
   document.querySelectorAll('#builtin-source-content-2 .dataset-section[data-crypto-family]').forEach(section=>{
-    section.style.display=section.dataset.cryptoFamily===selectedCryptoFamily?'block':'none';
+    const family=selectedCryptoFamily==='mlkem_ai'?'mlkem':selectedCryptoFamily;
+    section.style.display=section.dataset.cryptoFamily===family?'block':'none';
   });
 }
 async function loadMLKEMStatus(base){
@@ -1147,7 +1161,7 @@ async function loadMLKEMStatus(base){
   }
 }
 function datasetDisplayName(value){
-  return {fixed:'ASCAD Fixed',rand:'ASCAD Random',ches:'CHES CTF'}[value]||'Select a dataset';
+  return {fixed:'ASCAD Fixed',rand:'ASCAD Random',ches:'CHES CTF',dpav4:'DPAv4 RSM（固定結果）',mlkem:'ML-KEM（AI 固定結果）'}[value]||'Select a dataset';
 }
 function updateAttackLibraryForSource(){
   const builtinAI=dataSourceMode==='builtin'&&builtinDatasetKind==='ai';
@@ -1192,16 +1206,18 @@ function setDataSource(mode){
   filterDatasetSections();updateAttackLibraryForSource();checkNext1();
 }
 function setBuiltinDataset(value){
-  if(!['fixed','rand','ches'].includes(value))return;
+  if(!['fixed','rand','ches',...AI_FIXED_RESULT_DATASETS].includes(value))return;
   clearAll();
   builtinDatasetKind='ai';selectedBuiltinDataset=value;selectedFixedDataset='';selectedFixedDatasetHasKnownKey=false;
   document.querySelectorAll('input[name="fixed-dataset"]').forEach(el=>el.checked=false);
   uploadedFiles.traces=new File([], 'builtin-ai-dataset.h5');uploadedFiles.pt=new File([], 'builtin-plaintexts.npy');
-  preDone=true;selectedAesBits=128;selectedCryptoFamily='aes128';selectedMLKEMDataset='';traceN=0;traceL=0;traceFmt='HDF5';
-  document.getElementById('aes-version-128').checked=true;document.getElementById('aes-version-256').checked=false;document.getElementById('aes-version-mlkem').checked=false;
+  const isMLKEMAI=value==='mlkem';
+  // ML-KEM AI 沿用 AES-128 AI 的攻擊方塊，但資料集區塊仍停在 ML-KEM。
+  preDone=true;selectedAesBits=128;selectedCryptoFamily=isMLKEMAI?'mlkem_ai':'aes128';selectedMLKEMDataset='';traceN=0;traceL=0;traceFmt=AI_FIXED_RESULT_DATASETS.includes(value)?'PNG・訓練固定結果':'HDF5';
+  document.getElementById('aes-version-128').checked=!isMLKEMAI;document.getElementById('aes-version-256').checked=false;document.getElementById('aes-version-mlkem').checked=isMLKEMAI;
   const select=document.getElementById('ai-dataset-select');select.value=value;select.disabled=true;
   document.getElementById('mini-name').textContent=datasetDisplayName(value);
-  document.getElementById('selected-aes-label').textContent='AES-128・AI 模型（只猜 1 個位元組）';
+  document.getElementById('selected-aes-label').textContent=isMLKEMAI?'ML-KEM・AI 模型固定結果（只看 1 個訊息位元組）':(value==='dpav4'?'AES-128・DPAv4 AI 固定結果（只猜 1 個位元組）':'AES-128・AI 模型（只猜 1 個位元組）');
   applySourceFieldVisibility('builtin');filterDatasetSections();updateAttackLibraryForSource();renderAIStatus();updatePipeUI();checkNext1();
 }
 function setTraditionalDataset(value,count,length,hasKnownKey){
@@ -1218,8 +1234,8 @@ function setTraditionalDataset(value,count,length,hasKnownKey){
 }
 
 function setMLKEMDataset(id){
-  if(dataSourceMode!=='builtin'||selectedCryptoFamily!=='mlkem'||!mlkemDatasetReady[id])return;
-  clearAll();
+  if(dataSourceMode!=='builtin'||!['mlkem','mlkem_ai'].includes(selectedCryptoFamily)||!mlkemDatasetReady[id])return;
+  clearAll();selectedCryptoFamily='mlkem';
   selectedMLKEMDataset=id;selectedFixedDataset='';selectedBuiltinDataset='';builtinDatasetKind='traditional';selectedFixedDatasetHasKnownKey=false;
   document.querySelectorAll('input[name="builtin-dataset2"]').forEach(el=>el.checked=false);
   uploadedFiles.traces=new File([],`mlkem-${id}-server.cwp`);uploadedFiles.pt=new File([],`mlkem-${id}-public-ntt.npy`);
@@ -1371,7 +1387,9 @@ function renderAIStatus(){
   const selected=selectedAICombination();dot.className='ai-status-dot';
   if(!aiServiceStatus){title.textContent='正在讀取 AI 服務狀態…';detail.textContent='檢查 TensorFlow、資料集與模型權重。';return;}
   if(!selected){dot.classList.add('err');title.textContent='請先選擇 AI-CNN 或 AI-MLP';detail.textContent=aiServiceStatus.error||'選擇後會檢查對應資料集與模型。';return;}
-  if(selected.ready){dot.classList.add('ok');title.textContent='AES-128 AI 模型已就緒';detail.textContent=`${selected.model_file} · ${selected.dataset_file}`;}
+  const note=document.getElementById('ai-mode-note');
+  if(note){if(!note.dataset.orig)note.dataset.orig=note.textContent;note.textContent=selected.fixed_result?'DPAv4／ML-KEM 顯示訓練時已算好的 GE（平均排名）與 Pearson 圖，不重新執行模型推論，也不使用第一頁上傳的 Trace。結果只代表單一目標 byte。':note.dataset.orig;}
+  if(selected.ready){dot.classList.add('ok');title.textContent=selected.fixed_result?(selected.dataset_type==='mlkem'?'ML-KEM AI 固定結果已就緒':'DPAv4 AI 固定結果已就緒'):'AES-128 AI 模型已就緒';detail.textContent=selected.fixed_result?`${selected.model_file}（結果圖已存在伺服器）`:`${selected.model_file} · ${selected.dataset_file}`;}
   else{dot.classList.add('err');title.textContent='這個 AI 組合尚未就緒';detail.textContent='缺少：'+(selected.missing||[]).join('、');}
 }
 function updateAIConfig(){renderAIStatus();updatePipeUI();}
@@ -1688,6 +1706,9 @@ function showResult(results, atkItems, elapsed) {
 
   const isAI=data.ai_attack===true;
   const aiByteIndex=Number(data.target_byte_index??0);
+  const isFixedAI=isAI&&data.evaluation_mode==='fixed_result';
+  const aiScheme=isFixedAI?(data.scheme||'AI'):'AES-128';
+  const aiTargetWord=data.target_kind==='message'?'訊息位元組':'金鑰位元組';
   const keyHex=(data.key_hex||'').toUpperCase();
   const byteArr=keyHex.match(/.{1,2}/g)||[];
   const knownKey=getKnownKey();
@@ -1698,7 +1719,7 @@ function showResult(results, atkItems, elapsed) {
   const comparisonTotal=isAI?1:(knownKey?.length||0);
   const isKeyResult=isAI||byteArr.length===16||byteArr.length===32;
   const aesBits=selectedAesBits||(atkItems.some(a=>isAes256Id(a.id))?256:128);
-  const aesLabel='AES-'+aesBits;
+  const aesLabel=isFixedAI&&data.dataset_type==='mlkem'?'ML-KEM':'AES-'+aesBits;
   currentAITutorContext={
     image_base64:'',
     image_mime_type:'image/png',
@@ -1716,7 +1737,9 @@ function showResult(results, atkItems, elapsed) {
     }
   };
 
-  document.getElementById('r-key').textContent=isAI
+  document.getElementById('r-key').textContent=isFixedAI
+    ? `${aiScheme} 第 ${aiByteIndex} 個${aiTargetWord}（固定結果）：正確值 ${String(data.correct_key_byte_hex||'—').toUpperCase()}；正確值平均排名 ${data.final_correct_key_rank??'—'}（0 代表排第一）`
+    : isAI
     ? `AES-128 第 ${aiByteIndex} 個位元組 猜測值：${keyHex||'—'}；正確答案：${backendAIKey===null?'未提供':data.correct_key_byte_hex.toUpperCase()}；正確答案平均排名 ${data.final_correct_key_rank??'—'}（0 代表排第一）`
     : (keyHex||(data.note||'此分析不回復金鑰'));
 
@@ -1745,7 +1768,7 @@ function showResult(results, atkItems, elapsed) {
     const d=document.createElement('div');d.className='kb';d.textContent=label;
     if(comparable){const expected=isAI?expectedAIByte:knownKey[i];d.classList.add(parseInt(hex,16)===expected?'correct':'wrong');}
     else d.classList.add('found');
-    if(isAI)d.title=`AES-128 Byte ${aiByteIndex}`;
+    if(isAI)d.title=`${aiScheme} Byte ${aiByteIndex}`;
     const plotData=plotsByByte.find(item=>Number(item.byte_index)===i);
     const snrPlotData=snrPlotsByByte.find(item=>Number(item.byte_index)===i);
     if(plotData?.plot_base64||snrPlotData?.plot_base64){
@@ -1788,7 +1811,7 @@ function showResult(results, atkItems, elapsed) {
     if(isAI){
       scoreBar.className='score-bar vis '+(correct?'perfect':'zero');
       scoreBar.innerHTML=correct
-        ? `✓ AI 猜中 AES-128 第 <strong>${aiByteIndex}</strong> 個 key byte；正確金鑰最終排名 <strong>${data.final_correct_key_rank}</strong>`
+        ? `✓ AI 猜中 ${aiScheme} 第 <strong>${aiByteIndex}</strong> 個${aiTargetWord}；正確值最終排名 <strong>${data.final_correct_key_rank}</strong>${data.rank_zero_at_trace?`（約第 <strong>${data.rank_zero_at_trace}</strong> 條 trace 起穩定排第一）`:''}`
         : `AI 未猜中 AES-128 Byte ${aiByteIndex}；正確值最終排名 <strong>${data.final_correct_key_rank}</strong>`;
     }else if(correct===comparisonTotal){
       scoreBar.className='score-bar vis perfect';scoreBar.innerHTML='🎉 全部猜中！<strong>'+correct+'/'+comparisonTotal+'</strong> 個位元組都和正確金鑰相同';
@@ -1797,6 +1820,9 @@ function showResult(results, atkItems, elapsed) {
     }else{
       scoreBar.className='score-bar vis zero';scoreBar.innerHTML='猜中 <strong>'+correct+'/'+comparisonTotal+'</strong> 個位元組　— 建議選條數更多的資料，或換一種分析方法';
     }
+  }else if(isFixedAI){
+    scoreBar.className='score-bar vis zero';
+    scoreBar.innerHTML=`AI 未猜中 ${aiScheme} 第 ${aiByteIndex} 個${aiTargetWord}；用完 ${Number(data.num_traces||0).toLocaleString()} 條 trace 後正確值平均排名 <strong>${data.final_correct_key_rank}</strong>，尚未降到 0`;
   }else scoreBar.className='score-bar';
 
   document.getElementById('rN').textContent=Number(data.num_traces||traceN||0).toLocaleString();
@@ -1807,7 +1833,7 @@ function showResult(results, atkItems, elapsed) {
   const accuracy=comparable?Math.round(correct/comparisonTotal*100):null;
   document.getElementById('conf-fg').style.width=(accuracy===null?0:accuracy)+'%';
   document.getElementById('conf-lbl').textContent=isAI
-    ? `AI 僅驗證 AES-128 Byte ${aiByteIndex}：${accuracy===null?'無正確值可比對':accuracy+'%'}`
+    ? (isFixedAI?`${aiScheme} Byte ${aiByteIndex}：訓練固定結果（${data.guessing_entropy_attacks||10} 次攻擊平均，最終排名 ${data.final_correct_key_rank??'—'}）`:`AI 僅驗證 AES-128 Byte ${aiByteIndex}：${accuracy===null?'無正確值可比對':accuracy+'%'}`)
     : (accuracy!==null?'猜對比例：'+accuracy+'%':(isKeyResult?'未填正確金鑰，無法對答案':'洩漏檢查完成'));
 
   const plot=document.getElementById('r-plot');
@@ -1819,6 +1845,14 @@ function showResult(results, atkItems, elapsed) {
     );
   }
   else plot.style.display='none';
+  const extraPlots=document.getElementById('r-extra-plots');extraPlots.innerHTML='';
+  (data.extra_plots||[]).forEach(item=>{
+    if(!item?.plot_base64)return;
+    const wrap=document.createElement('div');wrap.className='r-plot';
+    const label=document.createElement('div');label.className='byte-plot-title';label.style.margin='10px 12px 0';label.textContent=item.title||'';
+    const img=document.createElement('img');img.src='data:image/png;base64,'+item.plot_base64;img.alt=item.title||'analysis plot';
+    wrap.append(label,img);extraPlots.appendChild(wrap);
+  });
 
   const hasTemplate=atkItems.some(a=>isTemplateId(a.id));
   const hasMIA=atkItems.some(a=>a.id==='mia'||a.id==='mia256');
@@ -1831,7 +1865,9 @@ function showResult(results, atkItems, elapsed) {
 
   const verified=isAI?(data.key_byte_verified===true):(comparable&&correct===comparisonTotal);
   const risk=isAI?(verified?'高風險證據（High，單一 byte）':'待驗證（Unverified）'):(verified?'高危險（Critical）':(isKeyResult?'待驗證（Unverified）':'洩漏分析（Diagnostic）'));
-  const restoreStatus=isAI
+  const restoreStatus=isFixedAI
+    ? `${aiScheme} 只評估第 ${aiByteIndex} 個${aiTargetWord}（訓練固定結果）：${verified?'平均排名已降至 0':'平均排名未降至 0'}；不代表已還原完整${data.target_kind==='message'?'訊息或私鑰':' 16-byte 金鑰'}`
+    : isAI
     ? `只評估 AES-128 Byte ${aiByteIndex}：${verified?'猜測正確':'猜測未命中'}；不代表完整 16-byte 金鑰已還原`
     : (isKeyResult?(comparable?(verified?'成功':'部分／失敗'):'已產生猜測，未提供正確長度金鑰驗證'):'不適用（SNR 不回復金鑰）');
   const wantsReport=pipeItems.some(p=>p.id==='_report');
@@ -1843,6 +1879,8 @@ function showResult(results, atkItems, elapsed) {
       target_name:document.getElementById('report-target-name')?.value.trim()||'',
       test_organization:document.getElementById('report-org-name')?.value.trim()||'',
       aes_version:aesLabel,
+      target_scheme:isFixedAI&&data.dataset_type==='mlkem'?'ML-KEM':null,
+      evaluation_mode:data.evaluation_mode||null,
       attack_methods:atkItems.map(a=>a.id.toUpperCase()),
       num_traces:Number(data.num_traces||traceN||0),
       trace_length:Number(data.trace_length||traceL||0),

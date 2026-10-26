@@ -9,6 +9,7 @@ from __future__ import annotations
 import base64
 import importlib.util
 import io
+import json
 import os
 from pathlib import Path
 
@@ -46,6 +47,17 @@ MODEL_FILENAMES = {
 }
 TARGET_BYTE_INDEX = {"fixed": 2, "rand": 2, "ches": 0}
 
+# DPAv4 / ML-KEM：顯示訓練時已算好的固定結果（圖與數值由 build_ai_fixed_results.py 產生），
+# 不需要 TensorFlow、原始 trace 或數百 MB 的模型 H5。
+FIXED_RESULT_DIR = DEFAULT_AI_ROOT / "fixed_results"
+FIXED_RESULT_DATASETS = {"dpav4": "AES-128 DPAv4", "mlkem": "ML-KEM"}
+FIXED_RESULT_CHOICES = {
+    (model_type, leakage_model, dataset_type)
+    for model_type in ("cnn", "mlp")
+    for leakage_model in ("id", "hw")
+    for dataset_type in FIXED_RESULT_DATASETS
+}
+
 
 def _data_dir() -> Path:
     raw = os.getenv("SCA_AI_DATA_PATH", "").strip()
@@ -74,9 +86,42 @@ def normalize_choice(model_type: str, leakage_model: str, dataset_type: str):
         str(leakage_model or "").strip().lower(),
         str(dataset_type or "").strip().lower(),
     )
-    if choice not in MODEL_FILENAMES:
-        raise ValueError("AI 組合不正確：model_type 需為 cnn/mlp、leakage_model 需為 id/hw、dataset_type 需為 fixed/rand/ches")
+    if choice not in MODEL_FILENAMES and choice not in FIXED_RESULT_CHOICES:
+        raise ValueError("AI 組合不正確：model_type 需為 cnn/mlp、leakage_model 需為 id/hw、dataset_type 需為 fixed/rand/ches/dpav4/mlkem")
     return choice
+
+
+def _fixed_results() -> dict:
+    path = FIXED_RESULT_DIR / "fixed_results.json"
+    if not path.is_file():
+        return {}
+    return json.loads(path.read_text(encoding="utf-8"))
+
+
+def _fixed_result_combinations() -> list:
+    results = _fixed_results()
+    combinations = []
+    for model_type, leakage_model, dataset_type in sorted(FIXED_RESULT_CHOICES):
+        combo_id = f"{model_type}-{leakage_model}-{dataset_type}"
+        entry = results.get(combo_id)
+        missing = []
+        if entry is None:
+            missing.append("fixed_results.json 內的 " + combo_id)
+        else:
+            missing += [name for name in (entry["ge_image"], entry["pearson_image"])
+                        if not (FIXED_RESULT_DIR / name).is_file()]
+        combinations.append({
+            "id": combo_id,
+            "model_type": model_type,
+            "leakage_model": leakage_model,
+            "dataset_type": dataset_type,
+            "dataset_file": None,
+            "model_file": entry["model_file"] if entry else None,
+            "fixed_result": True,
+            "ready": not missing,
+            "missing": missing,
+        })
+    return combinations
 
 
 def ai_service_status() -> dict:
@@ -105,6 +150,7 @@ def ai_service_status() -> dict:
             "ready": not missing,
             "missing": missing,
         })
+    combinations += _fixed_result_combinations()
     return {
         "aes_bits": 128,
         "mode": "server_benchmark",
@@ -190,8 +236,62 @@ def _figure_to_base64(fig) -> str:
     return base64.b64encode(buffer.read()).decode("ascii")
 
 
+def _image_base64(name: str) -> str:
+    return base64.b64encode((FIXED_RESULT_DIR / name).read_bytes()).decode("ascii")
+
+
+def _run_fixed_result(model_type: str, leakage_model: str, dataset_type: str) -> dict:
+    """回傳 DPAv4 / ML-KEM 訓練時已算好的 GE 與 Pearson 結果。"""
+    entry = _fixed_results()[f"{model_type}-{leakage_model}-{dataset_type}"]
+    is_mlkem = dataset_type == "mlkem"
+    byte_index = entry["target_byte_index"]
+    final_rank = entry["final_rank"]
+    verified = final_rank == 0
+    correct_hex = f"{entry['correct_value']:02x}"
+    target_word = "message byte" if is_mlkem else "key byte"
+    return {
+        "algorithm": f"ai_{model_type}",
+        # 平均 rank 為 0 代表每次攻擊排第一的都是正確值，才把它當成猜測結果。
+        "key_hex": correct_hex if verified else "",
+        "key_bytes": [entry["correct_value"]] if verified else [],
+        "num_traces": entry["num_traces"],
+        "trace_length": entry["trace_length"],
+        "plot_base64": _image_base64(entry["ge_image"]),
+        "extra_plots": [
+            {"title": "Pearson 相關係數圖", "plot_base64": _image_base64(entry["pearson_image"])},
+        ],
+        "aes_bits": None if is_mlkem else 128,
+        "ai_attack": True,
+        "evaluation_mode": "fixed_result",
+        "scheme": FIXED_RESULT_DATASETS[dataset_type],
+        "target_kind": "message" if is_mlkem else "key",
+        "model_type": model_type,
+        "leakage_model": leakage_model,
+        "dataset_type": dataset_type,
+        "model_file": entry["model_file"],
+        "label_definition": entry["label_definition"],
+        "target_byte_index": byte_index,
+        "correct_key_byte_hex": correct_hex,
+        "key_byte_verified": verified,
+        "guessing_entropy_attacks": entry["repetitions"],
+        "final_correct_key_rank": final_rank,
+        "rank_zero_at_trace": entry["rank_zero_at_trace"],
+        "top_candidates": [],
+        "pearson_peak_sample": entry["pearson_peak_sample"],
+        "pearson_peak_value": entry["pearson_peak_value"],
+        "saved_metrics": entry["saved_metrics"],
+        "note": (
+            f"此為訓練時已算好的固定結果，未重新執行模型推論；只評估第 {byte_index} 個 {target_word}，"
+            + ("不是 AES 金鑰，也不代表已還原完整訊息。" if is_mlkem else "不代表已還原完整 16-byte 金鑰。")
+        ),
+    }
+
+
 def run_ai_evaluation(model_type: str, leakage_model: str, dataset_type: str) -> dict:
     model_type, leakage_model, dataset_type = validate_ai_request(model_type, leakage_model, dataset_type)
+
+    if dataset_type in FIXED_RESULT_DATASETS:
+        return _run_fixed_result(model_type, leakage_model, dataset_type)
 
     from tensorflow.keras.models import load_model
     import matplotlib

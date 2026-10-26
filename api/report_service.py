@@ -48,6 +48,10 @@ def _document_id(payload: Dict[str, Any], now: datetime) -> str:
 
 
 def _risk_basis(payload: Dict[str, Any]) -> str:
+    if payload.get("evaluation_mode") == "fixed_result":
+        if payload.get("key_verified"):
+            return "訓練時已算好的平均 rank 已降至 0，顯示該模型在此資料上可重現洩漏；此為固定結果，未重新執行模型推論。"
+        return "訓練時已算好的平均 rank 未降至 0，尚不足以宣告已還原目標 byte；此為固定結果，未重新執行模型推論。"
     if payload.get("key_verified"):
         return "猜測金鑰已與相同長度的已知金鑰完整吻合，顯示本次資料可重現 CSP 洩漏。"
     if payload.get("known_key_total_bytes"):
@@ -71,6 +75,7 @@ def _assessment(payload: Dict[str, Any]) -> str:
 def _baseline_report(payload: Dict[str, Any]) -> Dict[str, Any]:
     now = _now_taipei()
     aes_version = str(payload.get("aes_version") or "未提供")
+    is_mlkem = payload.get("target_scheme") == "ML-KEM"
     methods = payload.get("attack_methods") or ["未提供"]
     method_text = ", ".join(str(item).upper() for item in methods)
     risk_level = str(payload.get("risk_level") or "待驗證（Unverified）")
@@ -83,7 +88,11 @@ def _baseline_report(payload: Dict[str, Any]) -> Dict[str, Any]:
         {
             "priority": "P1",
             "title": "導入 Masking 並驗證遮罩品質",
-            "action": "針對 AES S-Box 與中間值導入至少一階遮罩，確認遮罩亂數品質及中間值不被編譯器重新合併。",
+            "action": (
+                "針對 ML-KEM 解封裝與訊息處理中的敏感中間值導入至少一階遮罩，確認遮罩亂數品質及中間值不被編譯器重新合併。"
+                if is_mlkem
+                else "針對 AES S-Box 與中間值導入至少一階遮罩，確認遮罩亂數品質及中間值不被編譯器重新合併。"
+            ),
             "rationale": "降低中間值與功耗之間的統計相依性，直接緩解 CPA/DPA 類攻擊。",
         },
         {
@@ -126,7 +135,7 @@ def _baseline_report(payload: Dict[str, Any]) -> Dict[str, Any]:
             {"label": "產品／專案", "value": product_name},
             {"label": "待測晶片／模組", "value": target_name},
             {"label": "測試單位／人員", "value": test_organization},
-            {"label": "AES 版本", "value": aes_version},
+            {"label": "目標演算法" if is_mlkem else "AES 版本", "value": aes_version},
             {"label": "攻擊方式", "value": method_text},
             {"label": "Trace 數量", "value": f"{int(payload.get('num_traces') or 0):,}"},
             {"label": "採樣點／條", "value": f"{int(payload.get('trace_length') or 0):,}"},
