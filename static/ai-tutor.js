@@ -979,7 +979,11 @@
             'Content-Type': 'application/json'
           },
           body: JSON.stringify({
-            messages: this.conversationHistory
+            messages: this.conversationHistory,
+            // 平台目前的分析結果與圖（platform.html 提供），讓 AI 能解釋這次的結果
+            ...(typeof window.getAITutorAnalysisContext === 'function'
+              ? (window.getAITutorAnalysisContext() || {})
+              : {})
           }),
           timeout: 30000
         });

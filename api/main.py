@@ -730,7 +730,23 @@ class ChatResponse(BaseModel):
 
 
 def _tutor_system_prompt(report_context: Optional[Dict] = None) -> str:
-    prompt = """你是旁通道攻擊分析平台的 AI 小助手。請使用繁體中文，以 2 到 3 個短句直接回答，協助使用者理解 CPA、DPA、MIA、SNR、Template Attack、AI-CNN/MLP、AES-128/256、資料上傳與結果判讀。不要編造量測結果或宣稱單一 byte 等同完整金鑰；資訊不足時明確說明。"""
+    prompt = """你是旁通道攻擊分析平台的 AI 小助手，對象是第一次接觸旁通道攻擊的學生。請使用繁體中文。
+
+回答規則：
+- 先用一句話直接回答問題，再用條列或步驟把「為什麼」與「該怎麼做」講完整；一般 4 到 8 句，不要只丟一個結論。
+- 使用者說「不懂」「沒有完整回答」時，換一個更白話的說法並舉例，不可重複上一次的句子。
+- 有「目前分析背景」或附圖時，一定要引用其中的實際數字（例如猜中幾個 byte、正確值排名、trace 數）解釋本次結果，不可說你看不到畫面。
+- 不要編造量測結果；單一 byte 不等於完整金鑰；資訊不足時說明還缺什麼。
+- 畫面只顯示純文字：不要使用 Markdown 符號（如 **、#、`），條列請用「1.」或「・」開頭。
+
+平台知識：
+- 流程：1 選擇資料（上傳 Trace/Plaintext 或使用現有資料集）→ 2 選擇分析方法（CPA、DPA、MIA、SNR、Template、AI-CNN/MLP）→ 3 查看結果。
+- 結果格子：綠色＝猜對、紅色＝猜錯、灰色＝沒有正確答案可比對；點一格可看該 byte 的分析圖。
+- 排名（rank）：正確值在 256 個候選中的名次，0 代表排第一（猜中），數字越大越差。GE（Guessing Entropy）＝多次攻擊的平均排名，曲線降到 0 並維持住代表攻擊成功。
+- CPA 圖：正確猜測會在洩漏時間點出現明顯最高的相關係數尖峰；尖峰不明顯通常是 trace 太少、未對齊或有雜訊／防護。
+- AI 攻擊（CNN/MLP）只評估一個目標 byte。失敗常見原因：模型訓練用的裝置或資料與測試資料不同（可攜性問題）、trace 未對齊或有遮罩／隨機延遲、HW 標籤只有 9 類資訊較少、訓練資料不足或過擬合。
+- DPAv4／ML-KEM 的 AI 結果是訓練時已算好的固定結果；ML-KEM 評估的是訊息（message）byte 的排名，不是 AES 金鑰，也不是破解私鑰。
+- ML-KEM-768 CPA 每次只分析一組（2 個）NTT 係數，不代表整把私鑰被破解。"""
     if report_context:
         safe_context = {
             key: report_context.get(key)
@@ -738,11 +754,20 @@ def _tutor_system_prompt(report_context: Optional[Dict] = None) -> str:
                 "attack_type", "dataset", "aes_version", "key_recovered", "snr",
                 "num_traces", "trace_length", "elapsed_seconds", "selected_byte",
                 "key_guess", "final_correct_key_rank", "image_label", "note",
+                "result_summary", "correct_value", "rank_zero_at_trace", "evaluation_mode",
             )
             if key in report_context
         }
         prompt += "\n目前分析背景：" + json.dumps(safe_context, ensure_ascii=False)
     return prompt
+
+
+def _tutor_generation_config(model: str) -> dict:
+    # Gemini 3 的思考 token 也算在 maxOutputTokens 內；上限太小時回答會被截斷。
+    config = {"maxOutputTokens": 4096, "temperature": 0.4}
+    if model.startswith("gemini-3"):
+        config["thinkingConfig"] = {"thinkingLevel": "low"}
+    return config
 
 
 def _call_tutor_gemini(request: ChatRequest) -> str:
@@ -816,7 +841,7 @@ def _call_tutor_gemini(request: ChatRequest) -> str:
     body = json.dumps({
         "systemInstruction": {"parts": [{"text": system_prompt}]},
         "contents": contents,
-        "generationConfig": {"maxOutputTokens": 512, "temperature": 0.3},
+        "generationConfig": _tutor_generation_config(model),
     }, ensure_ascii=False).encode("utf-8")
     http_request = urllib.request.Request(
         url,

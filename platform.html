@@ -1825,6 +1825,14 @@ function showResult(results, atkItems, elapsed) {
     scoreBar.innerHTML=`AI 未猜中 ${aiScheme} 第 ${aiByteIndex} 個${aiTargetWord}；用完 ${Number(data.num_traces||0).toLocaleString()} 條 trace 後正確值平均排名 <strong>${data.final_correct_key_rank}</strong>，尚未降到 0`;
   }else scoreBar.className='score-bar';
 
+  if(currentAITutorContext?.report_context){
+    Object.assign(currentAITutorContext.report_context,{
+      result_summary:[scoreBar.textContent,document.getElementById('r-key').textContent].filter(Boolean).join('；'),
+      correct_value:data.correct_key_byte_hex||null,
+      rank_zero_at_trace:data.rank_zero_at_trace??null,
+      evaluation_mode:data.evaluation_mode||null
+    });
+  }
   document.getElementById('rN').textContent=Number(data.num_traces||traceN||0).toLocaleString();
   document.getElementById('rL').textContent=Number(data.trace_length||traceL||0).toLocaleString();
   document.getElementById('rAlgo').textContent=isAI?`${String(data.model_type||'AI').toUpperCase()} / ${String(data.leakage_model||'').toUpperCase()} / ${String(data.dataset_type||'')}`:atkItems.map(a=>a.id.toUpperCase()).join('+');
@@ -2249,7 +2257,7 @@ updateNext1Hint();
 checkApi();
 setInterval(checkApi, 8081);
 </script>
-<script src="/static/ai-tutor.js?v=20261015ux3"></script>
+<script src="/static/ai-tutor.js?v=20261027ctx"></script>
 <script>
 AITutor.init({
   apiEndpoint:'/api/ai/chat',
